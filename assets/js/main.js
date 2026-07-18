@@ -11,7 +11,7 @@
      { fullName, email, phone, company, website, service, challenge, source }
      then redirect to thank-you.html. See NOTES.md → "Wiring the form endpoint".
   ------------------------------------------------------------------ */
-  var FORM_ENDPOINT = "https://example.com/api/consultation"; // REPLACE: real form endpoint
+  var FORM_ENDPOINT = "https://mrviteqvzqmejauiftpp.supabase.co/functions/v1/consultation"; // Supabase Edge Function (consultation)
 
   var REDUCE = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var CAN_HOVER = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
@@ -631,7 +631,7 @@
       window.dataLayer.push({ event: "form_submit", form: "consultation", service: payload.service });
       function done() { window.location.href = "thank-you.html"; }
       try {
-        window.fetch(FORM_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) }).then(done, done);
+        window.fetch(FORM_ENDPOINT, { method: "POST", keepalive: true, headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) }).then(done, done);
         window.setTimeout(done, 2500);
       } catch (err) { done(); }
     });

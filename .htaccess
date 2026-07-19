@@ -6,10 +6,19 @@ DirectoryIndex index.html
   AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml application/xml
 </IfModule>
 
+# HTML/CSS/JS revalidate on every visit (asset filenames are not versioned),
+# so updates go live immediately. ETag/Last-Modified keep it efficient (304s).
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html|css|js)$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+# Images can cache longer.
 <IfModule mod_expires.c>
   ExpiresActive On
-  ExpiresByType text/css "access plus 1 month"
-  ExpiresByType application/javascript "access plus 1 month"
-  ExpiresByType image/svg+xml "access plus 6 months"
-  ExpiresByType text/html "access plus 1 hour"
+  ExpiresByType image/svg+xml "access plus 7 days"
+  ExpiresByType image/png   "access plus 7 days"
+  ExpiresByType image/jpeg  "access plus 7 days"
+  ExpiresByType image/webp  "access plus 7 days"
 </IfModule>

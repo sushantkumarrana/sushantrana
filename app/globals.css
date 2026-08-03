@@ -1,0 +1,154 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   sushantrana.com — white hero / grey-stone sections / #FF4D00 accent
+   ========================================================================== */
+
+@theme {
+  --color-bg: #ffffff;          /* hero + hero image */
+  --color-section: #dcdcdc;     /* every section after hero (grey stone) */
+  --color-surface: #ffffff;     /* bright white cards on grey */
+  --color-line: rgba(10, 10, 10, 0.10);
+  --color-line-light: rgba(255, 255, 255, 0.5);
+
+  --color-ink: #0a0a0a;         /* headings / near-black */
+  --color-body: #2a2a2a;        /* body text */
+  --color-muted: #5a5a5a;       /* muted (AA on white/stone) */
+
+  --color-orange: #ff4d00;      /* primary brand */
+  --color-orange-600: #e64500;  /* hover */
+  --color-orange-300: #ff7a3c;
+
+  --font-display: var(--font-jakarta), system-ui, sans-serif;
+  --font-body: var(--font-jakarta), system-ui, sans-serif;
+  --font-script: var(--font-ephesis), cursive;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+:root { color-scheme: light; --orange-rgb: 255, 77, 0; --ink-rgb: 10, 10, 10; }
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  background: #ffffff;
+  color: var(--color-body);
+  font-family: var(--font-body);
+  font-size: 1.02rem;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Lenis */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+
+@layer base {
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    color: var(--color-ink);
+    letter-spacing: -0.03em;
+    line-height: 1.03;
+    font-weight: 800;
+    text-wrap: balance;
+  }
+}
+
+::selection { background: var(--color-orange); color: #fff; }
+a { color: inherit; text-decoration: none; }
+:focus-visible { outline: 2px solid var(--color-orange); outline-offset: 3px; border-radius: 6px; }
+
+/* accents */
+.text-orange { color: var(--color-orange); }
+.text-grad { background: linear-gradient(100deg, var(--color-orange) 0%, #ff8a4c 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.script { font-family: var(--font-script); font-weight: 400; }
+
+/* gradient helpers (black + orange only — orange never a flat bg) */
+.grad-ink-orange { background: linear-gradient(135deg, #0a0a0a 0%, #3d1400 55%, var(--color-orange) 120%); }
+.grad-orange-ink { background: linear-gradient(135deg, var(--color-orange) 0%, #0a0a0a 100%); }
+
+/* layout */
+.wrap { width: min(1200px, 100% - 40px); margin-inline: auto; }
+.wrap-wide { width: min(1400px, 100% - 40px); margin-inline: auto; }
+.section { padding-block: clamp(44px, 6vw, 84px); position: relative; }
+
+/* cursive handwriting label above section titles (Cookie) */
+.script-label {
+  display: inline-block;
+  font-family: var(--font-cookie), cursive;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1;
+  color: var(--color-orange);
+}
+
+/* buttons */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  min-height: 54px; padding: 0 30px; border-radius: 100px;
+  font-family: var(--font-display); font-weight: 600; font-size: 1rem;
+  cursor: pointer; transition: transform .3s var(--ease-out-expo), background-color .3s, color .3s, box-shadow .3s;
+}
+.btn-primary { background: var(--color-orange); color: #fff; }
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 14px 40px -10px rgba(var(--orange-rgb), .55); }
+.btn-dark { background: #0a0a0a; color: #fff; }
+.btn-dark:hover { transform: translateY(-3px); box-shadow: 0 14px 40px -12px rgba(0,0,0,.4); }
+.btn-outline { background: transparent; color: #0a0a0a; border: 1.5px solid rgba(10,10,10,.2); }
+.btn-outline:hover { transform: translateY(-3px); border-color: var(--color-orange); color: var(--color-orange); }
+
+/* eyebrow pill */
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 16px; border-radius: 100px;
+  border: 1px solid var(--color-line); background: rgba(255,255,255,.6);
+  font-family: var(--font-display); font-weight: 700; font-size: .74rem;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--color-orange);
+}
+.dot-live { width: 8px; height: 8px; border-radius: 50%; background: #16a34a; animation: ping 1.8s ease-out infinite; }
+@keyframes ping { 0%{box-shadow:0 0 0 0 rgba(22,163,74,.5)} 100%{box-shadow:0 0 0 9px rgba(22,163,74,0)} }
+
+/* glassmorphism (forms / popups) */
+.glass {
+  background: rgba(255,255,255,.55);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid rgba(255,255,255,.6);
+  box-shadow: 0 20px 60px -20px rgba(10,10,10,.25);
+}
+.glass-dark {
+  background: rgba(10,10,10,.45);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid rgba(255,255,255,.12);
+}
+
+/* marquee (duplicated track) */
+.marquee { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+.marquee__track { display: flex; width: max-content; align-items: center; will-change: transform; animation: marquee var(--dur, 32s) linear infinite; }
+.marquee:hover .marquee__track { animation-play-state: paused; }
+.marquee--rev .marquee__track { animation-direction: reverse; }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* card */
+.card {
+  background: var(--color-surface); border: 1px solid var(--color-line); border-radius: 24px;
+  box-shadow: 0 10px 30px -18px rgba(10,10,10,.18);
+  transition: transform .35s var(--ease-out-expo), box-shadow .35s var(--ease-out-expo), border-color .35s;
+}
+.card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(var(--orange-rgb), .35);
+  box-shadow: 0 26px 60px -26px rgba(var(--orange-rgb), .35);
+}
+
+/* floating logos drift */
+@keyframes drift1 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(38px, -28px); } }
+@keyframes drift2 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-44px, 30px); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee__track, .dot-live { animation: none; }
+  [style*="drift"] { animation: none !important; }
+  * { scroll-behavior: auto !important; }
+}

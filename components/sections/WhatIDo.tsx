@@ -3,13 +3,14 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Reveal from "../Reveal";
-import Placeholder from "../Placeholder";
+import ImgOrPlaceholder from "../ImgOrPlaceholder";
 
 const SERVICES = [
-  { key: "brand", title: "Brand Strategy & Consulting", desc: "Positioning, offer, messaging, and go-to-market — the thinking layer every campaign stands on.", imgs: ["Positioning workshop", "Messaging framework"] },
-  { key: "performance", title: "Performance Marketing", desc: "Google, Meta, TikTok, Snapchat, LinkedIn, Microsoft, and Amazon Ads — measured to revenue.", imgs: ["Campaign dashboard", "ROAS report"] },
+  { key: "brand", title: "Brand Strategy & Consulting", desc: "Positioning, offer, messaging, and go-to-market: the thinking layer every campaign stands on.", imgs: ["Positioning workshop", "Messaging framework"] },
+  { key: "performance", title: "Performance Marketing", desc: "Google, Meta, TikTok, Snapchat, LinkedIn, Microsoft, and Amazon Ads, measured to revenue.", imgs: ["Campaign dashboard", "ROAS report"] },
+  { key: "seo", title: "AI SEO", desc: "Rank where buyers now search: Google, AI Overviews, and LLM answers, with content and technical SEO built to be cited.", imgs: ["Search visibility", "AI answer coverage"] },
   { key: "ai", title: "AI Automation", desc: "CRM automation, lead scoring, pipelines, AI assistants, WhatsApp, and reporting that runs itself.", imgs: ["Pipeline automation", "AI assistant flow"] },
-  { key: "web", title: "Website Development", desc: "Shopify, WordPress, Wix Studio, Webflow, and custom builds — assets, not brochures.", imgs: ["Store build", "Landing page"] },
+  { key: "web", title: "Website Development", desc: "Shopify, WordPress, Wix Studio, Webflow, and custom builds. Assets, not brochures.", imgs: ["Store build", "Landing page"] },
 ];
 
 export default function WhatIDo() {
@@ -65,20 +66,27 @@ export default function WhatIDo() {
           </div>
 
           {/* right: 2 images swap on click — desktop only */}
-          <div className="hidden gap-4 lg:sticky lg:top-6 lg:grid lg:grid-cols-2 lg:self-start">
-            <AnimatePresence mode="wait">
+          <div className="hidden lg:sticky lg:top-6 lg:block lg:self-start">
+            {/* Keyed remount (no AnimatePresence): with mode="wait" the old pair
+                stays mounted until its exit finishes, so a stalled animation
+                leaves the wrong images on screen. This swaps instantly. */}
+            <motion.div
+              key={cur.key}
+              className="grid grid-cols-2 gap-4"
+              initial={{ opacity: 0, scale: 0.96, y: 16 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            >
               {cur.imgs.map((label, idx) => (
-                <motion.div
+                <ImgOrPlaceholder
                   key={`${cur.key}-${idx}`}
-                  initial={{ opacity: 0, scale: 0.96, y: 20 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.96, y: -20 }}
-                  transition={{ duration: 0.4, delay: idx * 0.06, ease: [0.16, 1, 0.3, 1] }}
-                >
-                  <Placeholder ratio="3/4" label={label} seed={active + idx} />
-                </motion.div>
+                  src={`/disciplines/${cur.key}/${idx + 1}.png`}
+                  alt={label}
+                  ratio="3/4"
+                  seed={active + idx}
+                />
               ))}
-            </AnimatePresence>
+            </motion.div>
           </div>
         </div>
       </div>

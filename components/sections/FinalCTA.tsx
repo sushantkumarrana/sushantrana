@@ -17,7 +17,7 @@ export default function FinalCTA() {
                 Let&apos;s build a system that <span className="text-orange-300">keeps growing.</span>
               </h2>
               <p className="mx-auto mt-5 max-w-xl text-white/80">
-                One call. One engine. Strategy, ads, automation, and site — aligned to your revenue goal.
+                One call. One engine. Strategy, ads, automation, and site, aligned to your revenue goal.
               </p>
               <a href="#" className="btn btn-primary mt-9">Book Free Consultation</a>
               <p className="mt-5 font-[family-name:var(--font-display)] text-sm font-semibold text-white/70">

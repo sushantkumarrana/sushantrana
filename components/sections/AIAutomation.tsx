@@ -46,7 +46,7 @@ export default function AIAutomation() {
             The work that runs <span className="text-orange">while you sleep</span>
           </h2>
           <p className="mt-4 max-w-lg text-muted">
-            Automation that scores leads, moves pipelines, and reports itself — so nothing leaks between marketing and sales.
+            Automation that scores leads, moves pipelines, and reports itself, so nothing leaks between marketing and sales.
           </p>
           <ul className="mt-8 grid gap-3 sm:grid-cols-2">
             {capabilities.map((c) => (
@@ -126,7 +126,7 @@ export default function AIAutomation() {
               </ul>
             </div>
 
-            <p className="px-5 pb-4 text-center text-xs text-muted">Illustrative system demo — not live client data.</p>
+            <p className="px-5 pb-4 text-center text-xs text-muted">Illustrative system demo, not live client data.</p>
           </div>
         </Reveal>
       </div>

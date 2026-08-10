@@ -61,7 +61,7 @@ export default function PerformanceMarketing() {
             Paid channels that <span className="text-orange">pay back</span>
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-muted">
-            Managed across the platforms your buyers actually use — budgets tracked to the rupee and dollar. Lead quality over lead volume.
+            Managed across the platforms your buyers actually use. Budgets tracked to the rupee and dollar. Lead quality over lead volume.
           </p>
         </Reveal>
 
@@ -102,7 +102,7 @@ export default function PerformanceMarketing() {
               ₹50L+ managed · CAD $9,000 &amp; AED 10,000 monthly
             </p>
             <h3 className="mt-3 text-2xl font-extrabold text-ink">
-              Where the budget goes is an output of research — not habit.
+              Where the budget goes is an output of research, not habit.
             </h3>
             <p className="mt-4 text-body">
               Search captures existing demand. Social creates it. Every campaign optimises toward qualified conversations and measured revenue, with your CRM as the source of truth.

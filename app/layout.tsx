@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Ephesis, Mukta, Playwrite_TZ } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
+
+const GTM_ID = "GTM-KRLQ36TK";
 
 // Plus Jakarta Sans = premium Cal Sans lookalike (swap for real Cal Sans woff2 later)
 const jakarta = Plus_Jakarta_Sans({
@@ -55,11 +58,29 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${jakarta.variable} ${ephesis.variable} ${mukta.variable} ${cookie.variable}`}>
       <head>
+        {/* Google Tag Manager — lives in the root layout, so every route
+            (current and any page added later) is tagged automatically. */}
+        <Script id="gtm-init" strategy="afterInteractive">
+          {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','${GTM_ID}');`}
+        </Script>
         <noscript>
           <style>{`[style*="opacity"]{opacity:1!important;} [style*="translate"]{transform:none!important;}`}</style>
         </noscript>
       </head>
       <body>
+        {/* GTM noscript fallback — must be the first thing inside <body> */}
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          />
+        </noscript>
         <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>

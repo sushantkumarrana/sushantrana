@@ -6,9 +6,9 @@ import Reveal from "../Reveal";
 
 const STEPS = [
   { n: "01", kicker: "30-minute consultation", title: "Discovery", desc: "Understand the business problem, review current marketing, and identify the gaps worth closing." },
-  { n: "02", kicker: "One week", title: "Research", desc: "Website, brand, accounts, customer journey, and competitors — find the weaknesses before recommending anything." },
-  { n: "03", kicker: "Fix the foundations", title: "Implementation", desc: "Remove bottlenecks in priority order: branding, systems, and campaigns — before spending on scale." },
-  { n: "04", kicker: "Compound", title: "Growth", desc: "Launch the complete revenue system — traffic, conversion, follow-up, and reporting — built for sustainable scale." },
+  { n: "02", kicker: "One week", title: "Research", desc: "Website, brand, accounts, customer journey, and competitors. Find the weaknesses before recommending anything." },
+  { n: "03", kicker: "Fix the foundations", title: "Implementation", desc: "Remove bottlenecks in priority order: branding, systems, and campaigns, before spending on scale." },
+  { n: "04", kicker: "Compound", title: "Growth", desc: "Launch the complete revenue system: traffic, conversion, follow-up, and reporting, built for sustainable scale." },
 ];
 
 function Step({ step, fromRight, i }: { step: (typeof STEPS)[0]; fromRight: boolean; i: number }) {

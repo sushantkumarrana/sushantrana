@@ -31,8 +31,8 @@ export default function ThankYou() {
       <p>
         Your details are with me. I reply personally within one business day,
         usually sooner. If it&apos;s urgent, email{" "}
-        <a href="mailto:hello@sushantrana.com" className="font-semibold text-orange">
-          hello@sushantrana.com
+        <a href="mailto:me@sushantrana.com" className="font-semibold text-orange">
+          me@sushantrana.com
         </a>
         .
       </p>

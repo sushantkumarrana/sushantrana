@@ -25,7 +25,7 @@ const structuredData = {
       url: canonicalUrl("/"),
       jobTitle: "Business Growth Consultant",
       mainEntityOfPage: { "@id": PAGE_ID },
-      email: "mailto:hello@sushantrana.com",
+      email: "mailto:me@sushantrana.com",
       image: {
         "@type": "ImageObject",
         url: `${SITE_URL}/about/about.png`,

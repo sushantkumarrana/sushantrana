@@ -17,7 +17,6 @@ const COLS: { h: string; base: string; items: string[] }[] = [
 const socials: { label: string; href: string }[] = [
   { label: "LinkedIn", href: "https://www.linkedin.com/" },
   { label: "Instagram", href: "https://www.instagram.com/" },
-  { label: "X", href: "https://x.com/" },
   { label: "YouTube", href: "https://www.youtube.com/" },
 ];
 
@@ -52,8 +51,16 @@ export default function Footer() {
           <div>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/logo-white.png" alt="Sushant Rana" className="h-16 w-auto" />
-            <p className="mt-5 max-w-xs text-sm text-white/60">
-              Business growth consultant. I build revenue systems: strategy, performance marketing, and AI automation working as one engine.
+            {/* Same copy as the home page About Me section, kept verbatim so the
+                two never drift apart. */}
+            <p className="mt-5 max-w-sm text-sm text-white/60">
+              I&apos;m Sushant Rana <span className="font-semibold text-orange">(Business Growth Consultant)</span>.
+              I build revenue systems that combine business strategy, performance
+              marketing, tracking + AI automation, and conversion-focused funnels
+              into one scalable growth engine. Every engagement is senior-led and
+              designed to help businesses generate predictable growth, improve
+              operational efficiency, and maximize return on every marketing
+              investment. Backed by 8+ years of experience across four global markets.
             </p>
           </div>
 
@@ -76,10 +83,10 @@ export default function Footer() {
           {/* get in touch block (replaces old Company column) */}
           <div>
             <h4 className="mb-4 text-xs font-bold uppercase tracking-widest text-white/45">Get in touch</h4>
-            <a href="mailto:hello@sushantrana.com" className="block text-sm text-white/80 transition hover:text-orange">
-              hello@sushantrana.com
+            <a href="mailto:me@sushantrana.com" className="block text-sm text-white/80 transition hover:text-orange">
+              me@sushantrana.com
             </a>
-            <p className="mt-1 text-sm text-white/60">Australia · Canada · USA · India</p>
+            <p className="mt-1 text-sm text-white/60">India · USA · Canada · Australia</p>
             <a href="#contact" className="btn btn-primary mt-5 !min-h-[46px] !px-6 text-sm">Book a free call</a>
             <div className="mt-6 flex flex-wrap gap-3">
               {socials.map((s) => (

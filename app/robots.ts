@@ -26,18 +26,19 @@ const AI_BOTS = [
   "CCBot",             // Common Crawl (feeds many models)
 ];
 
-// Utility pages: crawlable for link discovery, kept out of the index
-// via each page's own robots meta, and excluded here too.
-const PRIVATE = ["/thank-you", "/coming-soon"];
+// Utility pages (/thank-you, /coming-soon) are deliberately NOT disallowed
+// here. They already emit `noindex` in their own metadata, and a robots.txt
+// Disallow would stop crawlers from ever fetching the page to read that
+// noindex — the two directives cancel each other out. Crawlable + noindex is
+// the combination that actually keeps a page out of the index.
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
-      { userAgent: "*", allow: "/", disallow: PRIVATE },
+      { userAgent: "*", allow: "/" },
       ...AI_BOTS.map((userAgent) => ({
         userAgent,
         allow: "/",
-        disallow: PRIVATE,
       })),
     ],
     sitemap: `${BASE}/sitemap.xml`,

@@ -1,12 +1,14 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import SimplePage from "@/components/SimplePage";
+import { canonicalUrl } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Thank you | Sushant Rana",
   description: "Your request has been received. I'll be in touch within one business day.",
   // utility page — keep it out of search results
   robots: { index: false, follow: true },
+  alternates: { canonical: canonicalUrl("/thank-you") },
 };
 
 export default function ThankYou() {

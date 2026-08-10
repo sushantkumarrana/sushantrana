@@ -12,7 +12,7 @@ const OLD = [
 ];
 const NEW = [
   "One engine: positioning → traffic → conversion → follow-up",
-  "Tracked, scored pipelines — no leads leaking",
+  "Tracked, scored pipelines with no leads leaking",
   "Reporting you can act on, every week",
   "Growth that compounds month over month",
 ];

@@ -57,7 +57,11 @@ html.lenis, html.lenis body { height: auto; }
 }
 
 ::selection { background: var(--color-orange); color: #fff; }
-a { color: inherit; text-decoration: none; }
+/* @layer base so Tailwind colour utilities (text-white etc.) can override it.
+   Unlayered rules beat every layer, which silently killed text-* on links. */
+@layer base {
+  a { color: inherit; text-decoration: none; }
+}
 :focus-visible { outline: 2px solid var(--color-orange); outline-offset: 3px; border-radius: 6px; }
 
 /* accents */

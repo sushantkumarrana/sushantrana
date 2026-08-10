@@ -1,14 +1,25 @@
 "use client";
 
 import { useRef } from "react";
+import Link from "next/link";
 
-const COLS = [
-  { h: "Services", items: ["All Services", "Performance Marketing", "Website Development", "Case Studies", "Free Consultation"] },
-  { h: "Advertising", items: ["Google Ads", "Meta Ads", "TikTok Ads", "Snapchat Ads", "LinkedIn Ads", "Microsoft Ads", "Amazon Ads"] },
-  { h: "Development", items: ["Shopify", "WordPress", "Wix Studio", "Webflow", "Custom"] },
+const slug = (s: string) =>
+  s.toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
+// Every link resolves: real pages win, anything not built yet lands on the
+// section catch-all, which renders the "coming soon" placeholder.
+const COLS: { h: string; base: string; items: string[] }[] = [
+  { h: "Services", base: "services", items: ["All Services", "Performance Marketing", "Website Development", "Case Studies", "Free Consultation"] },
+  { h: "Advertising", base: "services", items: ["Google Ads", "Meta Ads", "TikTok Ads", "Snapchat Ads", "LinkedIn Ads", "Microsoft Ads", "Amazon Ads"] },
+  { h: "Development", base: "services", items: ["Shopify", "WordPress", "Wix Studio", "Webflow", "Custom"] },
 ];
 
-const socials = ["LinkedIn", "Instagram", "X", "YouTube"];
+const socials: { label: string; href: string }[] = [
+  { label: "LinkedIn", href: "https://www.linkedin.com/" },
+  { label: "Instagram", href: "https://www.instagram.com/" },
+  { label: "X", href: "https://x.com/" },
+  { label: "YouTube", href: "https://www.youtube.com/" },
+];
 
 export default function Footer() {
   const ref = useRef<HTMLElement>(null);
@@ -42,7 +53,7 @@ export default function Footer() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/logo-white.png" alt="Sushant Rana" className="h-16 w-auto" />
             <p className="mt-5 max-w-xs text-sm text-white/60">
-              Business growth consultant. I build revenue systems — strategy, performance marketing, and AI automation working as one engine.
+              Business growth consultant. I build revenue systems: strategy, performance marketing, and AI automation working as one engine.
             </p>
           </div>
 
@@ -53,7 +64,9 @@ export default function Footer() {
               <ul className="flex flex-col gap-2.5 text-sm">
                 {col.items.map((i) => (
                   <li key={i}>
-                    <a href="#" className="text-white/70 transition hover:text-orange">{i}</a>
+                    <Link href={`/${col.base}/${slug(i)}`} className="text-white/70 transition hover:text-orange">
+                      {i}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -70,8 +83,14 @@ export default function Footer() {
             <a href="#contact" className="btn btn-primary mt-5 !min-h-[46px] !px-6 text-sm">Book a free call</a>
             <div className="mt-6 flex flex-wrap gap-3">
               {socials.map((s) => (
-                <a key={s} href="#" className="rounded-full border border-white/15 px-3 py-1.5 text-xs text-white/70 transition hover:border-orange hover:text-orange">
-                  {s}
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-full border border-white/15 px-3 py-1.5 text-xs text-white/70 transition hover:border-orange hover:text-orange"
+                >
+                  {s.label}
                 </a>
               ))}
             </div>
@@ -81,14 +100,15 @@ export default function Footer() {
         <div className="flex flex-wrap items-center justify-between gap-4 border-t border-white/10 py-6 text-sm text-white/50">
           <span>© 2026 Sushant Rana. All rights reserved.</span>
           <nav className="flex gap-6">
-            <a href="#" className="transition hover:text-orange">Privacy Policy</a>
-            <a href="#" className="transition hover:text-orange">Terms &amp; Conditions</a>
+            <Link href="/about/privacy-policy" className="transition hover:text-orange">Privacy Policy</Link>
+            <Link href="/about/terms-and-conditions" className="transition hover:text-orange">Terms &amp; Conditions</Link>
           </nav>
         </div>
       </div>
 
-      {/* full-white logo across the footer base */}
-      <div className="relative select-none overflow-hidden px-4 pb-8">
+      {/* full-white logo across the footer base
+          extra bottom padding on mobile so the sticky Book bar never covers it */}
+      <div className="relative select-none overflow-hidden px-4 pb-28 sm:pb-8">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/logo-white.png" alt="Sushant Rana" className="mx-auto w-[85%] max-w-5xl" />
       </div>

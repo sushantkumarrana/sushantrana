@@ -3,7 +3,7 @@
 import Reveal from "../Reveal";
 
 const VALUES = [
-  { t: "Senior-led", d: "You work directly with the person responsible for the result — no account-manager layer, no outsourced pod." },
+  { t: "Senior-led", d: "You work directly with the person responsible for the result. No account-manager layer, no outsourced pod." },
   { t: "Owns the number", d: "One operator accountable to revenue, not to activity or vanity dashboards." },
   { t: "Transparency", d: "Full access to accounts, data, and reporting. You own everything, always." },
   { t: "Long-term partnerships", d: "Systems compound. I build for the second year, not the first month." },

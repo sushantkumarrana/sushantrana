@@ -1,15 +1,13 @@
 "use client";
 
 import Reveal from "../Reveal";
-import Placeholder from "../Placeholder";
 
-// image tiles only — the pain-point text lives inside your screenshot images
-const TILES = [
-  { label: "Budget allocation", ratio: "4/3", span: "" },
-  { label: "Reliable support team", ratio: "4/3", span: "" },
-  { label: "Performance partner", ratio: "4/3", span: "" },
-  { label: "Sales plateaued", ratio: "21/9", span: "sm:col-span-2" },
-  { label: "Supportive team", ratio: "4/3", span: "" },
+// 3 tiles on top + 1 landscape spanning the full width beneath
+// alt text matches what each image actually shows
+const TOP = [
+  { src: "/reports/r1.png", alt: "Looking for a performance partner who truly understands your brand" },
+  { src: "/reports/r3.png", alt: "I will be your virtual assistant for performance marketing" },
+  { src: "/reports/r4.png", alt: "Unsure how to allocate budget across channels" },
 ];
 
 export default function WhoICanHelp() {
@@ -27,10 +25,25 @@ export default function WhoICanHelp() {
         </Reveal>
 
         <Reveal delay={0.1}>
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-            {TILES.map((t, i) => (
-              <Placeholder key={t.label} ratio={t.ratio} label={t.label} seed={i} tilt={false} className={t.span} />
+          <div className="grid grid-cols-3 items-start gap-4">
+            {TOP.map((t) => (
+              <div
+                key={t.src}
+                className="aspect-square overflow-hidden rounded-2xl border border-[var(--color-line)] bg-white transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_-24px_rgba(255,77,0,0.45)]"
+              >
+                {/* Fixed 1:1 box keeps the row level whatever ratio lands here.
+                    r1/r4 are square so they fill with zero crop; r3 is 4:5 so it
+                    loses a little background top/bottom, never the copy. */}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={t.src} alt={t.alt} className="h-full w-full object-cover" />
+              </div>
             ))}
+
+            {/* landscape image extended across all three columns */}
+            <div className="col-span-3 overflow-hidden rounded-2xl border border-[var(--color-line)] bg-white transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_-24px_rgba(255,77,0,0.45)]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/reports/r2.png" alt="Marketing that actually generates income: paid media, SEO, app ads, creative, tracking and reporting" className="w-full" />
+            </div>
           </div>
         </Reveal>
       </div>

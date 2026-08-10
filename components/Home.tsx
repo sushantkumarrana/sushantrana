@@ -58,14 +58,14 @@ export default function Home() {
 
             <Reveal delay={0.1}>
               <p className="mt-6 text-[clamp(1.25rem,2.4vw,1.9rem)] font-bold text-ink">
-                Because you have marketing campaigns —{" "}
+                Because you have marketing campaigns,{" "}
                 <span className="text-orange">not a revenue system.</span>
               </p>
             </Reveal>
 
             <Reveal delay={0.18}>
               <p className="mx-auto mt-5 max-w-2xl text-lg text-muted">
-                I build revenue systems, not just marketing campaigns — strategy,
+                I build revenue systems, not just marketing campaigns: strategy,
                 performance marketing, and AI automation working as one engine.
               </p>
             </Reveal>
@@ -84,7 +84,7 @@ export default function Home() {
             {/* minimal side margins — image reads big */}
             <div className="mx-auto w-[98%] overflow-hidden rounded-[28px]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/hero/hero.png" alt="Sushant Rana — revenue systems" width={1920} height={1080} className="w-full" />
+              <img src="/hero/hero.png" alt="Sushant Rana revenue systems" width={1920} height={1080} className="w-full" />
             </div>
           </Reveal>
         </section>

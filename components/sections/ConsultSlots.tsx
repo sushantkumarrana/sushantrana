@@ -21,7 +21,7 @@ export default function ConsultSlots() {
                 Talk to the person who&apos;ll <span className="text-orange-300">do the work</span>
               </h2>
               <p className="mx-auto mt-4 max-w-md text-white/75">
-                A 30-minute call to pressure-test your growth — no junior handoff, no pitch deck.
+                A 30-minute call to pressure-test your growth. No junior handoff, no pitch deck.
               </p>
               <a href="#contact" className="btn btn-primary mt-8">Book Free Consultation</a>
             </div>

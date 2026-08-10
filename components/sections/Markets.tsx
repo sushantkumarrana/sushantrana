@@ -18,7 +18,7 @@ export default function Markets() {
           <h2 className="mt-5 max-w-5xl text-[clamp(1.8rem,4vw,3.1rem)]">
             Growth systems across <span className="text-orange">four markets</span>
           </h2>
-          <p className="mt-4 max-w-xl text-muted">Australia, Canada, the USA, and India — with budgets managed in local currency.</p>
+          <p className="mt-4 max-w-xl text-muted">Australia, Canada, the USA, and India, with budgets managed in local currency.</p>
         </Reveal>
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {MARKETS.map((m, i) => (

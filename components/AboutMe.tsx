@@ -1,6 +1,7 @@
 "use client";
 
 import Reveal from "./Reveal";
+import Image from "next/image";
 
 /** About Me — centered title + landscape banner with a faint marquee running
  *  BEHIND it, edge-to-edge (Agero "What we do" style), then the paragraph. */
@@ -34,8 +35,7 @@ export default function AboutMe() {
 
         <Reveal delay={0.1} className="relative z-10 w-[90%] max-w-2xl">
           <div className="overflow-hidden rounded-3xl border border-[var(--color-line)] shadow-xl">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/about/about.png" alt="Sushant Rana" className="w-full" />
+            <Image src="/about/about.png" alt="Sushant Rana" width={1778} height={884} sizes="(max-width: 768px) 100vw, 1100px" className="h-auto w-full" />
           </div>
         </Reveal>
       </div>

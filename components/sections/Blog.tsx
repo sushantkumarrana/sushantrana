@@ -1,6 +1,7 @@
 "use client";
 
 import Reveal from "../Reveal";
+import Image from "next/image";
 
 const POSTS = [
   { cat: "Business Strategy", date: "18 Jun 2026", img: "/blog/post-1.png", title: "Revenue Systems vs Marketing Campaigns: Why One Compounds and the Other Expires", excerpt: "Campaigns end. Systems compound. The structural difference between businesses that grow predictably and businesses that buy growth one month at a time." },
@@ -23,9 +24,9 @@ export default function Blog() {
           {POSTS.map((p, i) => (
             <Reveal key={p.title} delay={i * 0.08}>
               <article className="card group flex h-full flex-col overflow-hidden">
-                <div className="aspect-[16/10] overflow-hidden">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={p.img} alt={p.title} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+                <div className="relative aspect-[16/10] overflow-hidden">
+                  {/* fill: the parent sets the 16/10 box, the image just covers it. */}
+                  <Image src={p.img} alt={p.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover transition duration-500 group-hover:scale-105" />
                 </div>
                 <div className="flex flex-1 flex-col p-6">
                   <div className="flex items-center gap-2 font-[family-name:var(--font-display)] text-xs font-semibold uppercase tracking-wide text-orange">

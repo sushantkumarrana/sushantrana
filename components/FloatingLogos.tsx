@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 /** Blurred tool logos drifting behind the grey sections. Decorative. */
 const LOGOS = [
   { f: "1", top: "6%", left: "5%", size: 96, dur: 22, delay: 0, anim: "drift1" },
@@ -18,11 +20,15 @@ export default function FloatingLogos() {
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
       {LOGOS.map((l, i) => (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
+        // The source files are 1080x1080; these render at ~100px behind a blur,
+        // so next/image serving them at the real display size is most of the
+        // page-weight win. Decorative, hence lazy (no priority).
+        <Image
           key={i}
           src={`/png-logo/${l.f}.png`}
           alt=""
+          width={l.size}
+          height={l.size}
           className="absolute select-none opacity-[0.15]"
           style={{
             top: l.top,

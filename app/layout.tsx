@@ -48,6 +48,24 @@ export const metadata: Metadata = {
     url: "https://sushantrana.com",
     siteName: "Sushant Rana",
     type: "website",
+    locale: "en_US",
+    // 1200x630 is the size WhatsApp, LinkedIn, X and Slack all crop from.
+    // Without this the site shares as a bare text link with no preview.
+    images: [
+      {
+        url: "/og.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Sushant Rana — not getting enough leads? Book a free 30-minute strategy call.",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Sushant Rana — Business Growth Consultant",
+    description:
+      "Revenue systems, not just campaigns. Strategy, performance marketing, and AI automation as one engine.",
+    images: ["/og.jpg"],
   },
   robots: { index: true, follow: true },
 };

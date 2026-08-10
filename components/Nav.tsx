@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type ComponentType } from "react";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
@@ -184,8 +185,9 @@ export default function Nav() {
         }`}
       >
         <Link href="/" onClick={closeAll} className="flex items-center" aria-label="Sushant Rana home">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.png" alt="Sushant Rana" className={`w-auto transition-all ${scrolled ? "h-11" : "h-14"}`} />
+          {/* Above the fold on every page, so it loads eagerly. width/height are
+              the display size at 2x; the source is 2218x500. */}
+          <Image src="/logo.png" alt="Sushant Rana" width={249} height={56} priority className={`w-auto transition-all ${scrolled ? "h-11" : "h-14"}`} />
         </Link>
 
         <ul className="hidden items-center gap-0.5 lg:flex">

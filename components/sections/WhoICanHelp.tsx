@@ -1,6 +1,7 @@
 "use client";
 
 import Reveal from "../Reveal";
+import Image from "next/image";
 
 // 3 tiles on top + 1 landscape spanning the full width beneath
 // alt text matches what each image actually shows
@@ -29,20 +30,18 @@ export default function WhoICanHelp() {
             {TOP.map((t) => (
               <div
                 key={t.src}
-                className="aspect-square overflow-hidden rounded-2xl border border-[var(--color-line)] bg-white transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_-24px_rgba(255,77,0,0.45)]"
+                className="relative aspect-square overflow-hidden rounded-2xl border border-[var(--color-line)] bg-white transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_-24px_rgba(255,77,0,0.45)]"
               >
                 {/* Fixed 1:1 box keeps the row level whatever ratio lands here.
                     r1/r4 are square so they fill with zero crop; r3 is 4:5 so it
                     loses a little background top/bottom, never the copy. */}
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={t.src} alt={t.alt} className="h-full w-full object-cover" />
+                <Image src={t.src} alt={t.alt} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" />
               </div>
             ))}
 
             {/* landscape image extended across all three columns */}
             <div className="col-span-3 overflow-hidden rounded-2xl border border-[var(--color-line)] bg-white transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_-24px_rgba(255,77,0,0.45)]">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/reports/r2.png" alt="Marketing that actually generates income: paid media, SEO, app ads, creative, tracking and reporting" className="w-full" />
+              <Image src="/reports/r2.png" alt="Marketing that actually generates income: paid media, SEO, app ads, creative, tracking and reporting" width={2006} height={784} sizes="(max-width: 768px) 100vw, 1100px" className="h-auto w-full" />
             </div>
           </div>
         </Reveal>

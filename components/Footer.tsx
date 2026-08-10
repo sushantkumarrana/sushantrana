@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import Link from "next/link";
 
 const slug = (s: string) =>
@@ -49,8 +50,7 @@ export default function Footer() {
         <div className="grid gap-12 py-16 md:grid-cols-[1.7fr_1fr_1fr_1fr_1.3fr]">
           {/* brand */}
           <div>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo-white.png" alt="Sushant Rana" className="h-16 w-auto" />
+            <Image src="/logo-white.png" alt="Sushant Rana" width={284} height={64} className="h-16 w-auto" />
             {/* Same copy as the home page About Me section, kept verbatim so the
                 two never drift apart. */}
             <p className="mt-5 max-w-sm text-sm text-white/60">
@@ -116,8 +116,8 @@ export default function Footer() {
       {/* full-white logo across the footer base
           extra bottom padding on mobile so the sticky Book bar never covers it */}
       <div className="relative select-none overflow-hidden px-4 pb-28 sm:pb-8">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/logo-white.png" alt="Sushant Rana" className="mx-auto w-[85%] max-w-5xl" />
+        {/* Oversized decorative wordmark at the very bottom of the page. */}
+        <Image src="/logo-white.png" alt="Sushant Rana" width={1774} height={400} sizes="85vw" className="mx-auto h-auto w-[85%] max-w-5xl" />
       </div>
     </footer>
   );

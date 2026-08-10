@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Placeholder from "./Placeholder";
 
 /** Renders the real image; falls back to the orange Placeholder if the file
@@ -11,12 +12,18 @@ export default function ImgOrPlaceholder({
   ratio = "3/4",
   seed = 0,
   className = "",
+  sizes = "(min-width: 1024px) 25vw, 50vw",
 }: {
   src: string;
   alt: string;
   ratio?: string;
   seed?: number;
   className?: string;
+  /** Must describe the real rendered width. A caller that hides this behind a
+   *  breakpoint (`hidden lg:block`) leaves the box at 0px wide, and the browser
+   *  then falls back to the largest srcset candidate — a 3840px download for a
+   *  thumbnail. Pass an accurate value rather than relying on the default. */
+  sizes?: string;
 }) {
   const [failed, setFailed] = useState(false);
 
@@ -27,17 +34,19 @@ export default function ImgOrPlaceholder({
 
   return (
     <div
-      className={`overflow-hidden rounded-2xl border border-[var(--color-line)] bg-white ${className}`}
+      className={`relative overflow-hidden rounded-2xl border border-[var(--color-line)] bg-white ${className}`}
       style={{ aspectRatio: ratio }}
     >
-      {/* key={src}: remounts on tab change so a previous error never sticks */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
+      {/* key={src}: remounts on tab change so a previous error never sticks.
+          fill needs the wrapper to be positioned, hence `relative` above. */}
+      <Image
         key={src}
         src={src}
         alt={alt}
+        fill
+        sizes={sizes}
         onError={() => setFailed(true)}
-        className="h-full w-full object-cover"
+        className="object-cover"
       />
     </div>
   );

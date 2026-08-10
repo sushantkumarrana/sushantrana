@@ -1,6 +1,7 @@
 "use client";
 
 import Reveal from "../Reveal";
+import Image from "next/image";
 
 const ROW1 = [
   { n: "Google Ads", f: "google-ads" }, { n: "Meta Ads", f: "meta" }, { n: "LinkedIn", f: "linkedin" },
@@ -19,8 +20,8 @@ function Row({ items, dur, reverse }: { items: { n: string; f: string }[]; dur: 
       <div className="marquee__track" style={{ ["--dur" as string]: `${dur}s` }}>
         {[...items, ...items].map((t, i) => (
           <span key={i} className="mx-3 inline-flex items-center gap-3 rounded-2xl border border-[var(--color-line)] bg-white px-6 py-4 font-[family-name:var(--font-display)] font-semibold text-ink">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={`/logos/${t.f}.png`} alt={t.n} className="h-7 w-7 object-contain" />
+            {/* Source logos are 1080x1080 but render at 28px. */}
+            <Image src={`/logos/${t.f}.png`} alt={t.n} width={28} height={28} className="h-7 w-7 object-contain" />
             {t.n}
           </span>
         ))}

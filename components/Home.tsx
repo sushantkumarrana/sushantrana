@@ -1,6 +1,7 @@
 "use client";
 
 import Nav from "./Nav";
+import Image from "next/image";
 import Footer from "./Footer";
 import Reveal from "./Reveal";
 import RotatingHeadline from "./RotatingHeadline";
@@ -83,8 +84,8 @@ export default function Home() {
           <Reveal>
             {/* minimal side margins — image reads big */}
             <div className="mx-auto w-[98%] overflow-hidden rounded-[28px]">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/hero/hero.png" alt="Sushant Rana revenue systems" width={1920} height={1080} className="w-full" />
+              {/* The LCP image — priority so it is preloaded rather than lazy. */}
+              <Image src="/hero/hero.png" alt="Sushant Rana revenue systems" width={1700} height={925} priority sizes="98vw" className="h-auto w-full" />
             </div>
           </Reveal>
         </section>
@@ -103,8 +104,7 @@ export default function Home() {
                       key={i}
                       className="mx-3 inline-flex items-center gap-3 rounded-2xl border border-[var(--color-line)] bg-white px-6 py-4 font-[family-name:var(--font-display)] text-base font-semibold text-ink"
                     >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={`/logos/${t.f}.png`} alt={t.n} className="h-7 w-7 object-contain" />
+                      <Image src={`/logos/${t.f}.png`} alt={t.n} width={28} height={28} className="h-7 w-7 object-contain" />
                       {t.n}
                     </span>
                   ))}

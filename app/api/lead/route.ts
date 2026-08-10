@@ -6,7 +6,9 @@ import { Resend } from "resend";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const TO = "me@sushantrana.com";
+// Where enquiry notifications go. Override with the LEAD_NOTIFY_TO env var
+// (useful while me@sushantrana.com is bouncing) without touching code.
+const TO = process.env.LEAD_NOTIFY_TO || "me@sushantrana.com";
 const FROM = "Sushant Rana Website <leads@sushantrana.com>";
 
 // Simple in-memory throttle. Works because Hostinger runs one persistent

@@ -8,6 +8,7 @@ import BackToTop from "./BackToTop";
 import MobileBookBar from "./MobileBookBar";
 import FloatingLogos from "./FloatingLogos";
 import Reveal from "./Reveal";
+import Breadcrumbs, { type Crumb } from "./Breadcrumbs";
 
 /** Shared shell for the small utility pages (404, thank-you, coming-soon)
  *  so they carry the same nav, footer and theme as the homepage. */
@@ -15,12 +16,16 @@ export default function SimplePage({
   label,
   title,
   accent,
+  crumbs,
   children,
   actions,
 }: {
   label: string;
   title: string;
   accent?: string;
+  /** Breadcrumb trail after "Home". Omitted on 404, where there is no real
+   *  position in the hierarchy to describe. */
+  crumbs?: Crumb[];
   children?: ReactNode;
   actions?: ReactNode;
 }) {
@@ -29,7 +34,16 @@ export default function SimplePage({
       <Nav />
       <main className="relative overflow-hidden bg-section">
         <FloatingLogos />
-        <div className="wrap relative z-10 flex min-h-[78svh] flex-col items-center justify-center py-32 text-center">
+        {crumbs?.length ? (
+          <div className="wrap relative z-10 pt-28">
+            <Breadcrumbs trail={crumbs} />
+          </div>
+        ) : null}
+        <div
+          className={`wrap relative z-10 flex flex-col items-center justify-center text-center ${
+            crumbs?.length ? "min-h-[68svh] py-16" : "min-h-[78svh] py-32"
+          }`}
+        >
           <Reveal>
             <span className="script-label">{label}</span>
             <h1 className="mt-4 text-[clamp(2rem,5vw,3.6rem)] font-extrabold text-ink">

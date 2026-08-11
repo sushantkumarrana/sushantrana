@@ -107,8 +107,10 @@ export default function Footer() {
         <div className="flex flex-wrap items-center justify-between gap-4 border-t border-white/10 py-6 text-sm text-white/50">
           <span>© 2026 Sushant Rana. All rights reserved.</span>
           <nav className="flex gap-6">
-            <Link href="/about/privacy-policy" className="transition hover:text-orange">Privacy Policy</Link>
-            <Link href="/about/terms-and-conditions" className="transition hover:text-orange">Terms &amp; Conditions</Link>
+            {/* Top-level URLs, not /about/… — these are real pages now, and the
+                convention is what ad-platform and compliance reviewers look for. */}
+            <Link href="/privacy-policy" className="transition hover:text-orange">Privacy Policy</Link>
+            <Link href="/terms-and-conditions" className="transition hover:text-orange">Terms &amp; Conditions</Link>
           </nav>
         </div>
       </div>

@@ -13,7 +13,9 @@ import {
   ArrowUpRight,
   ChevronDown,
   Star,
+  Sparkles,
 } from "lucide-react";
+import { SERVICE_GROUPS, serviceSlug } from "@/lib/services";
 
 type Leaf = { label: string; href: string };
 type IconType = ComponentType<{ className?: string; strokeWidth?: number }>;
@@ -26,60 +28,32 @@ type Top =
 const slug = (s: string) =>
   s.toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
-const svc = (heading: string, icon: IconType, items: string[]): Group => ({
-  heading,
-  icon,
-  items: items.map((i) => ({ label: i, href: `/services/${slug(i)}` })),
-});
-
 const flat = (base: string, items: string[]): Leaf[] =>
   items.map((i) => ({ label: i, href: `/${base}/${slug(i)}` }));
+
+// One icon per service group. The service names themselves come from
+// lib/services.ts, so the mega menu, the form dropdown and the blog sidebar
+// can never list different services.
+const GROUP_ICONS: Record<string, IconType> = {
+  "Performance Marketing": Target,
+  "SEO Services": Search,
+  "Website Development": Code2,
+  "CRM Solutions": Users,
+  "AI Automation": Sparkles,
+};
+
+// Four columns plus the featured card is what fits the 1152px panel. Extra
+// groups still appear in the footer, the form dropdown and the blog sidebar.
+const SERVICE_COLUMNS: Group[] = SERVICE_GROUPS.slice(0, 4).map((g) => ({
+  heading: g.heading,
+  icon: GROUP_ICONS[g.heading] ?? Target,
+  items: g.items.map((i) => ({ label: i, href: `/services/${serviceSlug(i)}` })),
+}));
 
 const NAV: Top[] = [
   { label: "Home", href: "/", type: "link" },
   { label: "About Me", href: "/about", type: "link" },
-  {
-    label: "Services",
-    type: "mega",
-    columns: [
-      svc("Performance Marketing", Target, [
-        "Google Ads",
-        "Meta Ads",
-        "LinkedIn Ads",
-        "YouTube Ads",
-        "Google Shopping Ads",
-        "Amazon Ads",
-        "Lead Generation",
-        "Remarketing",
-      ]),
-      svc("SEO Services", Search, [
-        "Local SEO",
-        "Technical SEO",
-        "Ecommerce SEO",
-        "Enterprise SEO",
-        "SEO Audit",
-        "Link Building",
-        "Content SEO",
-      ]),
-      svc("Website Development", Code2, [
-        "WordPress Development",
-        "Ecommerce Website",
-        "Landing Pages",
-        "Website Redesign",
-        "Website Maintenance",
-      ]),
-      svc("CRM Solutions", Users, [
-        "Zoho CRM",
-        "HubSpot CRM",
-        "GoHighLevel",
-        "Sales Funnel Setup",
-        "Pipeline Management",
-        "Email Automation",
-        "Reporting Dashboard",
-        "CRM Consulting",
-      ]),
-    ],
-  },
+  { label: "Services", type: "mega", columns: SERVICE_COLUMNS },
   {
     label: "Industries",
     type: "flat",
@@ -98,6 +72,7 @@ const NAV: Top[] = [
       "B2B Companies",
     ]),
   },
+  { label: "Blog", href: "/blog", type: "link" },
   {
     label: "Case Studies",
     type: "flat",

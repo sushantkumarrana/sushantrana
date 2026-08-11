@@ -1,19 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
+import LeadForm from "./LeadForm";
 
 /**
  * Glassmorphism consultation popup. Opens on any "Book…" CTA click
  * (delegated: href="#contact", [data-consult], or link text starting "Book").
  */
 export default function ConsultPopup() {
-  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [sent, setSent] = useState(false);
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
@@ -37,8 +34,6 @@ export default function ConsultPopup() {
         e.preventDefault();
         e.stopPropagation();
         setSent(false);
-        setError(null);
-        setBusy(false);
         setOpen(true);
       }
     };
@@ -67,7 +62,11 @@ export default function ConsultPopup() {
           <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setOpen(false)} />
           <motion.div
             data-consult-modal
-            className="glass relative w-full max-w-md rounded-[28px] p-8 md:p-10"
+            /* data-lenis-prevent: Lenis hijacks wheel/touch globally, which
+               would block scrolling inside the panel on short screens — and the
+               form is now tall enough to overflow one. */
+            data-lenis-prevent
+            className="glass relative max-h-[calc(100dvh-2rem)] w-full max-w-md touch-pan-y overflow-y-auto overscroll-contain rounded-[28px] p-8 md:p-10"
             initial={{ scale: 0.94, y: 20 }}
             animate={{ scale: 1, y: 0 }}
             exit={{ scale: 0.94, y: 20 }}
@@ -98,75 +97,14 @@ export default function ConsultPopup() {
                 <p className="mt-2 text-sm text-muted">
                   Tell me a little about your business. I&apos;ll reply within a day.
                 </p>
-                <form
-                  className="mt-6 grid gap-3"
-                  onSubmit={async (e) => {
-                    e.preventDefault();
-                    if (busy) return;
-                    setBusy(true);
-                    setError(null);
-
-                    const fd = new FormData(e.currentTarget);
-                    const payload = {
-                      name: fd.get("name"),
-                      email: fd.get("email"),
-                      phone: fd.get("phone"),
-                      business: fd.get("business"),
-                      message: fd.get("message"),
-                      company_website: fd.get("company_website"), // honeypot
-                      sourcePath: window.location.pathname,
-                    };
-
-                    try {
-                      const res = await fetch("/api/lead", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(payload),
-                      });
-                      const data = await res.json().catch(() => ({}));
-
-                      if (!res.ok || !data.ok) {
-                        // Never send them to /thank-you on failure — that would
-                        // tell them it worked when the lead was lost.
-                        setError(data.error || "Could not send. Please try again.");
-                        setBusy(false);
-                        return;
-                      }
-
+                <div className="mt-6">
+                  <LeadForm
+                    onSuccess={() => {
                       setSent(true);
                       setOpen(false);
-                      router.push("/thank-you");
-                    } catch {
-                      setError("Network problem. Please check your connection and retry.");
-                      setBusy(false);
-                    }
-                  }}
-                >
-                  <input name="name" required placeholder="Your name" className="rounded-xl border border-[var(--color-line)] bg-white/70 px-4 py-3 text-ink outline-none focus:border-orange" />
-                  <input name="email" required type="email" placeholder="Email" className="rounded-xl border border-[var(--color-line)] bg-white/70 px-4 py-3 text-ink outline-none focus:border-orange" />
-                  <input name="phone" required type="tel" placeholder="Phone number" className="rounded-xl border border-[var(--color-line)] bg-white/70 px-4 py-3 text-ink outline-none focus:border-orange" />
-                  <input name="business" placeholder="Business / website" className="rounded-xl border border-[var(--color-line)] bg-white/70 px-4 py-3 text-ink outline-none focus:border-orange" />
-                  <textarea name="message" rows={3} placeholder="What do you want to grow?" className="rounded-xl border border-[var(--color-line)] bg-white/70 px-4 py-3 text-ink outline-none focus:border-orange" />
-
-                  {/* honeypot — hidden from people, irresistible to bots */}
-                  <input
-                    name="company_website"
-                    tabIndex={-1}
-                    autoComplete="off"
-                    aria-hidden="true"
-                    className="absolute left-[-9999px] h-0 w-0 opacity-0"
+                    }}
                   />
-
-                  {error && (
-                    <p role="alert" className="rounded-xl bg-red-50 px-4 py-2.5 text-sm font-medium text-red-700">
-                      {error}
-                    </p>
-                  )}
-
-                  <button type="submit" disabled={busy} className="btn btn-primary mt-1 w-full disabled:cursor-not-allowed disabled:opacity-70">
-                    {busy ? "Sending…" : "Request my slot"}
-                  </button>
-                </form>
+                </div>
               </>
             )}
           </motion.div>

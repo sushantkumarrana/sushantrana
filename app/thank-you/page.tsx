@@ -17,12 +17,13 @@ export default function ThankYou() {
       label="Request received"
       title="Thanks — I'll be in"
       accent="touch shortly."
+      crumbs={[{ label: "Thank you" }]}
       actions={
         <>
           <Link href="/" className="btn btn-primary">
             Back to home
           </Link>
-          <Link href="/#blog" className="btn btn-outline">
+          <Link href="/blog" className="btn btn-outline">
             Read the blog
           </Link>
         </>

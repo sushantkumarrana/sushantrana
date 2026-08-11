@@ -11,6 +11,12 @@ create table if not exists public.leads (
   email        text not null,
   phone        text not null,
   business     text,
+
+  -- what they picked in the two dropdowns on the lead form. Nullable: the API
+  -- stores null rather than rejecting a lead that arrives without them.
+  service      text,          -- e.g. 'Google Ads' (see lib/services.ts)
+  enquiry_type text,          -- 'consultation' | 'service'
+
   message      text,
 
   -- context, filled automatically by the API route
@@ -24,6 +30,7 @@ create table if not exists public.leads (
 create index if not exists leads_created_at_idx on public.leads (created_at desc);
 create index if not exists leads_email_idx      on public.leads (email);
 create index if not exists leads_status_idx     on public.leads (status);
+create index if not exists leads_service_idx    on public.leads (service);
 
 -- ---------------------------------------------------------------------
 --  Security: RLS ON with NO policies.

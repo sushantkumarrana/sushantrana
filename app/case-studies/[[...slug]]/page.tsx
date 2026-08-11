@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import ComingSoon from "@/components/ComingSoon";
+import { sectionTrail } from "@/components/Breadcrumbs";
 import { catchAllCanonical } from "@/lib/seo";
 
 // Optional catch-all: matches /case-studies and /case-studies/anything.
@@ -31,5 +32,10 @@ export default async function Page({
 }) {
   const { slug } = await params;
   const name = slug?.length ? titleCase(slug[slug.length - 1]) : "Case Studies";
-  return <ComingSoon pageName={name} />;
+  return (
+    <ComingSoon
+      pageName={name}
+      crumbs={sectionTrail({ label: "Case Studies", base: "case-studies" }, slug)}
+    />
+  );
 }

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import ComingSoon from "@/components/ComingSoon";
+import { sectionTrail } from "@/components/Breadcrumbs";
 import { catchAllCanonical } from "@/lib/seo";
 
 // Safety net: the header/footer CTAs point at /contact/... and are normally
@@ -31,5 +32,10 @@ export default async function Page({
 }) {
   const { slug } = await params;
   const name = slug?.length ? titleCase(slug[slug.length - 1]) : "Contact";
-  return <ComingSoon pageName={name} />;
+  return (
+    <ComingSoon
+      pageName={name}
+      crumbs={sectionTrail({ label: "Contact", base: "contact" }, slug)}
+    />
+  );
 }

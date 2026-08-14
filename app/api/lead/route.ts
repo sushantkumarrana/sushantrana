@@ -50,6 +50,10 @@ const clean = (v: unknown, max = 2000) =>
  */
 const DNS_BUDGET_MS = 2500;
 
+/** Cap on the database write. A paused or unreachable project must not hold
+ *  the visitor's form open — we give up and let the email carry the lead. */
+const DB_BUDGET_MS = 8000;
+
 /** Codes that mean "this name definitively has no such record". Anything else
  *  — SERVFAIL, REFUSED, ETIMEOUT, no network — is our infrastructure failing,
  *  not the visitor mistyping. */
@@ -178,85 +182,108 @@ export async function POST(req: Request) {
     const supabaseKey = process.env.SUPABASE_PUBLISHABLE_KEY;
     const resendKey = process.env.RESEND_API_KEY;
 
-    if (!url || !supabaseKey) {
-      console.error("[lead] Supabase env vars missing");
-      return NextResponse.json(
-        { ok: false, error: "Server is not configured. Please email me directly." },
-        { status: 500 }
-      );
-    }
+    const typeLabel =
+      ENQUIRY_TYPES.find((t) => t.value === enquiryType)?.label ?? "Enquiry";
 
-    const supabase = createClient(url, supabaseKey, {
-      auth: { persistSession: false },
-    });
-
-    const { error } = await supabase.from("leads").insert({
+    const details: LeadEmail = {
       name,
       email,
       phone: phoneE164,
-      business: business || null,
-      // Not required server-side even though the form marks it so: a visitor on
-      // a cached older bundle would otherwise have their lead rejected outright,
-      // which costs far more than a null column.
-      service: service || null,
-      enquiry_type: enquiryType || null,
-      message: message || null,
-      source_path: clean(body.sourcePath, 300) || null,
-      referrer: clean(req.headers.get("referer"), 300) || null,
-      user_agent: clean(req.headers.get("user-agent"), 300) || null,
-    });
+      business,
+      service,
+      typeLabel,
+      enquiryType,
+      message,
+      sourcePath: clean(body.sourcePath, 300) || "/",
+      receivedAt: `${new Date().toLocaleString("en-IN", {
+        timeZone: "Asia/Kolkata",
+      })} IST`,
+    };
 
-    if (error) {
-      console.error("[lead] insert failed:", error.message);
-      return NextResponse.json(
-        { ok: false, error: "Could not save your request. Please try again." },
-        { status: 500 }
-      );
-    }
+    // Storing and notifying are deliberately independent, and neither may abort
+    // the other: each one alone still delivers the lead. This used to be a
+    // chain — a failed insert returned 500 and the email was never attempted —
+    // so a paused Supabase project (the Free plan pauses after 7 quiet days)
+    // would swallow enquiries without a trace.
+    let stored = false;
 
-    // The lead is safely stored. Email is best-effort from here — if Resend
-    // is down we must NOT tell the visitor it failed, or they'd submit twice.
-    if (resendKey) {
+    if (!url || !supabaseKey) {
+      console.error("[lead] Supabase env vars missing — relying on email");
+    } else {
       try {
-        const typeLabel =
-          ENQUIRY_TYPES.find((t) => t.value === enquiryType)?.label ?? "Enquiry";
+        const supabase = createClient(url, supabaseKey, {
+          auth: { persistSession: false },
+          global: {
+            fetch: (input, init) =>
+              fetch(input, { ...init, signal: AbortSignal.timeout(DB_BUDGET_MS) }),
+          },
+        });
 
-        const details: LeadEmail = {
+        const { error } = await supabase.from("leads").insert({
           name,
           email,
           phone: phoneE164,
-          business,
-          service,
-          typeLabel,
-          enquiryType,
-          message,
-          sourcePath: clean(body.sourcePath, 300) || "/",
-          receivedAt: `${new Date().toLocaleString("en-IN", {
-            timeZone: "Asia/Kolkata",
-          })} IST`,
-        };
+          business: business || null,
+          // Not required server-side even though the form marks it so: a visitor on
+          // a cached older bundle would otherwise have their lead rejected outright,
+          // which costs far more than a null column.
+          service: service || null,
+          enquiry_type: enquiryType || null,
+          message: message || null,
+          source_path: clean(body.sourcePath, 300) || null,
+          referrer: clean(req.headers.get("referer"), 300) || null,
+          user_agent: clean(req.headers.get("user-agent"), 300) || null,
+        });
 
+        if (error) console.error("[lead] insert failed:", error.message);
+        else stored = true;
+      } catch (dbErr) {
+        // Timed out, DNS gone, project paused — all the same to us here.
+        console.error("[lead] insert threw:", dbErr);
+      }
+    }
+
+    let emailed = false;
+
+    if (resendKey) {
+      try {
         const resend = new Resend(resendKey);
         await resend.emails.send({
           from: FROM,
           to: TO,
           replyTo: email,
           // Service in the subject line so the inbox itself is triageable
-          // without opening anything.
-          subject: `New ${typeLabel} — ${service || "general"} — ${name}${
-            business ? ` (${business})` : ""
-          }`,
+          // without opening anything. The prefix appears only when the lead
+          // reached nowhere else — that inbox copy is then the only copy, and
+          // it has to be obvious enough to act on.
+          subject: `${stored ? "" : "[NOT SAVED] "}New ${typeLabel} — ${
+            service || "general"
+          } — ${name}${business ? ` (${business})` : ""}`,
           // Both parts: a mail with no text alternative scores worse with spam
           // filters, and some clients preview the text version.
           html: leadEmailHtml(details),
           text: leadEmailText(details),
         });
+        emailed = true;
       } catch (mailErr) {
-        console.error("[lead] email failed (lead was still saved):", mailErr);
+        console.error("[lead] email failed:", mailErr);
       }
     } else {
-      console.warn("[lead] RESEND_API_KEY missing — lead saved, no email sent");
+      console.warn("[lead] RESEND_API_KEY missing — no email sent");
     }
+
+    // Both routes failed, so the lead exists nowhere. Log it in full — the
+    // server log is now the last copy — and tell the visitor the truth rather
+    // than a success screen, so they can still reach out another way.
+    if (!stored && !emailed) {
+      console.error("[lead] LEAD LOST — not stored, not emailed:", JSON.stringify(details));
+      return NextResponse.json(
+        { ok: false, error: `Something went wrong. Please email me directly at ${TO}.` },
+        { status: 500 }
+      );
+    }
+
+    if (!stored) console.warn("[lead] delivered by email only — not stored");
 
     return NextResponse.json({ ok: true });
   } catch (err) {

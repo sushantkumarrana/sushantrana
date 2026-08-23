@@ -109,6 +109,7 @@ export default function Footer() {
           <nav className="flex gap-6">
             {/* Top-level URLs, not /about/… — these are real pages now, and the
                 convention is what ad-platform and compliance reviewers look for. */}
+            <Link href="/about" className="transition hover:text-orange">About Sushant Rana</Link>
             <Link href="/privacy-policy" className="transition hover:text-orange">Privacy Policy</Link>
             <Link href="/terms-and-conditions" className="transition hover:text-orange">Terms &amp; Conditions</Link>
           </nav>

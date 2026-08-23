@@ -13,6 +13,7 @@ export default function ImgOrPlaceholder({
   seed = 0,
   className = "",
   sizes = "(min-width: 1024px) 25vw, 50vw",
+  fit = "cover",
 }: {
   src: string;
   alt: string;
@@ -24,6 +25,8 @@ export default function ImgOrPlaceholder({
    *  then falls back to the largest srcset candidate — a 3840px download for a
    *  thumbnail. Pass an accurate value rather than relying on the default. */
   sizes?: string;
+  /** Photos crop (`cover`); logos must never crop, so they pass `contain`. */
+  fit?: "cover" | "contain";
 }) {
   const [failed, setFailed] = useState(false);
 
@@ -46,7 +49,7 @@ export default function ImgOrPlaceholder({
         fill
         sizes={sizes}
         onError={() => setFailed(true)}
-        className="object-cover"
+        className={fit === "contain" ? "object-contain p-4" : "object-cover"}
       />
     </div>
   );

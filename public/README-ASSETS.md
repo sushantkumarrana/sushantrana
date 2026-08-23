@@ -44,3 +44,17 @@ professional · realestate
 
 After you add files, tell me "assets added" (or which folders) and I'll swap the
 placeholders for real `<Image>` tags.
+
+## clients/  (website screenshots shown on /about — landscape 16:10, WebP/PNG)
+`yalla-renovation-website.webp` · `4s-study-abroad-website.webp` ·
+`achievers-perfect-career-institute-website.webp` · `ourknots-website.webp` ·
+`warriors-cove-website.webp` · `bazayan-website.webp` · `touch-abroad-website.webp` ·
+`trust-legal-website.webp` · `elixir-engineering-website.webp`
+(e.g. `clients/bazayan-website.webp` — the filename must be the slug in
+`lib/clients.ts` plus `-website.webp`. Missing files fall back to the placeholder
+box, so drop them in any time.)
+
+## about/  (photo grid on /about — landscape 4:3)
+- `work-1` … `work-6` — client calls, campaign reviews, build sprints, events.
+  Captions and alt text live in `components/About.tsx` (`GALLERY`); update them
+  if a slot gets a different photo.

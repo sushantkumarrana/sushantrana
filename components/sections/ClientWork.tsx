@@ -32,7 +32,7 @@ export default function ClientWork() {
           </h2>
           <p className="mx-auto mt-5 max-w-3xl text-lg text-muted">
             Nine businesses across renovation, overseas education, ecommerce,
-            martial arts, legal services and fire safety engineering — in India,
+            martial arts, legal services and fire safety engineering, in India,
             the UAE, Canada, Switzerland and the United States. Each one bought a
             different service, from a single ad account to a full website and
             revenue system.
@@ -53,10 +53,13 @@ export default function ClientWork() {
                        that ratio is what stops `cover` cropping their sides */
                     ratio="1400/765"
                     seed={i}
+                    /* thin brand-orange frame around the screenshot; `!` because
+                       ImgOrPlaceholder sets its own neutral border */
+                    className="!border-2 !border-orange"
                     sizes="(min-width: 1024px) 360px, (min-width: 640px) 45vw, 88vw"
                   />
                   <figcaption className="sr-only">
-                    {c.fullName ?? c.name} website — {c.industry}, {c.location}
+                    {c.fullName ?? c.name} website. {c.industry}, {c.location}.
                   </figcaption>
                 </figure>
 

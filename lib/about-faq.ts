@@ -22,7 +22,7 @@ export const ABOUT_FAQS: { q: string; a: string }[] = [
   },
   {
     q: "What does Sushant Rana charge for consulting?",
-    a: "The first 30-minute consultation is free. After that, project work is quoted as a fixed fee once the scope is clear, and ongoing performance marketing, SEO or automation work is a monthly retainer scoped to the channels involved. You always know the number before any work starts — there is no percentage-of-ad-spend billing.",
+    a: "The first 30-minute consultation is free. After that, project work is quoted as a fixed fee once the scope is clear, and ongoing performance marketing, SEO or automation work is a monthly retainer scoped to the channels involved. You always know the number before any work starts, and there is no percentage-of-ad-spend billing.",
   },
   {
     q: "Which types of businesses does he consult?",
@@ -30,7 +30,7 @@ export const ABOUT_FAQS: { q: string; a: string }[] = [
   },
   {
     q: "Will he consult if a business is already working with another agency?",
-    a: "Yes. Plenty of engagements start while an agency is already running the ad accounts. In that case the work is usually an audit and a second opinion — what the current setup is doing well, what is leaking budget, and what would have to change. There is no requirement to fire anyone to have the conversation.",
+    a: "Yes. Plenty of engagements start while an agency is already running the ad accounts. In that case the work is usually an audit and a second opinion: what the current setup is doing well, what is leaking budget, and what would have to change. There is no requirement to fire anyone to have the conversation.",
   },
   {
     q: "What services does Sushant Rana offer?",
@@ -38,15 +38,15 @@ export const ABOUT_FAQS: { q: string; a: string }[] = [
   },
   {
     q: "Which clients has Sushant Rana worked with?",
-    a: "Yalla Renovation, 4S Study Abroad, Achievers Perfect Career Institute (APCI), OurKnots, Warrior's Cove, Bazayan.ch, Touch Abroad, Trust Legal and Elixir Engineering — across India, the UAE, Canada, Switzerland and the United States.",
+    a: "Yalla Renovation, 4S Study Abroad, Achievers Perfect Career Institute (APCI), OurKnots, Warrior's Cove, Bazayan.ch, Touch Abroad, Trust Legal and Elixir Engineering, across India, the UAE, Canada, Switzerland and the United States.",
   },
   {
     q: "How many years of digital marketing experience does he have?",
-    a: "Since 2017 — first freelancing while learning under a mentor, then six and a half years in-house as Digital Marketing Manager at House Of Web, and since March 2025 as Project Manager at WebIncline.",
+    a: "Since 2017. He freelanced first while learning under a mentor, then spent six and a half years in-house as Digital Marketing Manager at House Of Web, and since March 2025 as Project Manager at WebIncline.",
   },
   {
     q: "Does he work with clients outside India?",
-    a: "Yes. Current and past engagements include Warrior's Cove in Minnesota, USA, Touch Abroad in Mississauga, Canada, Bazayan.ch in Switzerland, and Yalla Renovation and 4S Study Abroad in Dubai, UAE — alongside Indian clients in Chandigarh Tricity and across North India.",
+    a: "Yes. Current and past engagements include Warrior's Cove in Minnesota, USA, Touch Abroad in Mississauga, Canada, Bazayan.ch in Switzerland, and Yalla Renovation and 4S Study Abroad in Dubai, UAE, alongside Indian clients in Chandigarh Tricity and across North India.",
   },
   {
     q: "Is he available for freelance and consulting work alongside a full-time job?",
@@ -54,7 +54,7 @@ export const ABOUT_FAQS: { q: string; a: string }[] = [
   },
   {
     q: "How long before a new engagement shows results?",
-    a: "Research takes about a week. Website builds run two to six weeks. Paid campaigns produce meaningful data in four to six weeks and stabilise over a quarter. SEO is slower — expect movement over three to six months. Anyone promising rankings or ROAS in a week is guessing.",
+    a: "Research takes about a week. Website builds run two to six weeks. Paid campaigns produce meaningful data in four to six weeks and stabilise over a quarter. SEO is slower, so expect movement over three to six months. Anyone promising rankings or ROAS in a week is guessing.",
   },
   {
     q: "Who owns the ad accounts, website and data?",

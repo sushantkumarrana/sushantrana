@@ -21,7 +21,7 @@ const TIMELINE = [
     n: "01",
     kicker: "2017",
     title: "Learning the craft",
-    desc: "Started digital marketing under a mentor and took my first freelance projects on the side. Small budgets, real accountability — the fastest way to learn what actually moves a number.",
+    desc: "Started digital marketing under a mentor and took my first freelance projects on the side. Small budgets, real accountability, and the fastest way to learn what actually moves a number.",
   },
   {
     n: "02",
@@ -33,19 +33,19 @@ const TIMELINE = [
     n: "03",
     kicker: "March 2025 – present",
     title: "Project Manager, WebIncline",
-    desc: "Leading cross-functional delivery across performance marketing, web development and CRM operations — turning business requirements into systems that ship on time.",
+    desc: "Leading cross-functional delivery across performance marketing, web development and CRM operations, turning business requirements into systems that ship on time.",
   },
   {
     n: "04",
     kicker: "Today",
     title: "Consulting as Sushant Rana",
-    desc: "Alongside the job, I consult and deliver services independently under my own company, Sushant Rana. Senior-led engagements only — the person you talk to is the person doing the work.",
+    desc: "Alongside the job, I consult and deliver services independently under my own company, Sushant Rana. Senior-led engagements only, so the person you talk to is the person doing the work.",
   },
 ];
 
 const EXPERTISE = [
   { t: "Performance marketing", d: "Google Ads and Meta Ads built around pipeline, not impressions." },
-  { t: "CRM and marketing automation", d: "Zoho CRM, GoHighLevel and HubSpot — pipelines, workflows, and email, SMS and WhatsApp nurture." },
+  { t: "CRM and marketing automation", d: "Zoho CRM, GoHighLevel and HubSpot: pipelines, workflows, and email, SMS and WhatsApp nurture." },
   { t: "Sales funnel strategy", d: "Landing pages, offers and follow-up sequences that turn traffic into booked calls." },
   { t: "Website development", d: "WordPress, Elementor and Shopify builds tuned for speed and conversion." },
   { t: "Tracking and reporting", d: "Google Tag Manager and GA4 set up so every rupee is traceable to a result." },
@@ -66,7 +66,7 @@ const GALLERY = [
 
 const EDUCATION = [
   { t: "ITFT College, Chandigarh", d: "Bachelor of Business Administration (BBA), Marketing Management." },
-  { t: "Army Public School, Chandimandir", d: "Schooling before the BBA — where the discipline came from." },
+  { t: "Army Public School, Chandimandir", d: "Schooling before the BBA, where the discipline came from." },
   { t: "Based in Chandigarh, India", d: "Working remotely with clients in India, the UAE, Canada, Switzerland and the United States." },
 ];
 
@@ -75,69 +75,68 @@ export default function About() {
     <>
       <Nav />
       <main>
-        {/* ============ INTRO (white) ============ */}
+        {/* ============ INTRO (white): portrait first, copy centred under it ============ */}
         <section className="relative overflow-hidden bg-white" aria-labelledby="about-heading">
           <div className="wrap relative z-10 pt-28">
             <Breadcrumbs trail={[{ label: "About" }]} />
           </div>
-          <div className="wrap relative z-10 grid items-center gap-12 py-14 md:grid-cols-2 md:py-20">
+
+          <div className="wrap relative z-10 py-10 md:py-14">
             <Reveal>
-              <span className="script-label">About us</span>
-              <h1
-                id="about-heading"
-                className="mt-4 text-[clamp(2rem,5vw,3.6rem)] font-extrabold text-ink"
-              >
-                Sushant Rana — building <span className="text-orange">revenue systems</span> since 2017
-              </h1>
-              <p className="mt-6 text-lg text-body">
-                I&apos;m Sushant Rana, a project manager and business growth
-                consultant based in Chandigarh, India. I started doing digital
-                marketing in 2017 — first learning under someone else while
-                freelancing, then through full-time roles. I still hold a
-                full-time job today, and alongside it I consult and deliver
-                services independently under my own company, Sushant Rana.
-              </p>
-              <p className="mt-4 text-lg text-body">
-                That mix is deliberate. The job keeps me shipping large projects
-                with real teams and real budgets every week. The consulting keeps
-                me close to owners who need a revenue system, not a vendor. In
-                between, I have delivered{" "}
-                <Link href="#clients" className="font-semibold text-orange underline underline-offset-4">
-                  work for nine client brands
-                </Link>{" "}
-                across five countries, and I write about how those systems are
-                built in{" "}
-                <Link href="/blog" className="font-semibold text-orange underline underline-offset-4">
-                  my articles on revenue systems and lead quality
-                </Link>
-                .
-              </p>
-              <a href="#contact" className="btn btn-primary mt-9">
-                Book a free consultation
-              </a>
+              <div className="overflow-hidden rounded-3xl border border-[var(--color-line)] shadow-xl">
+                {/* First thing on the page, so this is the LCP image: priority,
+                    never lazy. */}
+                <Image
+                  src="/about/about.png"
+                  alt="Sushant Rana working at his desk reviewing Google Ads and analytics dashboards"
+                  width={1778}
+                  height={884}
+                  priority
+                  sizes="(max-width: 768px) 92vw, 1160px"
+                  className="h-auto w-full"
+                />
+              </div>
             </Reveal>
 
-            <Reveal delay={0.12}>
-              <figure className="m-0">
-                <div className="overflow-hidden rounded-3xl border border-[var(--color-line)] shadow-xl">
-                  {/* Above the fold on desktop, so this is the LCP candidate:
-                      priority, never lazy. */}
-                  <Image
-                    src="/about/about.png"
-                    alt="Sushant Rana working at his desk reviewing Google Ads and analytics dashboards"
-                    width={1778}
-                    height={884}
-                    priority
-                    sizes="(max-width: 768px) 92vw, 560px"
-                    className="h-auto w-full"
-                  />
-                </div>
-                <figcaption className="mt-3 text-center text-sm text-muted">
-                  Sushant Rana — Project Manager at WebIncline and independent
-                  growth consultant, Chandigarh, India.
-                </figcaption>
-              </figure>
-            </Reveal>
+            {/* copy runs the full width of the image above it, not a narrower column */}
+            <div className="mt-12 text-center">
+              <Reveal delay={0.1}>
+                <span className="script-label">About us</span>
+                <h1
+                  id="about-heading"
+                  className="mt-4 text-[clamp(2rem,5vw,3.6rem)] font-extrabold text-ink"
+                >
+                  Sushant Rana, building{" "}
+                  <span className="text-orange">revenue systems</span> since 2017
+                </h1>
+                <p className="mt-6 text-lg text-body">
+                  I&apos;m Sushant Rana, a project manager and business growth
+                  consultant based in Chandigarh, India. I started doing digital
+                  marketing in 2017, first learning under someone else while
+                  freelancing, then through full-time roles. I still hold a
+                  full-time job today, and alongside it I consult and deliver
+                  services independently under my own company, Sushant Rana.
+                </p>
+                <p className="mt-4 text-lg text-body">
+                  That mix is deliberate. The job keeps me shipping large
+                  projects with real teams and real budgets every week. The
+                  consulting keeps me close to owners who need a revenue system,
+                  not a vendor. In between, I have delivered{" "}
+                  <Link href="#clients" className="font-semibold text-orange underline underline-offset-4">
+                    work for nine client brands
+                  </Link>{" "}
+                  across five countries, and I write about how those systems are
+                  built in{" "}
+                  <Link href="/blog" className="font-semibold text-orange underline underline-offset-4">
+                    my articles on revenue systems and lead quality
+                  </Link>
+                  .
+                </p>
+                <a href="#contact" className="btn btn-primary mt-9">
+                  Book a free consultation
+                </a>
+              </Reveal>
+            </div>
           </div>
         </section>
 
@@ -213,8 +212,8 @@ export default function About() {
                     Most businesses buy these separately and wonder why nothing
                     compounds. Performance marketing, CRM automation and the
                     website only work together when one person owns the whole
-                    chain from click to closed deal — the same six disciplines
-                    behind{" "}
+                    chain from click to closed deal. These are the same six
+                    disciplines behind{" "}
                     <Link href="/" className="font-semibold text-orange underline underline-offset-4">
                       the revenue systems I build for clients
                     </Link>
@@ -281,7 +280,7 @@ export default function About() {
                   </h2>
                   <p className="mx-auto mt-5 max-w-2xl text-lg text-muted">
                     Client sessions, campaign reviews, build sprints and the
-                    occasional stage — the day-to-day behind the results above.
+                    occasional stage. The day-to-day behind the results above.
                   </p>
                 </Reveal>
               </div>

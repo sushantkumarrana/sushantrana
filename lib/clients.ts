@@ -72,7 +72,7 @@ export const CLIENTS: Client[] = [
     industry: "D2C ethnic laces, trims and accessories",
     services: ["Shopify store development", "D2C brand building", "Performance marketing"],
     summary:
-      "Built the Shopify store and the D2C brand around it — laces, trims, neck patches and wedding accessories — then scaled the storefront from no sales at all to a steady monthly run rate.",
+      "Built the Shopify store and the D2C brand around it, covering laces, trims, neck patches and wedding accessories, then scaled the storefront from no sales at all to a steady monthly run rate.",
     result: "From zero sales to ₹3 lakh per month on Shopify",
   },
   {
@@ -127,7 +127,7 @@ export const CLIENTS: Client[] = [
     industry: "Fire safety systems engineering",
     services: ["SEO", "Google Ads"],
     summary:
-      "Search visibility and paid search for a fire safety engineering company — system maintenance, Form B audits, training and repairs: multiple target keywords ranked on Google, with Google Ads carrying the intent SEO does not reach yet.",
+      "Search visibility and paid search for a fire safety engineering company that handles system maintenance, Form B audits, training and repairs. Multiple target keywords now rank on Google, with Google Ads carrying the intent SEO does not reach yet.",
     result: "40–45 leads per month from SEO and Google Ads",
   },
 ];

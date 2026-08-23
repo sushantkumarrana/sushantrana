@@ -14,9 +14,9 @@ import { ABOUT_FAQS } from "@/lib/about-faq";
 const ABOUT_URL = canonicalUrl("/about");
 
 const TITLE =
-  "About Sushant Rana — Growth Consultant & Project Manager, Chandigarh";
+  "About Sushant Rana: Growth Consultant & Project Manager, Chandigarh";
 const DESCRIPTION =
-  "Sushant Rana has run digital marketing since 2017 — Google Ads, Meta Ads, CRM automation, SEO and website development for nine client brands across India, the UAE, Canada, Switzerland and the USA.";
+  "Sushant Rana has run digital marketing since 2017: Google Ads, Meta Ads, CRM automation, SEO and website development for nine client brands across India, the UAE, Canada, Switzerland and the USA.";
 
 export async function generateMetadata({
   params,
@@ -42,7 +42,7 @@ export async function generateMetadata({
             url: "/about/about.png",
             width: 1778,
             height: 884,
-            alt: "Sushant Rana — business growth consultant and project manager, Chandigarh, India",
+            alt: "Sushant Rana, business growth consultant and project manager, Chandigarh, India",
           },
         ],
       },

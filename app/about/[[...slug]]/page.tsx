@@ -39,10 +39,11 @@ export async function generateMetadata({
         locale: "en_US",
         images: [
           {
-            url: "/about/about.png",
-            width: 1778,
-            height: 884,
-            alt: "Sushant Rana, business growth consultant and project manager, Chandigarh, India",
+            // JPG rather than WebP: not every social platform reads a WebP og:image.
+            url: "/about/sushant-rana-speaking-ai-advertising-panel.jpg",
+            width: 1600,
+            height: 900,
+            alt: "Sushant Rana speaking on a panel discussion about AI in advertising",
           },
         ],
       },
@@ -50,7 +51,7 @@ export async function generateMetadata({
         card: "summary_large_image",
         title: TITLE,
         description: DESCRIPTION,
-        images: ["/about/about.png"],
+        images: ["/about/sushant-rana-speaking-ai-advertising-panel.jpg"],
       },
     };
   }
@@ -86,9 +87,10 @@ const structuredData = {
       mainEntity: { "@id": PERSON_ID },
       primaryImageOfPage: {
         "@type": "ImageObject",
-        url: `${SITE_URL}/about/about.png`,
-        width: 1778,
-        height: 884,
+        url: `${SITE_URL}/about/sushant-rana-speaking-ai-advertising-panel.jpg`,
+        width: 1600,
+        height: 900,
+        caption: "Sushant Rana speaking on a panel discussion about AI in advertising",
       },
       mentions: CLIENTS.map((c) => ({
         "@type": "Organization",

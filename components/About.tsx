@@ -52,16 +52,49 @@ const EXPERTISE = [
   { t: "SEO and conversion rate optimisation", d: "Organic visibility and page-level testing compounding on top of paid." },
 ];
 
-/** Photo slots for /public/about/. Alt and caption describe the intended shot —
- *  update both if a different photo goes into a slot, so alt text keeps
- *  describing the image that is actually there. */
+/**
+ * Photo grid for /public/about/behind-the-work/.
+ *
+ * Filenames are descriptive on purpose — image search reads them — and the alt
+ * text describes what is actually in each frame. If a photo is swapped, update
+ * its alt and caption with it.
+ *
+ * `position` anchors the 4:3 crop. The two portrait shots would otherwise be
+ * cut through the middle, losing the face.
+ */
 const GALLERY = [
-  { file: "work-1", alt: "Sushant Rana on a client strategy call", caption: "Client strategy call" },
-  { file: "work-2", alt: "Sushant Rana reviewing Google Ads campaign performance", caption: "Campaign review" },
-  { file: "work-3", alt: "Sushant Rana planning a CRM automation workflow on a whiteboard", caption: "Automation planning" },
-  { file: "work-4", alt: "Sushant Rana working with the development team on a website build", caption: "Build sprint" },
-  { file: "work-5", alt: "Sushant Rana presenting a monthly performance report", caption: "Monthly reporting" },
-  { file: "work-6", alt: "Sushant Rana at a marketing event", caption: "Events and speaking" },
+  {
+    file: "sushant-rana-client-strategy-call.webp",
+    alt: "Sushant Rana on a video call with a client at his desk, talking through strategy",
+    caption: "Client strategy call",
+    position: "50% 22%",
+  },
+  {
+    file: "sushant-rana-google-ads-campaign-review.webp",
+    alt: "Sushant Rana presenting a Google Ads campaign dashboard to his team in a meeting room",
+    caption: "Google Ads campaign review",
+  },
+  {
+    file: "sushant-rana-gohighlevel-crm-automation-planning.webp",
+    alt: "Sushant Rana mapping a GoHighLevel CRM automation workflow on a whiteboard, from lead capture to follow-up",
+    caption: "CRM automation planning",
+    position: "50% 18%",
+  },
+  {
+    file: "sushant-rana-shopify-store-design-review.webp",
+    alt: "Sushant Rana reviewing an ecommerce store design in Figma with his development team",
+    caption: "Store design review",
+  },
+  {
+    file: "sushant-rana-ecommerce-design-development-sprint.webp",
+    alt: "Sushant Rana walking developers through a mobile and desktop store design during a build sprint",
+    caption: "Design and development sprint",
+  },
+  {
+    file: "sushant-rana-monthly-google-ads-performance-report.webp",
+    alt: "Sushant Rana presenting a monthly Google Ads performance report to clients on a video call",
+    caption: "Monthly performance reporting",
+  },
 ];
 
 const EDUCATION = [
@@ -87,10 +120,10 @@ export default function About() {
                 {/* First thing on the page, so this is the LCP image: priority,
                     never lazy. */}
                 <Image
-                  src="/about/about.png"
-                  alt="Sushant Rana working at his desk reviewing Google Ads and analytics dashboards"
-                  width={1778}
-                  height={884}
+                  src="/about/sushant-rana-speaking-ai-advertising-panel.webp"
+                  alt="Sushant Rana speaking on a panel discussion about AI in advertising, covering AI-powered Google Ads and Meta Ads"
+                  width={1600}
+                  height={900}
                   priority
                   sizes="(max-width: 768px) 92vw, 1160px"
                   className="h-auto w-full"
@@ -267,7 +300,7 @@ export default function About() {
             </section>
 
 
-            {/* ---- photo grid: drop real photos into /public/about/work-1..6.png ---- */}
+            {/* ---- photo grid: /public/about/behind-the-work/ (see GALLERY) ---- */}
             <section className="section" aria-labelledby="gallery-heading">
               <div className="wrap-wide text-center">
                 <Reveal>
@@ -291,9 +324,10 @@ export default function About() {
                     <Reveal delay={(i % 3) * 0.05}>
                       <figure className="m-0">
                         <ImgOrPlaceholder
-                          src={`/about/${g.file}.png`}
+                          src={`/about/behind-the-work/${g.file}`}
                           alt={g.alt}
                           ratio="4/3"
+                          position={g.position}
                           seed={i + 3}
                           sizes="(min-width: 1024px) 380px, (min-width: 640px) 45vw, 88vw"
                         />

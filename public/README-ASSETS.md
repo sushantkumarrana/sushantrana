@@ -58,3 +58,35 @@ box, so drop them in any time.)
 - `work-1` … `work-6` — client calls, campaign reviews, build sprints, events.
   Captions and alt text live in `components/About.tsx` (`GALLERY`); update them
   if a slot gets a different photo.
+
+## services/shopify/  (Shopify service page — all WebP)
+Phone frames (full-length mobile screenshots, 560px wide, any height — they
+scroll inside the frame). A missing file falls back to a built-in wireframe.
+- `home-1.webp` · `home-2.webp` — the "Whole storefronts" band
+- `product-page-1.webp` · `product-page-2.webp` — the "Product pages" band
+- `product-page-3.webp` — spare, not currently placed
+
+Portfolio strip (portrait cards, 720px wide):
+- `work-1.webp` … `work-6.webp`
+
+Product-card photos (square, 600x600):
+- `card-oraah.webp` — Oraah Sugar Balance Tea pouch
+- `card-ben-bag.webp` — Ben Classic Handbag
+Missing files fall back to a tinted block, so the card still works.
+
+Labels and alt text live in `components/ShopifyDevelopment.tsx`.
+
+**Adding more:** drop the full-size PNG in `_originals/shopify/` (gitignored),
+then resize and convert before it goes in `public/` — the raw exports were
+10-55MB each and would have shipped ~200MB to every visitor:
+```
+sips --resampleWidth 560 in.png --out /tmp/r.png && cwebp -q 78 /tmp/r.png -o out.webp
+```
+Phone screenshots: 560px wide. Portfolio cards: 720px wide. WebP cannot exceed
+16383px in either direction, which is why the tall ones are resized first.
+
+## clients/  (website screenshots, not logos)
+`<slug>-website.webp` — a screenshot of the client's own site, used on /about.
+The wordmark strip on the Shopify page has no logo files, so it renders each
+client's name as type instead. Drop `<slug>-logo.png` (transparent, ~200x60) if
+real logos ever become available and the strip picks them up automatically.

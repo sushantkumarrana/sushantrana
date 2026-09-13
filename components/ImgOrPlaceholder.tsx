@@ -14,6 +14,7 @@ export default function ImgOrPlaceholder({
   className = "",
   sizes = "(min-width: 1024px) 25vw, 50vw",
   fit = "cover",
+  position = "center",
 }: {
   src: string;
   alt: string;
@@ -27,6 +28,10 @@ export default function ImgOrPlaceholder({
   sizes?: string;
   /** Photos crop (`cover`); logos must never crop, so they pass `contain`. */
   fit?: "cover" | "contain";
+  /** Which part of a cropped image survives. Full-page screenshots want "top",
+   *  otherwise `cover` centres on the middle of the page and throws the header
+   *  away. Any object-position value. */
+  position?: string;
 }) {
   const [failed, setFailed] = useState(false);
 
@@ -49,6 +54,7 @@ export default function ImgOrPlaceholder({
         fill
         sizes={sizes}
         onError={() => setFailed(true)}
+        style={fit === "cover" ? { objectPosition: position } : undefined}
         className={fit === "contain" ? "object-contain p-4" : "object-cover"}
       />
     </div>

@@ -12,7 +12,7 @@ const slug = (s: string) =>
 const COLS: { h: string; base: string; items: string[] }[] = [
   { h: "Services", base: "services", items: ["All Services", "Performance Marketing", "Website Development", "Case Studies", "Free Consultation"] },
   { h: "Advertising", base: "services", items: ["Google Ads", "Meta Ads", "TikTok Ads", "Snapchat Ads", "LinkedIn Ads", "Microsoft Ads", "Amazon Ads"] },
-  { h: "Development", base: "services", items: ["Shopify", "WordPress", "Wix Studio", "Webflow", "Custom"] },
+  { h: "Development", base: "services", items: ["Shopify Store Development", "WordPress", "Wix Studio", "Webflow", "Custom"] },
 ];
 
 const socials: { label: string; href: string }[] = [

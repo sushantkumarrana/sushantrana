@@ -102,6 +102,13 @@ html.lenis, html.lenis body { height: auto; }
 .btn-outline { background: transparent; color: #0a0a0a; border: 1.5px solid rgba(10,10,10,.2); }
 .btn-outline:hover { transform: translateY(-3px); border-color: var(--color-orange); color: var(--color-orange); }
 
+/* On a narrow phone a long CTA label wrapped onto two lines and broke the
+   button's rhythm. Tighter padding and a slightly smaller face keep every
+   label on one line down to a 320px screen. */
+@media (max-width: 540px) {
+  .btn { min-height: 50px; padding-inline: 18px; font-size: .9rem; white-space: nowrap; }
+}
+
 /* eyebrow pill */
 .eyebrow {
   display: inline-flex; align-items: center; gap: 8px;
@@ -135,6 +142,15 @@ html.lenis, html.lenis body { height: auto; }
 .marquee--rev .marquee__track { animation-direction: reverse; }
 @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
+/* Marquee without the edge fade. `.marquee__track` already carries the
+   animation, so this only needs the hover-pause and reverse rules that
+   `.marquee` would have given us, minus the mask. */
+.marquee-nofade:hover .marquee__track { animation-play-state: paused; }
+.marquee-nofade.marquee--rev .marquee__track { animation-direction: reverse; }
+
+/* gentle walking bob for the process illustration */
+@keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+
 /* card */
 .card {
   background: var(--color-surface); border: 1px solid var(--color-line); border-radius: 24px;
@@ -153,6 +169,7 @@ html.lenis, html.lenis body { height: auto; }
 
 @media (prefers-reduced-motion: reduce) {
   .marquee__track, .dot-live { animation: none; }
+  [class*="animate-"] { animation: none !important; }
   [style*="drift"] { animation: none !important; }
   * { scroll-behavior: auto !important; }
 }

@@ -27,3 +27,6 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# full-size source screenshots — optimised copies live in public/
+_originals/

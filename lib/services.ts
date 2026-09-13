@@ -46,6 +46,7 @@ export const SERVICE_GROUPS: ServiceGroup[] = [
     heading: "Website Development",
     items: [
       "WordPress Development",
+      "Shopify Store Development",
       "Ecommerce Website",
       "Landing Pages",
       "Website Redesign",

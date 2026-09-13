@@ -1,11 +1,22 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import Reveal from "../Reveal";
 import Counter from "../Counter";
 import { useInViewport } from "../useInViewport";
 
-const platforms = ["Google Ads", "Meta Ads", "LinkedIn Ads", "TikTok Ads", "Snapchat Ads", "Microsoft Ads", "Amazon Ads"];
+/** `f` is the file in /public/logos/. Snapchat and Amazon have no logo file
+ *  yet, so they render as a text chip until one is added. */
+const platforms: { n: string; f?: string }[] = [
+  { n: "Google Ads", f: "google-ads" },
+  { n: "Meta Ads", f: "meta" },
+  { n: "LinkedIn Ads", f: "linkedin" },
+  { n: "TikTok Ads", f: "tiktok" },
+  { n: "Snapchat Ads" },
+  { n: "Microsoft Ads", f: "microsoft" },
+  { n: "Amazon Ads" },
+];
 const bars = [
   { label: "High-intent search", w: 92 },
   { label: "Paid social & creative", w: 84 },
@@ -69,8 +80,17 @@ export default function PerformanceMarketing() {
         <div className="marquee mt-10">
           <div className="marquee__track" style={{ ["--dur" as string]: "28s" }}>
             {[...platforms, ...platforms].map((p, i) => (
-              <span key={i} className="mx-3 rounded-full border border-[var(--color-line)] bg-white px-6 py-3 font-[family-name:var(--font-display)] text-sm font-semibold text-ink">
-                {p}
+              <span
+                key={i}
+                className="mx-3 inline-flex items-center gap-2.5 rounded-full border border-[var(--color-line)] bg-white py-2.5 pl-3 pr-6 font-[family-name:var(--font-display)] text-sm font-semibold text-ink"
+              >
+                {p.f ? (
+                  // decorative: the platform name sits right beside it
+                  <Image src={`/logos/${p.f}.png`} alt="" width={24} height={24} className="h-6 w-6 object-contain" />
+                ) : (
+                  <span aria-hidden className="h-6 w-2" />
+                )}
+                {p.n}
               </span>
             ))}
           </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import HeroForm from "./HeroForm";
 
@@ -15,8 +15,17 @@ import HeroForm from "./HeroForm";
  * The trigger list matches ConsultPopup's so existing CTAs keep working:
  * href="#contact", [data-consult], or link text that starts with "book".
  */
-export default function QuotePopup() {
+export default function QuotePopup({
+  label = "Request a Shopify store quote",
+  render = () => <HeroForm />,
+}: {
+  label?: string;
+  /** The form to show. Receives the clicked CTA's data-plan, if any, so a
+   *  "Choose Growth" button can open the form with that plan picked. */
+  render?: (plan?: string) => ReactNode;
+} = {}) {
   const [open, setOpen] = useState(false);
+  const [plan, setPlan] = useState<string | undefined>();
 
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
@@ -39,6 +48,7 @@ export default function QuotePopup() {
       // React root, which runs before a bubble-phase document listener.
       e.preventDefault();
       e.stopPropagation();
+      setPlan(el.dataset.plan);
       setOpen(true);
     };
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
@@ -64,7 +74,7 @@ export default function QuotePopup() {
           exit={{ opacity: 0 }}
           role="dialog"
           aria-modal="true"
-          aria-label="Request a Shopify store quote"
+          aria-label={label}
         >
           <div
             className="absolute inset-0 bg-black/55 backdrop-blur-sm"
@@ -91,7 +101,7 @@ export default function QuotePopup() {
                 <path d="M6 6l12 12M18 6 6 18" />
               </svg>
             </button>
-            <HeroForm />
+            {render(plan)}
           </motion.div>
         </motion.div>
       )}

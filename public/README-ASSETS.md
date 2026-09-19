@@ -90,3 +90,12 @@ Phone screenshots: 560px wide. Portfolio cards: 720px wide. WebP cannot exceed
 The wordmark strip on the Shopify page has no logo files, so it renders each
 client's name as type instead. Drop `<slug>-logo.png` (transparent, ~200x60) if
 real logos ever become available and the strip picks them up automatically.
+
+## services/maintenance/  (Website maintenance page — WebP, 1400px wide, 4:3 crop)
+- `hero.webp` · `site-down.webp` · `updates.webp` · `security.webp`
+Licensed Magnific/Freepik stock photos; full-size originals in `_originals/maintenance/`.
+Alt text lives in `components/WebsiteMaintenance.tsx`.
+
+## logos/platforms/  (platform logos on the maintenance page — SVG)
+simple-icons (CC0) SVGs recoloured to each brand's hex. **Missing: `magento.svg`**
+— drop it in, then set `logos: ["magento"]` for Magento in `lib/maintenance.ts`.

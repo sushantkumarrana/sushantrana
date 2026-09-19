@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description: "Your request has been received. I'll be in touch within one business day.",
   // utility page — keep it out of search results
   robots: { index: false, follow: true },
-  alternates: { canonical: canonicalUrl("/thank-you") },
+  alternates: { canonical: canonicalUrl("/thank-you-consultation") },
 };
 
 export default function ThankYou() {

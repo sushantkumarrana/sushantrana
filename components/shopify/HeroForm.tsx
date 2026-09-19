@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { COUNTRIES, COUNTRY_BY_ISO, DEFAULT_COUNTRY, flagOf } from "@/lib/countries";
 import { validateEmail, validatePhone } from "@/lib/validation";
 import { SHOPIFY_LEAD_KEY } from "@/lib/whatsapp";
+import { pushLead } from "@/lib/datalayer";
 
 /**
  * Three-step hero enquiry form, matching the reference page the client asked
@@ -40,7 +41,7 @@ const STEPS = ["Contact", "Project", "Timeline"];
 
 /** Where a completed Shopify enquiry lands: this page's own confirmation
  *  screen, which hands the visitor on to WhatsApp with their answers typed. */
-const THANK_YOU = "/services/shopify-store-development/thank-you";
+const THANK_YOU = "/thank-you-shopify-store-development";
 
 type Errors = Partial<Record<"name" | "email" | "phone" | "company" | "form", string>>;
 
@@ -191,6 +192,22 @@ export default function HeroForm() {
         setBusy(false);
         return;
       }
+      pushLead(
+        "shopify_store_development",
+        {
+          company: v.company,
+          service: v.service,
+          platform: v.platform,
+          revenue: v.revenue,
+          products: v.products,
+          timeline: v.timeline,
+          budget: v.budget,
+          source: v.source,
+          details: v.details,
+        },
+        { name: v.name, email: v.email, phone: `+${dial}${v.phone.replace(/\D/g, "")}` }
+      );
+
       try {
         sessionStorage.setItem(
           SHOPIFY_LEAD_KEY,

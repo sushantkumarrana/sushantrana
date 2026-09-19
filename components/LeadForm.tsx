@@ -10,6 +10,7 @@ import {
 } from "@/lib/services";
 import { COUNTRIES, COUNTRY_BY_ISO, DEFAULT_COUNTRY, flagOf } from "@/lib/countries";
 import { validateEmail, validatePhone } from "@/lib/validation";
+import { pushLead } from "@/lib/datalayer";
 
 type FieldName = "name" | "email" | "phone" | "service";
 type Messages = Partial<Record<FieldName, string>>;
@@ -175,7 +176,7 @@ export default function LeadForm({
           const data = await res.json().catch(() => ({}));
 
           if (!res.ok || !data.ok) {
-            // Never send them to /thank-you on failure — that would tell them
+            // Never send them to /thank-you-consultation on failure — that would tell them
             // it worked when the lead was lost.
             const msg = data.error || "Could not send. Please try again.";
             // The route names the field it rejected (e.g. a domain with no mail
@@ -190,8 +191,20 @@ export default function LeadForm({
             return;
           }
 
+          const str = (k: string) => String(fd.get(k) || "");
+          pushLead(
+            "consultation",
+            {
+              enquiry_type: str("enquiryType"),
+              service: str("service"),
+              business: str("business"),
+              message: str("message"),
+            },
+            { name, email: str("email"), phone: `+${dial}${str("phone").replace(/\D/g, "")}` }
+          );
+
           onSuccess?.();
-          router.push("/thank-you");
+          router.push("/thank-you-consultation");
         } catch {
           setFormError("Network problem. Please check your connection and retry.");
           setBusy(false);

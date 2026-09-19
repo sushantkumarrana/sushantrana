@@ -26,7 +26,7 @@ const AI_BOTS = [
   "CCBot",             // Common Crawl (feeds many models)
 ];
 
-// Utility pages (/thank-you, /coming-soon) are deliberately NOT disallowed
+// Utility pages (/thank-you-*, /coming-soon) are deliberately NOT disallowed
 // here. They already emit `noindex` in their own metadata, and a robots.txt
 // Disallow would stop crawlers from ever fetching the page to read that
 // noindex — the two directives cancel each other out. Crawlable + noindex is

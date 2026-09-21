@@ -162,7 +162,7 @@ export default function Nav() {
         <Link href="/" onClick={closeAll} className="flex items-center" aria-label="Sushant Rana home">
           {/* Above the fold on every page, so it loads eagerly. width/height are
               the display size at 2x; the source is 2218x500. */}
-          <Image src="/logo.png" alt="Sushant Rana" width={249} height={56} priority className={`w-auto transition-all ${scrolled ? "h-11" : "h-14"}`} />
+          <Image src="/logo.png" alt="Sushant Rana" width={249} height={56} preload className={`w-auto transition-all ${scrolled ? "h-11" : "h-14"}`} />
         </Link>
 
         <ul className="hidden items-center gap-0.5 lg:flex">

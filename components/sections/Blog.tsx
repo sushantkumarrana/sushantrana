@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import Reveal from "../Reveal";
 import PostCard from "../blog/PostCard";

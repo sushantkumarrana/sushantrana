@@ -1,5 +1,3 @@
-"use client";
-
 import type { ReactNode } from "react";
 import Reveal from "../Reveal";
 
@@ -22,7 +20,7 @@ export default function FinalCTA({
     <section id="contact" className="section">
       <div className="wrap">
         <Reveal>
-          <div className="relative overflow-hidden rounded-[36px] bg-[#050505] bg-cover bg-center p-10 text-center md:p-20" style={{ backgroundImage: "url(/footer/footer-bg.png)" }}>
+          <div className="relative overflow-hidden rounded-[36px] bg-[#050505] bg-cover bg-center p-10 text-center md:p-20" style={{ backgroundImage: "url(/footer/footer-bg.webp)" }}>
             {/* dark overlay so text stays readable (matches Talk-to-person card) */}
             <div className="pointer-events-none absolute inset-0 bg-black/35" />
             {/* soft orange glow */}

@@ -1,5 +1,3 @@
-"use client";
-
 import Reveal from "../Reveal";
 
 export default function ConsultSlots() {
@@ -10,7 +8,7 @@ export default function ConsultSlots() {
           {/* grey section; card uses the footer image as its background */}
           <div
             className="relative overflow-hidden rounded-[32px] bg-[#050505] bg-cover bg-center p-10 text-center md:p-16"
-            style={{ backgroundImage: "url(/footer/footer-bg.png)" }}
+            style={{ backgroundImage: "url(/footer/footer-bg.webp)" }}
           >
             <div className="pointer-events-none absolute inset-0 bg-black/35" />
             <div className="relative">

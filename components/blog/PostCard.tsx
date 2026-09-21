@@ -24,7 +24,7 @@ export default function PostCard({
           alt={post.title}
           fill
           sizes={sizes}
-          priority={priority}
+          preload={priority}
           className="object-cover transition duration-500 group-hover:scale-105"
         />
       </Link>
@@ -43,6 +43,7 @@ export default function PostCard({
         <p className="mt-3 text-sm text-body">{post.excerpt}</p>
         <Link
           href={`/blog/${post.slug}`}
+          aria-label={`Read article: ${post.title}`}
           className="mt-auto inline-flex items-center gap-2 pt-5 font-[family-name:var(--font-display)] text-sm font-semibold text-ink transition group-hover:gap-3 group-hover:text-orange"
         >
           Read article

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import Link from "next/link";
 import Reveal from "../Reveal";
 
 type Tag = "performance" | "automation" | "web";
@@ -124,10 +125,10 @@ export default function SelectedResults() {
                   </div>
                 </div>
 
-                <a href="#" className="mt-6 inline-flex items-center gap-2 font-[family-name:var(--font-display)] text-sm font-semibold text-orange transition hover:gap-3">
+                <Link href="/case-studies" className="mt-6 inline-flex items-center gap-2 font-[family-name:var(--font-display)] text-sm font-semibold text-orange transition hover:gap-3">
                   Read full case study
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-                </a>
+                </Link>
               </motion.article>
             ))}
           </AnimatePresence>

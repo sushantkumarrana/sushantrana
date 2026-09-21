@@ -1,5 +1,3 @@
-"use client";
-
 /** Full-width straight marquee band (black or orange) used as a divider
  *  between sections. Pauses on hover. */
 export default function StraightMarquee({

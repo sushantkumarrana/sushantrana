@@ -52,7 +52,7 @@ function ReviewCard({ q, i }: { q: (typeof TESTIMONIALS)[number]; i: number }) {
         </span>
       </div>
 
-      <p className="mt-3 text-sm text-orange" aria-label="Five out of five">
+      <p className="mt-3 text-sm text-orange" role="img" aria-label="Five out of five">
         <span aria-hidden>★★★★★</span>
       </p>
 

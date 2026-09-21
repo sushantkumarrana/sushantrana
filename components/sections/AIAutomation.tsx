@@ -71,7 +71,7 @@ export default function AIAutomation() {
             <div className="grid grid-cols-3 gap-2 p-3 sm:gap-3 sm:p-5">
               {stages.map((col, ci) => (
                 <div key={col.h} className="rounded-xl bg-black/[0.03] p-1.5 sm:rounded-2xl sm:p-3">
-                  <h4 className="mb-2 text-center text-[0.58rem] font-bold uppercase tracking-wide text-muted sm:mb-3 sm:text-[0.68rem]">{col.h}</h4>
+                  <p className="mb-2 text-center text-[0.58rem] font-bold uppercase tracking-wide text-muted sm:mb-3 sm:text-[0.68rem]">{col.h}</p>
                   <div className="flex items-center gap-1.5 rounded-lg border border-[var(--color-line)] bg-white px-2 py-2 text-[0.7rem] font-semibold leading-tight text-ink shadow-sm sm:gap-2 sm:rounded-xl sm:px-3 sm:py-2.5 sm:text-sm">
                     <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${col.dot} sm:h-2 sm:w-2`} />
                     {col.card}

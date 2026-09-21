@@ -1,5 +1,3 @@
-"use client";
-
 import Reveal from "../Reveal";
 import Image from "next/image";
 
@@ -14,8 +12,10 @@ const TOP = [
 export default function WhoICanHelp() {
   return (
     <section className="section">
-      <div className="wrap-wide grid gap-10 lg:grid-cols-[0.85fr_1.7fr] lg:items-center">
-        <Reveal>
+      {/* Copy starts at the top of the section and stays sticky, so it travels
+          down beside the image grid as the page scrolls (desktop only). */}
+      <div className="wrap-wide grid gap-10 lg:grid-cols-[0.85fr_1.7fr]">
+        <Reveal className="lg:sticky lg:top-28 lg:self-start">
           <span className="script-label">Who I can help</span>
           <h2 className="mt-4 text-[clamp(1.8rem,4vw,3.1rem)] font-extrabold text-ink">
             I help brands with <span className="text-orange">results,</span> not reports
@@ -35,7 +35,7 @@ export default function WhoICanHelp() {
                 {/* Fixed 1:1 box keeps the row level whatever ratio lands here.
                     r1/r4 are square so they fill with zero crop; r3 is 4:5 so it
                     loses a little background top/bottom, never the copy. */}
-                <Image src={t.src} alt={t.alt} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" />
+                <Image src={t.src} alt={t.alt} fill sizes="(max-width: 1024px) 33vw, 300px" className="object-cover" />
               </div>
             ))}
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { ChevronDown } from "lucide-react";
 
 /**
@@ -19,10 +20,16 @@ export default function PhoneScroll({
   alt,
   label,
   sub,
+  width,
+  height,
   dark = false,
 }: {
   src: string;
   alt: string;
+  /** Intrinsic pixel size of the screenshot, so next/image can serve a copy
+   *  resized to the ~200px frame instead of the full 560px original. */
+  width: number;
+  height: number;
   label: string;
   sub?: string;
   /** Frame styling for the dark section band. */
@@ -78,17 +85,14 @@ export default function PhoneScroll({
                 {failed ? (
                   <MockProductPage />
                 ) : (
-                  // Plain <img>: the screen scrolls a full-length screenshot
-                  // whose real height is unknown, which next/image cannot
-                  // express.
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
+                  <Image
                     src={src}
                     alt={alt}
-                    loading="lazy"
-                    decoding="async"
+                    width={width}
+                    height={height}
+                    sizes="(min-width: 1024px) 206px, 38vw"
                     onError={() => setFailed(true)}
-                    className="block w-full"
+                    className="block h-auto w-full"
                   />
                 )}
               </div>

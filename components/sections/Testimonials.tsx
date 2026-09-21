@@ -1,5 +1,3 @@
-"use client";
-
 import Reveal from "../Reveal";
 import { TESTIMONIALS as QUOTES } from "@/lib/testimonials";
 

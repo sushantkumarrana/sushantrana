@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import Reveal from "../Reveal";
 import ImgOrPlaceholder from "../ImgOrPlaceholder";

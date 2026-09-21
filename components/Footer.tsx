@@ -39,7 +39,7 @@ export default function Footer() {
       className="relative overflow-hidden bg-[#050505] text-white/75"
     >
       {/* background image — full, no overlay */}
-      <div className="pointer-events-none absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url(/footer/footer-bg.png)" }} />
+      <div className="pointer-events-none absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url(/footer/footer-bg.webp)" }} />
       {/* mouse-follow orange glow */}
       <div
         className="pointer-events-none absolute inset-0 opacity-70 transition-opacity"
@@ -67,7 +67,7 @@ export default function Footer() {
           {/* link columns */}
           {COLS.map((col) => (
             <div key={col.h}>
-              <h4 className="mb-4 text-xs font-bold uppercase tracking-widest text-white/45">{col.h}</h4>
+              <h2 className="mb-4 text-xs font-bold uppercase tracking-widest text-white/45">{col.h}</h2>
               <ul className="flex flex-col gap-2.5 text-sm">
                 {col.items.map((i) => (
                   <li key={i}>
@@ -82,7 +82,7 @@ export default function Footer() {
 
           {/* get in touch block (replaces old Company column) */}
           <div>
-            <h4 className="mb-4 text-xs font-bold uppercase tracking-widest text-white/45">Get in touch</h4>
+            <h2 className="mb-4 text-xs font-bold uppercase tracking-widest text-white/45">Get in touch</h2>
             <a href="mailto:me@sushantrana.com" className="block text-sm text-white/80 transition hover:text-orange">
               me@sushantrana.com
             </a>

@@ -1,6 +1,3 @@
-"use client";
-
-import { useState } from "react";
 import { CLIENTS } from "@/lib/clients";
 
 /**
@@ -8,14 +5,15 @@ import { CLIENTS } from "@/lib/clients";
  *
  * Names come from the same CLIENTS list the /about page uses, so the strip can
  * never show a brand Sushant has not actually worked with. Drop a transparent
- * logo at /public/clients/<slug>-logo.png and it replaces the wordmark; until
- * then the name renders as text, which is a real credit either way.
+ * logo at /public/clients/<slug>-logo.png and set `logo: true` on that client
+ * in lib/clients.ts; until then the name renders as text, which is a real
+ * credit either way. (No speculative request + onError fallback: that 404'd
+ * for every client and put nine errors in the console on every page view.)
  */
-function Mark({ slug, name }: { slug: string; name: string }) {
-  const [failed, setFailed] = useState(false);
+function Mark({ slug, name, logo }: { slug: string; name: string; logo?: boolean }) {
   return (
     <span className="mx-8 inline-flex shrink-0 items-center opacity-60 grayscale transition hover:opacity-100 hover:grayscale-0">
-      {failed ? (
+      {!logo ? (
         <span className="whitespace-nowrap font-[family-name:var(--font-display)] text-lg font-extrabold tracking-tight text-ink md:text-xl">
           {name}
         </span>
@@ -26,7 +24,6 @@ function Mark({ slug, name }: { slug: string; name: string }) {
           alt={name}
           loading="lazy"
           decoding="async"
-          onError={() => setFailed(true)}
           className="h-8 w-auto object-contain md:h-10"
         />
       )}
@@ -40,7 +37,7 @@ function Row({ reverse = false, dur = 46 }: { reverse?: boolean; dur?: number })
     <div className={`marquee-nofade overflow-hidden ${reverse ? "marquee--rev" : ""}`}>
       <div className="marquee__track py-3" style={{ ["--dur" as string]: `${dur}s` }}>
         {[...base, ...base].map((c, i) => (
-          <Mark key={`${c.slug}-${i}`} slug={c.slug} name={c.fullName ?? c.name} />
+          <Mark key={`${c.slug}-${i}`} slug={c.slug} name={c.fullName ?? c.name} logo={c.logo} />
         ))}
       </div>
     </div>

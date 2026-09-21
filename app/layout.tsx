@@ -19,6 +19,7 @@ const ephesis = Ephesis({
   subsets: ["latin"],
   weight: ["400"],
   display: "swap",
+  preload: false, // decorative — keep it off the critical path
 });
 
 // Devanagari for the faded सुशांत राणा signature in the footer
@@ -27,6 +28,7 @@ const mukta = Mukta({
   subsets: ["devanagari", "latin"],
   weight: ["800"],
   display: "swap",
+  preload: false, // decorative — keep it off the critical path
 });
 
 // Playwrite Tanzania — cursive handwriting for section labels

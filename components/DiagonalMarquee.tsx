@@ -1,5 +1,3 @@
-"use client";
-
 /**
  * Two marquee ribbons crossing in an X (Agero-style). Small angle + tall band
  * + very wide ribbons so both span edge-to-edge and cross at the centre.

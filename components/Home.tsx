@@ -1,5 +1,3 @@
-"use client";
-
 import Nav from "./Nav";
 import Image from "next/image";
 import Footer from "./Footer";
@@ -81,17 +79,19 @@ export default function Home() {
 
         {/* ============ HERO IMAGE (white, peeks above the fold) ============ */}
         <section className="bg-white pb-20">
-          <Reveal>
-            {/* minimal side margins — image reads big */}
-            <div className="mx-auto w-[98%] overflow-hidden rounded-[28px]">
-              {/* The LCP image — priority so it is preloaded rather than lazy. */}
-              <Image src="/hero/hero.png" alt="Sushant Rana revenue systems" width={1700} height={925} priority sizes="98vw" className="h-auto w-full" />
-            </div>
-          </Reveal>
+          {/* No <Reveal> here: it holds the LCP image at opacity 0 until
+              hydration, which PageSpeed counted as ~2.5s of render delay. */}
+          <div className="mx-auto w-[98%] overflow-hidden rounded-[28px]">
+            {/* The LCP image — preload (Next 16's replacement for priority) + high fetch priority. */}
+            <Image src="/hero/hero.png" alt="Sushant Rana revenue systems" width={1700} height={925} preload fetchPriority="high" sizes="98vw" className="h-auto w-full" />
+          </div>
         </section>
 
         {/* ============ GREY REGION (blurred floating logos behind everything) ============ */}
-        <div className="relative overflow-hidden bg-section">
+        {/* overflow-clip, not overflow-hidden: hidden turns this div into the
+            scroll container for position: sticky, which silently kills every
+            sticky column inside (WhoICanHelp, WhatIDo). clip crops the same. */}
+        <div className="relative overflow-clip bg-section">
           <FloatingLogos />
 
           <div className="relative z-10">

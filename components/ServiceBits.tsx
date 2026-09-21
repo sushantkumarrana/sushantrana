@@ -17,7 +17,7 @@ export function ImageBand({
     <section
       aria-labelledby={labelledBy}
       className={`relative bg-[#050505] bg-cover bg-center bg-no-repeat ${className}`}
-      style={{ backgroundImage: "url(/footer/footer-bg.png)" }}
+      style={{ backgroundImage: "url(/footer/footer-bg.webp)" }}
     >
       {/* Decoration is clipped here rather than on the <section>: an
           overflow-hidden ancestor turns into the scroll container and stops

@@ -58,7 +58,8 @@ export default function PostList({ posts }: { posts: Post[] }) {
                 alt={feature.title}
                 fill
                 sizes="(max-width: 768px) 100vw, 45vw"
-                priority
+                preload
+                fetchPriority="high"
                 className="object-cover transition duration-500 group-hover:scale-105"
               />
             </Link>
@@ -77,6 +78,7 @@ export default function PostList({ posts }: { posts: Post[] }) {
               <p className="mt-3 text-body">{feature.excerpt}</p>
               <Link
                 href={`/blog/${feature.slug}`}
+                aria-label={`Read article: ${feature.title}`}
                 className="mt-6 inline-flex items-center gap-2 font-[family-name:var(--font-display)] text-sm font-semibold text-ink transition hover:gap-3 hover:text-orange"
               >
                 Read article

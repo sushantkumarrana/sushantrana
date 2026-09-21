@@ -115,21 +115,20 @@ export default function About() {
           </div>
 
           <div className="wrap relative z-10 py-10 md:py-14">
-            <Reveal>
-              <div className="overflow-hidden rounded-3xl border border-[var(--color-line)] shadow-xl">
-                {/* First thing on the page, so this is the LCP image: priority,
-                    never lazy. */}
-                <Image
-                  src="/about/sushant-rana-speaking-ai-advertising-panel.webp"
-                  alt="Sushant Rana speaking on a panel discussion about AI in advertising, covering AI-powered Google Ads and Meta Ads"
-                  width={1600}
-                  height={900}
-                  priority
-                  sizes="(max-width: 768px) 92vw, 1160px"
-                  className="h-auto w-full"
-                />
-              </div>
-            </Reveal>
+            <div className="overflow-hidden rounded-3xl border border-[var(--color-line)] shadow-xl">
+              {/* First thing on the page, so this is the LCP image: preloaded and
+                  never wrapped in <Reveal> (opacity 0 until hydration delays LCP). */}
+              <Image
+                src="/about/sushant-rana-speaking-ai-advertising-panel.webp"
+                alt="Sushant Rana speaking on a panel discussion about AI in advertising, covering AI-powered Google Ads and Meta Ads"
+                width={1600}
+                height={900}
+                preload
+                fetchPriority="high"
+                sizes="(max-width: 768px) 92vw, 1160px"
+                className="h-auto w-full"
+              />
+            </div>
 
             {/* copy runs the full width of the image above it, not a narrower column */}
             <div className="mt-12 text-center">

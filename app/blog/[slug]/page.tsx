@@ -148,7 +148,8 @@ export default async function Page({
                   src={post.img}
                   alt={post.title}
                   fill
-                  priority
+                  preload
+                  fetchPriority="high"
                   sizes="(max-width: 1024px) 100vw, 62vw"
                   className="object-cover"
                 />

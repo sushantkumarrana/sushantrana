@@ -27,6 +27,9 @@ export type Client = {
   summary: string;
   /** Short, factual outcome. Omitted where there is no verified number. */
   result?: string;
+  /** Set once a transparent logo exists at /public/clients/<slug>-logo.png.
+   *  Without it the logo strip shows the name as text and requests nothing. */
+  logo?: boolean;
 };
 
 export const CLIENTS: Client[] = [

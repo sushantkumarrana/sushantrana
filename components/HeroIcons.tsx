@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 
 /** 4 small floating tool icons in the hero — Google Ads, Meta, Wix, GA4.

@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 
 /** Blurred tool logos drifting behind the grey sections. Decorative. */

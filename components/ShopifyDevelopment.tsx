@@ -81,12 +81,16 @@ const GET_ICONS: Record<string, LucideIcon> = {
 const STORE_PHONES = [
   {
     file: "home-1",
+    width: 560,
+    height: 14758,
     label: "Homepage",
     sub: "Store one",
     alt: "Full mobile homepage of a Shopify store designed and built by Sushant Rana",
   },
   {
     file: "home-2",
+    width: 560,
+    height: 12211,
     label: "Homepage",
     sub: "Store two",
     alt: "Full mobile homepage of a second Shopify store designed and built by Sushant Rana",
@@ -95,12 +99,16 @@ const STORE_PHONES = [
 const PRODUCT_PHONES = [
   {
     file: "product-page-1",
+    width: 560,
+    height: 10940,
     label: "Product page",
     sub: "Store one",
     alt: "Full mobile Shopify product page built by Sushant Rana, showing the gallery, variants and add to cart",
   },
   {
     file: "product-page-3",
+    width: 560,
+    height: 8550,
     label: "Product page",
     sub: "Store two",
     alt: "Second full mobile Shopify product page built by Sushant Rana, showing pricing, reviews and trust signals",
@@ -246,6 +254,8 @@ export default function ShopifyDevelopment() {
                     dark
                     src={`/services/shopify/${p.file}.webp`}
                     alt={p.alt}
+                    width={p.width}
+                    height={p.height}
                     label={p.label}
                     sub={p.sub}
                   />
@@ -265,6 +275,8 @@ export default function ShopifyDevelopment() {
                     key={p.file}
                     src={`/services/shopify/${p.file}.webp`}
                     alt={p.alt}
+                    width={p.width}
+                    height={p.height}
                     label={p.label}
                     sub={p.sub}
                   />

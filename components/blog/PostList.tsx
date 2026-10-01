@@ -55,7 +55,7 @@ export default function PostList({ posts }: { posts: Post[] }) {
             >
               <Image
                 src={feature.img}
-                alt={feature.title}
+                alt={feature.imgAlt ?? feature.title}
                 fill
                 sizes="(max-width: 768px) 100vw, 45vw"
                 preload

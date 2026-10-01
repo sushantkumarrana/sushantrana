@@ -21,7 +21,7 @@ export default function PostCard({
       <Link href={`/blog/${post.slug}`} className="relative block aspect-[16/10] overflow-hidden">
         <Image
           src={post.img}
-          alt={post.title}
+          alt={post.imgAlt ?? post.title}
           fill
           sizes={sizes}
           preload={priority}

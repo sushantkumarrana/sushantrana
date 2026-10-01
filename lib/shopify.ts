@@ -242,7 +242,9 @@ export const COMPARE_ROWS = [
 
 /* ------------------------------------------------------------- FAQs */
 
-export const SHOPIFY_FAQS: { q: string; a: string }[] = [
+/** `link` points an answer at the blog post that covers it in depth. It is
+ *  rendered under the visible answer only; the JSON-LD keeps the plain text. */
+export const SHOPIFY_FAQS: { q: string; a: string; link?: { href: string; label: string } }[] = [
   {
     q: "How long does a Shopify store build take?",
     a: "Most builds run between one and four weeks. A tightly scoped store can be live in seven to ten days, while a larger custom catalogue takes three to four weeks. You get a dated schedule before anything is agreed.",
@@ -306,6 +308,10 @@ export const SHOPIFY_FAQS: { q: string; a: string }[] = [
   {
     q: "Will my store look different from other Shopify sites?",
     a: "Yes. Nothing is reused between clients. Wireframes start from your catalogue and your customers, so the finished storefront belongs to your brand alone.",
+    link: {
+      href: "/blog/will-my-shopify-store-look-different",
+      label: "Why most Shopify stores look alike, and how to avoid it",
+    },
   },
   {
     q: "Can I edit the content myself afterwards?",

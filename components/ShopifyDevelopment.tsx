@@ -902,7 +902,20 @@ export default function ShopifyDevelopment() {
                           </svg>
                         </span>
                       </summary>
-                      <p className="px-6 pb-6 text-sm text-body">{f.a}</p>
+                      <p className="px-6 pb-6 text-sm text-body">
+                        {f.a}
+                        {f.link && (
+                          <>
+                            {" "}
+                            <Link
+                              href={f.link.href}
+                              className="font-semibold text-orange underline decoration-orange/40 underline-offset-4 transition hover:decoration-orange"
+                            >
+                              {f.link.label}
+                            </Link>
+                          </>
+                        )}
+                      </p>
                     </details>
                   </Reveal>
                 ))}

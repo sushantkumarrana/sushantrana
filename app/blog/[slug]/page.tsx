@@ -48,7 +48,7 @@ export async function generateMetadata({
       type: "article",
       publishedTime: post.date,
       authors: ["Sushant Rana"],
-      images: [{ url: post.img }],
+      images: [{ url: post.img, alt: post.imgAlt ?? post.title }],
     },
     twitter: {
       card: "summary_large_image",
@@ -146,7 +146,7 @@ export default async function Page({
                     column rather than the full viewport. */}
                 <Image
                   src={post.img}
-                  alt={post.title}
+                  alt={post.imgAlt ?? post.title}
                   fill
                   preload
                   fetchPriority="high"

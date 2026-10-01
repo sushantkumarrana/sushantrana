@@ -1,4 +1,5 @@
 import { Fragment, type ReactNode } from "react";
+import Link from "next/link";
 import { headingId, type Block } from "@/lib/prose";
 
 /**
@@ -6,7 +7,7 @@ import { headingId, type Block } from "@/lib/prose";
  * ships as static HTML and the text is in the document for crawlers.
  */
 
-/** Minimal inline markup: **bold**, *italic*, and {{fill me in}}.
+/** Minimal inline markup: **bold**, *italic*, [link](/path) and {{fill me in}}.
  *
  *  Deliberately not a markdown parser — the content is ours, so anything
  *  richer belongs in a new block type where it can be styled properly rather
@@ -16,8 +17,22 @@ import { headingId, type Block } from "@/lib/prose";
  *  address). It renders loud on purpose: a legal page that quietly ships with
  *  "[city]" in it is worse than one that shouts about it. */
 function inline(text: string): ReactNode {
-  const parts = text.split(/(\*\*[^*]+\*\*|\*[^*]+\*|\{\{[^}]+\}\})/g);
+  const parts = text.split(/(\[[^\]]+\]\([^)]+\)|\*\*[^*]+\*\*|\*[^*]+\*|\{\{[^}]+\}\})/g);
   return parts.map((p, i) => {
+    // In-body links are how posts pass authority to the service pages, so
+    // they render as real <a href> for crawlers, not click handlers.
+    const link = p.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+    if (link) {
+      return (
+        <Link
+          key={i}
+          href={link[2]}
+          className="font-semibold text-orange underline decoration-orange/40 underline-offset-4 transition hover:decoration-orange"
+        >
+          {link[1]}
+        </Link>
+      );
+    }
     if (p.startsWith("{{") && p.endsWith("}}") && p.length > 4) {
       return (
         <mark

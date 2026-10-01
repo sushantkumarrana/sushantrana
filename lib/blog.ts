@@ -28,12 +28,167 @@ export type Post = {
   /** ISO date — display strings are derived, never stored, so they can't drift. */
   date: string;
   img: string;
+  /** Describes what the image shows. Falls back to the title, which is only a
+   *  caption, so new posts should set it. */
+  imgAlt?: string;
   /** Service labels from lib/services.ts. Drives the sidebar's related links. */
   related: string[];
   body: Block[];
 };
 
 export const POSTS: Post[] = [
+  {
+    slug: "will-my-shopify-store-look-different",
+    title: "Will My Store Look Different From Other Shopify Sites?",
+    excerpt:
+      "Yes, if it is built around your brand instead of dressed up from a theme. Why Shopify stores look alike, and what it takes to make yours unmistakable.",
+    cat: "Shopify",
+    date: "2026-10-01",
+    img: "/blog/shopify-store-look-different.jpg",
+    imgAlt:
+      "A distinctive orange and cream Shopify storefront standing out from a row of identical grey template stores",
+    related: ["Shopify Store Development", "Website Maintenance"],
+    body: [
+      {
+        t: "p",
+        text: "It is one of the first questions store owners ask on a discovery call, usually with a screenshot of a competitor open in another tab. They have noticed that a lot of Shopify stores feel interchangeable, and they do not want to pay for one more.",
+      },
+      {
+        t: "p",
+        text: "The short answer is **yes, your store can look completely different from every other Shopify site**, but only if it is designed around your brand, your products and your customers rather than assembled from a theme's default layout. Shopify itself does not make stores look the same. The way most stores are built does.",
+      },
+      { t: "h2", text: "Why so many Shopify stores look the same" },
+      {
+        t: "p",
+        text: "Millions of businesses sell on Shopify, and a large share of them start from the same small pool of themes, including Dawn, the free theme every new store gets by default. A theme is a finished design with your logo dropped in. That is its whole value: it is fast and cheap because somebody else already made every decision.",
+      },
+      {
+        t: "p",
+        text: "The trouble is that thousands of other stores inherited the same decisions. Once you have browsed a few, the pattern is hard to unsee:",
+      },
+      {
+        t: "ul",
+        items: [
+          "**The same homepage running order.** Announcement bar, full-width slideshow, featured collection, image with text, newsletter sign-up. Change the photos and it is still the same page.",
+          "**The same product page.** Gallery on the left, title, price, variant pills and an add-to-cart button on the right, with the description tucked into an accordion.",
+          "**The same app widgets.** Review stars, sticky add-to-cart bars, countdown timers and pop-ups that look identical across every store that installs them.",
+          "**The same type and spacing.** Default font pairings and default margins give pages the same rhythm, even when the colours change.",
+          "**The same photography.** Supplier images and stock shots that a dozen other sellers are already using for the same product.",
+        ],
+      },
+      {
+        t: "p",
+        text: "None of this is wrong. It is simply generic, and generic is expensive in ecommerce, because a shopper who cannot tell you apart from the next store has only price left to compare.",
+      },
+      { t: "h2", text: "What actually makes a store look like your brand" },
+      {
+        t: "p",
+        text: "Changing the colours and the logo on a theme is customisation, not design. A store starts to feel like yours when the structural decisions come from your business instead of a template. In practice that means six things.",
+      },
+      { t: "h3", text: "1. A layout shaped by your catalogue" },
+      {
+        t: "p",
+        text: "A brand with eight hero products needs a very different homepage from one with four thousand SKUs. When the layout starts from what you sell and how people choose it, the page stops resembling anyone else's, because nobody else has your catalogue.",
+      },
+      { t: "h3", text: "2. A type and colour system, not a colour swap" },
+      {
+        t: "p",
+        text: "Typography does more for recognition than almost anything else on the page. A deliberate type pairing, a considered scale and a palette with rules about where each colour may appear give a store a voice that a recoloured theme never has.",
+      },
+      { t: "h3", text: "3. Art direction for photography" },
+      {
+        t: "p",
+        text: "Consistent lighting, crops, backgrounds and props make a collection page look like one brand rather than a supplier feed. It is also the cheapest way to look premium, because it is a set of rules rather than a bigger budget.",
+      },
+      { t: "h3", text: "4. Custom sections built for how you sell" },
+      {
+        t: "p",
+        text: "A size guide that lives beside the size selector, a bundle builder, an ingredient explorer, a before and after comparison. Sections designed around your buyer's actual questions are where a store moves from looking different to selling differently.",
+      },
+      { t: "h3", text: "5. Details and motion" },
+      {
+        t: "p",
+        text: "Hover states, transitions, icon style and the way the cart opens are small individually. Together they are what makes a store feel crafted rather than configured.",
+      },
+      { t: "h3", text: "6. Copy that sounds like you" },
+      {
+        t: "p",
+        text: "\"Free shipping on orders over $50\" and \"Shop the collection\" appear on half the internet. Microcopy written in your brand's voice is one of the quickest ways to stand apart, and it costs nothing in performance.",
+      },
+      {
+        t: "callout",
+        title: "Try the squint test",
+        text: "Take a screenshot of your homepage, cover the logo and blur it slightly. If a regular customer could not tell it was your store, neither can a new one, and the design is not doing its job.",
+      },
+      { t: "h2", text: "Theme, customised theme or custom build?" },
+      {
+        t: "p",
+        text: "There are three honest routes, and each one is right for somebody.",
+      },
+      {
+        t: "ul",
+        items: [
+          "**An off-the-shelf theme.** Quickest and cheapest. Good for testing a product or launching on a tight budget. Expect your store to look like the theme's demo, because that is what it is.",
+          "**A customised premium theme.** Colours, fonts and a few sections adjusted. A clear step up, but the underlying structure stays the same as every other store on that theme, and heavy customisation often means fighting the theme rather than building on it.",
+          "**A custom Shopify build.** Designed from wireframes up around your brand and coded specifically for your catalogue. Costs more up front, and it is the only route where looking different is guaranteed rather than hoped for.",
+        ],
+      },
+      {
+        t: "p",
+        text: "If you are still validating whether a product sells at all, a good theme is a sensible place to start. Once the brand is proven and you are spending real money to bring people to the store, the storefront becomes a growth asset, and a template stops being a saving.",
+      },
+      { t: "h2", text: "Will a unique design slow the store down or make it harder to edit?" },
+      {
+        t: "p",
+        text: "It should do neither, and if a developer suggests otherwise, keep asking questions.",
+      },
+      {
+        t: "p",
+        text: "Hand-written code is usually *lighter* than a multipurpose theme, because it only contains what your store uses. Big themes ship features for every possible kind of shop, and stores built on them then add apps on top to fill the gaps. A custom build skips most of that weight, which helps load times and Core Web Vitals.",
+      },
+      {
+        t: "p",
+        text: "Editability depends on how the store is built, not on whether it is custom. A store built on Online Store 2.0 with every section exposed in the theme editor lets you change wording, images, colours and buttons yourself, and add new pages from the same building blocks, without touching code.",
+      },
+      { t: "h2", text: "How we make sure your store looks like no one else's" },
+      {
+        t: "p",
+        text: "On our [custom Shopify store development](/services/shopify-store-development) projects, distinctiveness is not a finishing touch. It is built into the process from the first week:",
+      },
+      {
+        t: "ol",
+        items: [
+          "**Discovery starts with your brand, buyers and competitors**, so we know what your store needs to look different *from* before anything is drawn.",
+          "**Wireframes come from your catalogue and your customers**, not a starter layout. Nothing gets coded until you have signed off the structure and the visual design.",
+          "**Nothing is reused between clients.** Every piece of Liquid, CSS and JavaScript is written for your store, so the finished storefront belongs to your brand alone.",
+          "**Every section is editable in the theme editor**, so the store stays yours to run, and stays distinctive as you add products and pages.",
+        ],
+      },
+      { t: "h2", text: "Questions to ask any Shopify developer before you hire" },
+      {
+        t: "p",
+        text: "Whoever you work with, these five questions will tell you quickly whether you are buying a design or a theme with your logo on it.",
+      },
+      {
+        t: "ol",
+        items: [
+          "Do you start from a theme or from wireframes? If from a theme, which one, and how many of your other clients are on it?",
+          "Can I see two stores you built and tell which is which without the logos?",
+          "Which parts of the store will I be able to edit myself in the theme editor?",
+          "Which apps do you expect the store to need, and what will each one add to load time?",
+          "Who owns the code once the project is finished?",
+        ],
+      },
+      {
+        t: "quote",
+        text: "A theme gets you a store that works. A custom build gets you a store that people remember. Only one of those makes the next sale cheaper.",
+      },
+      {
+        t: "p",
+        text: "If your store looks like everybody else's and you want that to change, [tell us what you sell and where you want the brand to go](/services/shopify-store-development). You will get a plan, a fixed price and a launch date before any work starts.",
+      },
+    ],
+  },
   {
     slug: "revenue-systems-vs-marketing-campaigns",
     title:

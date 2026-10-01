@@ -84,7 +84,7 @@ export default function ReviewSlider() {
           id="reviews-heading"
           className="mx-auto mt-5 max-w-4xl text-[clamp(1.8rem,4vw,3.1rem)] font-extrabold text-ink"
         >
-          What founders say after <span className="text-orange">working with me</span>
+          What founders say after <span className="text-orange">working with us</span>
         </h2>
         <p className="mx-auto mt-4 max-w-2xl text-sm text-muted">
           Feedback written from the outcomes of each project listed on this

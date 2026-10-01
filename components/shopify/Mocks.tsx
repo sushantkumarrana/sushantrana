@@ -180,7 +180,7 @@ export function ProjectDashboard({ timeline }: { timeline: { t: string; w: strin
 
 export function GrowthPanel() {
   return (
-    <Panel title="What I watch after launch">
+    <Panel title="What we watch after launch">
       <div className="grid grid-cols-2 gap-3">
         <Stat n="Conv. rate" l="Sessions to orders" />
         <Stat n="AOV" l="Average order value" />
@@ -189,7 +189,7 @@ export function GrowthPanel() {
       </div>
       <BarChart label="The shape of a healthy trading year" />
       <p className="mt-4 text-xs leading-relaxed text-muted">
-        Every store I hand over ships with GA4 and ecommerce tracking already
+        Every store we hand over ships with GA4 and ecommerce tracking already
         connected, so these four numbers are visible from the first week instead
         of being pieced together six months later.
       </p>

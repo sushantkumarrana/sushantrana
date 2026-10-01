@@ -74,7 +74,7 @@ export const SPRINT = [
   {
     n: "01",
     t: "Discover and sketch",
-    d: "I study your brand, your buyers and your targets, then hand you wireframes and visual mockups in the first fortnight. Nothing gets coded until you sign those off.",
+    d: "We study your brand, your buyers and your targets, then hand you wireframes and visual mockups in the first fortnight. Nothing gets coded until you sign those off.",
   },
   {
     n: "02",
@@ -105,7 +105,7 @@ export const PROCESS = [
     n: "01",
     t: "Discovery and strategy",
     art: "search" as const,
-    d: "I dig into your brand, your buyers, your rivals and your targets. What comes out of that week is the blueprint every later decision points back to.",
+    d: "We dig into your brand, your buyers, your rivals and your targets. What comes out of that week is the blueprint every later decision points back to.",
     detail: [
       "Buyer and category research",
       "Competitor teardown",
@@ -130,7 +130,7 @@ export const PROCESS = [
     n: "04",
     t: "Launch and tuning",
     art: "launch" as const,
-    d: "I run the launch, watch the numbers and keep improving through the first month, so the store is stronger in week four than it was on day one.",
+    d: "We run the launch, watch the numbers and keep improving through the first month, so the store is stronger in week four than it was on day one.",
     detail: ["Managed go live", "Speed and SEO pass", "30 days of aftercare"],
   },
 ];
@@ -184,7 +184,7 @@ export const REVENUE_MACHINE = [
   },
   {
     t: "Your brand, never a template",
-    d: "A shopper should recognise your store instantly. I build something distinctive rather than dressing up a theme thousands of others already run.",
+    d: "A shopper should recognise your store instantly. We build something distinctive rather than dressing up a theme thousands of others already run.",
   },
 ];
 
@@ -194,8 +194,8 @@ export const WHY_CHOOSE = [
     d: "No page builder, no recycled template. Every piece of Liquid, CSS and JavaScript is written for your catalogue, so nothing arrives bloated with features you will never switch on.",
   },
   {
-    t: "You deal with me, not a queue",
-    d: "There is no account manager passing your notes to a team you never meet. The person you brief is the person writing the code.",
+    t: "A full stack team, one point of contact",
+    d: "Designers and Shopify developers build your store, while you brief me directly and I stay on the project from kickoff to launch. No account manager relaying your notes.",
   },
   {
     t: "A month of aftercare",
@@ -206,7 +206,7 @@ export const WHY_CHOOSE = [
 export const COMPETITIVE_EDGE = [
   {
     t: "Current, not dated",
-    d: "I pick up new tooling early, from AI assistants to modern front end patterns, so your store does not feel three years old the month it launches.",
+    d: "We pick up new tooling early, from AI assistants to modern front end patterns, so your store does not feel three years old the month it launches.",
   },
   {
     t: "Fewer manual hours",
@@ -232,7 +232,7 @@ export const COMPARE_ROWS = [
   { label: "Cost", me: "Quoted upfront", freelancer: "Hard to predict", agency: "Three to five times higher" },
   { label: "Pricing model", me: "Fixed project fee", freelancer: "Billed by the hour", agency: "Ongoing retainer" },
   { label: "Start of work", me: "Inside 48 hours", freelancer: "A week or two of waiting", agency: "Two to four week queue" },
-  { label: "Turnaround", me: "One to four weeks", freelancer: "Rarely predictable", agency: "Eight to sixteen weeks" },
+  { label: "Turnaround", me: "Four to six weeks", freelancer: "Rarely predictable", agency: "Eight to sixteen weeks" },
   { label: "Code", me: "Written by hand", freelancer: "Quality varies", agency: "Usually template based" },
   { label: "Performance", me: "Tuned before launch", freelancer: "Inconsistent", agency: "Middling" },
   { label: "Theme editor support", me: "Every section editable", freelancer: "Partial", agency: "Basics only" },
@@ -247,7 +247,7 @@ export const COMPARE_ROWS = [
 export const SHOPIFY_FAQS: { q: string; a: string; link?: { href: string; label: string } }[] = [
   {
     q: "How long does a Shopify store build take?",
-    a: "Most builds run between one and four weeks. A tightly scoped store can be live in seven to ten days, while a larger custom catalogue takes three to four weeks. You get a dated schedule before anything is agreed.",
+    a: "Most builds take four to six weeks: discovery in week one, design by week two, development through week five, then testing and launch in week six. You get a dated schedule before anything is agreed.",
   },
   {
     q: "What does the price cover?",
@@ -263,7 +263,7 @@ export const SHOPIFY_FAQS: { q: string; a: string; link?: { href: string; label:
   },
   {
     q: "What if I need changes once the store is live?",
-    a: "The first thirty days cover fixes and small adjustments at no cost. Beyond that I work either on a monthly retainer or task by task, whichever suits you.",
+    a: "The first thirty days cover fixes and small adjustments at no cost. Beyond that we work either on a monthly retainer or task by task, whichever suits you.",
   },
   {
     q: "How does payment work?",
@@ -271,11 +271,11 @@ export const SHOPIFY_FAQS: { q: string; a: string; link?: { href: string; label:
   },
   {
     q: "Will you sign an NDA?",
-    a: "Yes. Send yours across before we talk specifics, or use mine if that is easier.",
+    a: "Yes. Send yours across before we talk specifics, or use ours if that is easier.",
   },
   {
     q: "Can I see examples of stores you have built?",
-    a: "Yes. On the discovery call I walk you through relevant projects and live links, so you can judge the work rather than take my word for it.",
+    a: "Yes. On the discovery call we walk you through relevant projects and live links, so you can judge the work rather than take our word for it.",
   },
   {
     q: "How quickly do you respond to support requests?",
@@ -287,11 +287,11 @@ export const SHOPIFY_FAQS: { q: string; a: string; link?: { href: string; label:
   },
   {
     q: "What if I am unhappy with the result?",
-    a: "Then it is not finished. I would rather return to the drawing board than hand over a storefront you would hesitate to share.",
+    a: "Then it is not finished. We would rather return to the drawing board than hand over a storefront you would hesitate to share.",
   },
   {
     q: "Do you handle putting the store live?",
-    a: "Yes. The new theme goes up as a duplicate for review first, then goes live while you watch, and I stay reachable for the following day.",
+    a: "Yes. The new theme goes up as a duplicate for review first, then goes live while you watch, and we stay reachable for the following day.",
   },
   {
     q: "How will we communicate during the project?",
@@ -319,7 +319,7 @@ export const SHOPIFY_FAQS: { q: string; a: string; link?: { href: string; label:
   },
   {
     q: "What if I want to add products or new sections later?",
-    a: "The store is built on Online Store 2.0 with reusable sections, so you can add products, collections and pages yourself. Bring me back only when you want something genuinely new built.",
+    a: "The store is built on Online Store 2.0 with reusable sections, so you can add products, collections and pages yourself. Bring us back only when you want something genuinely new built.",
   },
   {
     q: "Can you move my products across from another platform?",
@@ -327,7 +327,7 @@ export const SHOPIFY_FAQS: { q: string; a: string; link?: { href: string; label:
   },
   {
     q: "Which apps will I actually need?",
-    a: "Only the ones that earn their place. I suggest a short, deliberate stack for reviews, email and retention, set it up correctly, and leave the rest out so the store stays fast.",
+    a: "Only the ones that earn their place. We suggest a short, deliberate stack for reviews, email and retention, set it up correctly, and leave the rest out so the store stays fast.",
   },
 ];
 

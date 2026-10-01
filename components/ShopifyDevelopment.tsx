@@ -295,7 +295,7 @@ export default function ShopifyDevelopment() {
               </h2>
               <p className="mt-5 max-w-xl text-body">
                 A product page is where the decision actually happens. Each one
-                I build answers the question a shopper is holding at that exact
+                we build answers the question a shopper is holding at that exact
                 moment, then puts the next step directly under their thumb.
               </p>
               <ul className="mt-7 grid list-none gap-3.5">
@@ -330,7 +330,7 @@ export default function ShopifyDevelopment() {
                   </h2>
                   <p className="mt-5 max-w-xl text-body">
                     Most shoppers judge a product before they ever open its
-                    page. The cards I build carry the variant picker, the price,
+                    page. The cards we build carry the variant picker, the price,
                     the proof and the add to cart button, so a decision can be
                     made straight from the grid.
                   </p>
@@ -496,7 +496,7 @@ export default function ShopifyDevelopment() {
                     id="work-heading"
                     className="mx-auto mt-5 max-w-5xl text-[clamp(1.8rem,4vw,3.1rem)] font-extrabold text-ink"
                   >
-                    Storefronts I have <span className="text-orange">built and rebuilt</span>
+                    Storefronts we have <span className="text-orange">built and rebuilt</span>
                   </h2>
                   <p className="mx-auto mt-5 max-w-2xl text-lg text-muted">
                     Recent Shopify and ecommerce builds drifting past. Hover to pause on one.
@@ -625,13 +625,13 @@ export default function ShopifyDevelopment() {
           <div className="wrap py-20 md:py-28">
             <div className="text-center">
               <Reveal>
-                <Tag light>Why me</Tag>
+                <Tag light>Why us</Tag>
                 <h2
                   id="machine-heading"
                   className="mx-auto mt-5 max-w-4xl text-[clamp(1.8rem,4vw,3.1rem)] font-extrabold text-white"
                 >
-                  I do not hand over websites.{" "}
-                  <span className="text-orange-300">I hand over selling machines.</span>
+                  We do not hand over websites.{" "}
+                  <span className="text-orange-300">We hand over selling machines.</span>
                 </h2>
                 <p className="mx-auto mt-5 max-w-2xl text-white/75">
                   Plenty of studios will give you something handsome. What you
@@ -659,16 +659,16 @@ export default function ShopifyDevelopment() {
         {/* ================= GREY REGION 3 ================= */}
         <div className="relative bg-section">
           <div className="relative z-10">
-            {/* ---- why founders choose me ---- */}
+            {/* ---- why founders choose us ---- */}
             <section className="section" aria-labelledby="choose-heading">
               <div className="wrap-wide text-center">
                 <Reveal>
-                  <span className="script-label">Why founders choose me</span>
+                  <span className="script-label">Why founders choose us</span>
                   <h2
                     id="choose-heading"
                     className="mx-auto mt-5 max-w-5xl text-[clamp(1.8rem,4vw,3.1rem)] font-extrabold text-ink"
                   >
-                    Why founders hand me{" "}
+                    Why founders hand us{" "}
                     <span className="text-orange">their Shopify stores</span>
                   </h2>
                   <p className="mx-auto mt-5 max-w-2xl text-lg text-muted">
@@ -699,15 +699,15 @@ export default function ShopifyDevelopment() {
                       className="pointer-events-none absolute left-1/2 top-0 h-64 w-64 -translate-x-1/2 rounded-full bg-orange/40 blur-[100px]"
                     />
                     <div className="relative">
-                      <Tag light>My commitment</Tag>
+                      <Tag light>Our commitment</Tag>
                       <h3 className="mx-auto mt-5 max-w-3xl text-[clamp(1.4rem,3vw,2.2rem)] font-extrabold text-white">
-                        If the new storefront does not beat the one you have, I
+                        If the new storefront does not beat the one you have, we
                         keep working until it does.
                       </h3>
                       <p className="mx-auto mt-4 max-w-2xl text-white/75">
                         Quicker pages, a cleaner experience on a phone and a
                         shorter path to checkout. That is the bar the build has
-                        to clear before I call it finished.
+                        to clear before we call it finished.
                       </p>
                       <div className="mt-8 flex flex-wrap justify-center gap-3">
                         <a href="#contact" className="btn btn-primary">
@@ -765,7 +765,7 @@ export default function ShopifyDevelopment() {
                     id="compare-heading"
                     className="mx-auto mt-5 max-w-5xl text-[clamp(1.8rem,4vw,3.1rem)] font-extrabold text-ink"
                   >
-                    Working with me, a freelancer,{" "}
+                    Working with my team, a freelancer,{" "}
                     <span className="text-orange">or an agency</span>
                   </h2>
                 </Reveal>
@@ -777,7 +777,7 @@ export default function ShopifyDevelopment() {
                     <table className="w-full border-collapse text-left sm:min-w-[640px]">
                       <caption className="sr-only">
                         Cost, timeline, code quality, support and ownership compared across
-                        Sushant Rana, a freelancer and an agency
+                        Sushant Rana&apos;s Shopify team, a freelancer and an agency
                       </caption>
                       <thead>
                         <tr className="border-b border-[var(--color-line)]">
@@ -788,7 +788,7 @@ export default function ShopifyDevelopment() {
                             scope="col"
                             className="border-b-2 border-orange bg-orange/10 px-2 py-3 text-center font-[family-name:var(--font-display)] text-[13px] font-extrabold text-orange sm:px-5 sm:py-4 sm:text-base"
                           >
-                            Sushant Rana
+                            Sushant Rana &amp; Team
                           </th>
                           <th
                             scope="col"

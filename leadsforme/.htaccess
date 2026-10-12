@@ -3,6 +3,10 @@ Options -Indexes
 DirectoryIndex index.php
 
 RewriteEngine On
+# Only on its own subdomain, never as sushantrana.com/leadsforme/. Must live
+# here: this file's RewriteEngine stops the parent's rules applying.
+RewriteCond %{HTTP_HOST} !^leadsforme\. [NC]
+RewriteRule ^ - [F,L]
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
 

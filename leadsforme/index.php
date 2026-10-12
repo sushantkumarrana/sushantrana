@@ -118,6 +118,7 @@ $f = [
     'channel' => (string) ($_GET['channel'] ?? ''),
     'form' => (string) ($_GET['form'] ?? ''),
     'status' => (string) ($_GET['status'] ?? ''),
+    'campaign' => (string) ($_GET['campaign'] ?? ''),
     'from' => (string) ($_GET['from'] ?? ''),
     'to' => (string) ($_GET['to'] ?? ''),
 ];
@@ -127,8 +128,8 @@ if ($f['q'] !== '') {
     $where[] = '(name LIKE ? OR email LIKE ? OR phone LIKE ? OR business LIKE ? OR message LIKE ?)';
     array_push($args, ...array_fill(0, 5, '%' . $f['q'] . '%'));
 }
-foreach (['channel', 'form', 'status'] as $k) {
-    if ($f[$k] !== '') { $where[] = "$k = ?"; $args[] = $f[$k]; }
+foreach (['channel' => 'channel', 'form' => 'form', 'status' => 'status', 'campaign' => 'utm_campaign'] as $k => $col) {
+    if ($f[$k] !== '') { $where[] = "$col = ?"; $args[] = $f[$k]; }
 }
 $istToUtc = fn(string $d, string $t) => (new DateTime("$d $t", new DateTimeZone(TZ)))->setTimezone(new DateTimeZone('UTC'))->format('c');
 if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $f['from'])) { $where[] = 'created_at >= ?'; $args[] = $istToUtc($f['from'], '00:00:00'); }
@@ -166,6 +167,7 @@ $rows = $st->fetchAll();
 
 $byChannel = $db->query('SELECT channel, COUNT(*) n FROM leads GROUP BY channel ORDER BY n DESC')->fetchAll();
 $channels = array_column($byChannel, 'channel');
+$campaigns = $db->query('SELECT DISTINCT utm_campaign FROM leads WHERE utm_campaign IS NOT NULL ORDER BY utm_campaign')->fetchAll(PDO::FETCH_COLUMN);
 $all = array_sum(array_column($byChannel, 'n'));
 $qs = fn(array $over) => http_build_query(array_filter(array_merge($f, $over), fn($v) => $v !== '' && $v !== null));
 $back = $qs(['p' => $page > 1 ? $page : '']);
@@ -191,6 +193,9 @@ ob_start(); ?>
   <select name="form" aria-label="Form"><option value="">All forms</option>
     <?php foreach (['consultation', 'shopify_store_development', 'website_maintenance'] as $v): ?><option value="<?= $v ?>"<?= $f['form'] === $v ? ' selected' : '' ?>><?= $formLabel($v) ?></option><?php endforeach; ?>
   </select>
+  <select name="campaign" aria-label="Campaign"><option value="">All campaigns</option>
+    <?php foreach ($campaigns as $c): ?><option<?= $f['campaign'] === $c ? ' selected' : '' ?>><?= $h($c) ?></option><?php endforeach; ?>
+  </select>
   <select name="status" aria-label="Status"><option value="">Any status</option>
     <?php foreach (LEAD_STATUSES as $s): ?><option<?= $f['status'] === $s ? ' selected' : '' ?>><?= $s ?></option><?php endforeach; ?>
   </select>
@@ -207,14 +212,15 @@ ob_start(); ?>
   <p class="empty">No leads yet<?= $where ? ' for these filters' : '' ?>.</p>
 <?php else: ?>
 <div class="table">
-  <div class="row head"><div>Received</div><div>Lead</div><div>Project</div><div>Came from</div><div>Status</div></div>
+  <div class="row head"><div>Received</div><div>Lead</div><div>Project</div><div>Came from</div><div>Campaign</div><div>Status</div></div>
   <?php foreach ($rows as $r): ?>
   <details class="row-wrap">
     <summary class="row">
       <div><?= $h($ist($r['created_at'])) ?></div>
       <div><strong><?= $h($r['name']) ?></strong><br><span class="muted"><?= $h($r['email']) ?> · <?= $h($r['phone']) ?></span></div>
       <div><?= $h($r['service'] ?: '—') ?><br><span class="muted"><?= $h($formLabel($r['form'])) ?> · <?= $h($r['page']) ?></span></div>
-      <div><span class="chip"><?= $h($r['channel']) ?></span><?php if ($r['utm_campaign']): ?><br><span class="muted"><?= $h($r['utm_campaign']) ?></span><?php endif; ?></div>
+      <div><span class="chip"><?= $h($r['channel']) ?></span></div>
+      <div><?= $r['utm_campaign'] ? '<strong>' . $h($r['utm_campaign']) . '</strong>' : '<span class="muted">—</span>' ?><?php if ($r['utm_content'] || $r['utm_term']): ?><br><span class="muted"><?= $h(implode(' · ', array_filter([$r['utm_content'], $r['utm_term']]))) ?></span><?php endif; ?></div>
       <div><span class="st st-<?= $h($r['status']) ?>"><?= $h($r['status']) ?></span></div>
     </summary>
     <div class="detail">
@@ -325,7 +331,7 @@ code{background:var(--o-soft);padding:1px 5px;border-radius:5px}
 .filters{display:flex;flex-wrap:wrap;gap:8px;align-items:end;margin-bottom:10px}
 .filters input[type=search]{flex:1 1 240px}.filters label{font-weight:500}
 .table{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
-.row{display:grid;grid-template-columns:150px 1.4fr 1.3fr 1fr 100px;gap:12px;padding:12px 16px;align-items:start;font-size:14px}
+.row{display:grid;grid-template-columns:140px 1.4fr 1.2fr 1fr 1fr 96px;gap:12px;padding:12px 16px;align-items:start;font-size:14px}
 .head{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);border-bottom:1px solid var(--line)}
 .row-wrap{border-bottom:1px solid var(--line)}.row-wrap:last-child{border-bottom:0}
 summary.row{cursor:pointer;list-style:none}summary.row::-webkit-details-marker{display:none}summary.row:hover{background:var(--o-soft)}

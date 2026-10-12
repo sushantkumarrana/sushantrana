@@ -41,5 +41,5 @@ RedirectMatch 404 ^/(dev|supabase|_originals|\.claude|\.git)(/|$)
 
 # The leads panel lives only on its own subdomain.
 RewriteCond %{HTTP_HOST} !^leadsforme\. [NC]
-RewriteRule ^leadsforme(/|$) - [R=404,L]
+RewriteRule ^leadsforme(/|$) - [F,L]
 RedirectMatch 404 \.md$

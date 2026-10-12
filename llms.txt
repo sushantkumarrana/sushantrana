@@ -1,0 +1,26 @@
+# Sushant Rana
+
+> Business growth consultant building revenue systems, not just marketing campaigns: strategy, performance marketing (Google Ads, Meta Ads), SEO, CRM and AI automation, and website development. Running digital marketing since 2017 for brands across India, the UAE, Canada, Switzerland and the USA. Based in Chandigarh, India.
+
+## Pages
+
+- [Home](https://sushantrana.com): Overview of services, results and client work.
+- [About](https://sushantrana.com/about): Background, experience and the brands Sushant has worked with.
+
+## Services
+
+- [Shopify Store Development](https://sushantrana.com/services/shopify-store-development): New stores, redesigns, theme development and migrations, delivered in 4-6 weeks.
+- [Website Maintenance](https://sushantrana.com/services/website-maintenance): Maintenance plans from ₹18,000/year for WordPress, Shopify, Wix, Webflow, Framer and custom sites.
+
+## Blog
+
+- [Blog](https://sushantrana.com/blog): Articles on revenue systems, lead quality and practical AI automation.
+- [Will My Store Look Different From Other Shopify Sites?](https://sushantrana.com/blog/will-my-shopify-store-look-different): Yes, if it is built around your brand instead of dressed up from a theme. Why Shopify stores look alike, and what it takes to make yours unmistakable.
+- [Revenue Systems vs Marketing Campaigns: Why One Compounds and the Other Expires](https://sushantrana.com/blog/revenue-systems-vs-marketing-campaigns): Campaigns end. Systems compound. The structural difference between businesses that grow predictably and businesses that buy growth one month at a time.
+- [Lead Quality Over Lead Volume: The Metric Shift That Changes Everything](https://sushantrana.com/blog/lead-quality-over-lead-volume): A thousand leads that never answer the phone cost more than a hundred that do. How to rebuild campaigns around qualified conversations instead of form fills.
+- [Practical AI Automation for Businesses That Don't Have a Data Team](https://sushantrana.com/blog/practical-ai-automation-without-a-data-team): You don't need ML engineers. You need five workflows: lead scoring, follow-up, reporting, routing, and reactivation — built on the CRM you already pay for.
+
+## Optional
+
+- [Privacy Policy](https://sushantrana.com/privacy-policy)
+- [Terms and Conditions](https://sushantrana.com/terms-and-conditions)

@@ -1,5 +1,11 @@
-<!-- BEGIN:nextjs-agent-rules -->
-# This is NOT the Next.js you know
+# sushantrana.com — plain HTML/CSS/JS + PHP
 
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
-<!-- END:nextjs-agent-rules -->
+No Node.js, no React, no build step. Edit the files directly; what is in this
+repo is exactly what runs on the live site. Read `README.md` for the folder
+map, deploy steps and editing rules.
+
+- Pages: one folder per URL with an `index.html` (`about/index.html`, `blog/<slug>/index.html` …).
+- Styling: `assets/css/style.css`. Interactivity and animations: `assets/js/site.js`.
+- Lead forms post to `api/lead.php`. Keys live in `api/config.php` (git-ignored).
+- Local preview: `php -S localhost:8090 dev/router.php` from the repo root.
+- `.htaccess` hides `dev/`, `supabase/`, `.claude/` and every `.md` file from visitors.

@@ -2,10 +2,16 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "sushantrana-next",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
-      "port": 3000
+      "name": "sushantrana",
+      "runtimeExecutable": "php",
+      "runtimeArgs": [
+        "-S",
+        "localhost:8090",
+        "-t",
+        "/Users/sushantrana/Sushant/sushantrana-next",
+        "/Users/sushantrana/Sushant/sushantrana-next/dev/router.php"
+      ],
+      "port": 8090
     }
   ]
 }

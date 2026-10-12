@@ -1,0 +1,10 @@
+# Secrets file: PHP would run it and print nothing, but never serve it at all.
+<Files "config.php">
+  Require all denied
+</Files>
+<Files "config.sample.php">
+  Require all denied
+</Files>
+<FilesMatch "^(catalog|lead-email)\.php$">
+  Require all denied
+</FilesMatch>

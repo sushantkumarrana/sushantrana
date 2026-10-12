@@ -15,6 +15,34 @@
   const split = (s) => (s || "").split(/\s+/).filter(Boolean);
   const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
 
+  /* ---- where this visitor came from (sent with every lead) ----
+   * Kept from the first page of the visit for 90 days; a new ad click or
+   * campaign link replaces it, so the lead is credited to the latest one. */
+  const ATTR_KEY = "sr_attr";
+  const ATTR_PARAMS = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "gclid", "gbraid", "wbraid", "fbclid"];
+  const attribution = (() => {
+    let saved = null;
+    try {
+      saved = JSON.parse(localStorage.getItem(ATTR_KEY) || "null");
+    } catch {
+      /* storage blocked: attribute this page view only */
+    }
+    if (saved && Date.now() - saved.t > 90 * 864e5) saved = null;
+    const q = new URLSearchParams(location.search);
+    const tagged = ATTR_PARAMS.some((k) => q.get(k));
+    const ref = document.referrer && new URL(document.referrer).host !== location.host ? document.referrer : "";
+    if (saved && !tagged) return saved;
+    const a = { t: Date.now(), landing_page: location.pathname + location.search, referrer: ref };
+    ATTR_PARAMS.forEach((k) => q.get(k) && (a[k] = q.get(k)));
+    a.gclid = a.gclid || a.gbraid || a.wbraid || "";
+    try {
+      localStorage.setItem(ATTR_KEY, JSON.stringify(a));
+    } catch {
+      /* fine: still sent with a form on this page */
+    }
+    return a;
+  })();
+
   /** Replace one class set with another. */
   const cls = (el, add, remove) => {
     split(remove).forEach((c) => el.classList.remove(c));
@@ -581,11 +609,11 @@
     });
   }
 
-  async function postLead(payload) {
+  async function postLead(payload, form) {
     const res = await fetch("/api/lead.php", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...payload, sourcePath: location.pathname }),
+      body: JSON.stringify({ ...payload, form, attribution, sourcePath: location.pathname }),
     });
     const data = await res.json().catch(() => ({}));
     return { ok: res.ok && data.ok, data };
@@ -658,7 +686,7 @@
           enquiryType: str("enquiryType"),
           message: fd.get("message"),
           company_website: str("company_website"),
-        });
+        }, "consultation");
         if (!ok) {
           const msg = data.error || "Could not send. Please try again.";
           data.field === "email" || data.field === "phone" ? note(form, data.field, msg) : formError(form, msg);
@@ -1010,7 +1038,10 @@
       if (kind === "maintenance" && !(await rules.finalCheck())) return done();
 
       try {
-        const { ok, data } = await postLead(rules.payload());
+        const { ok, data } = await postLead(
+          rules.payload(),
+          kind === "shopify" ? "shopify_store_development" : "website_maintenance"
+        );
         if (!ok) {
           const msg = data.error || "Could not send. Please try again.";
           if (data.field === "email" || data.field === "phone") {

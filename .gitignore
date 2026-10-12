@@ -4,3 +4,4 @@ api/config.php
 # misc
 .DS_Store
 _originals/
+.data/

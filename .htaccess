@@ -38,4 +38,8 @@ RewriteRule ^services/website-maintenance/thank-you/?$ /thank-you-website-mainte
 # Repo files that are not part of the site (notes, local dev router, DB
 # migrations) — the whole repo is deployed, so hide them from visitors.
 RedirectMatch 404 ^/(dev|supabase|_originals|\.claude|\.git)(/|$)
+
+# The leads panel lives only on its own subdomain.
+RewriteCond %{HTTP_HOST} !^leadsforme\. [NC]
+RewriteRule ^leadsforme(/|$) - [R=404,L]
 RedirectMatch 404 \.md$

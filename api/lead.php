@@ -16,6 +16,7 @@ header('Cache-Control: no-store');
 
 require __DIR__ . '/catalog.php';
 require __DIR__ . '/lead-email.php';
+require __DIR__ . '/leads-db.php';
 
 $config = is_file(__DIR__ . '/config.php') ? require __DIR__ . '/config.php' : [];
 $cfg = fn(string $k) => $config[$k] ?? getenv($k) ?: '';
@@ -58,6 +59,15 @@ $phone = $clean('phone', 40);
 $business = $clean('business', 200);
 $message = $clean('message', 4000);
 $sourcePath = $clean('sourcePath', 300) ?: '/';
+$form = preg_replace('/[^a-z_]/', '', $clean('form', 40));
+
+// First-touch attribution the browser kept since landing (site.js, sr_attr).
+$attrIn = is_array($body['attribution'] ?? null) ? $body['attribution'] : [];
+$attr = [];
+foreach (['landing_page', 'referrer', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'fbclid'] as $k) {
+    $attr[$k] = is_string($attrIn[$k] ?? null) ? mb_substr(trim($attrIn[$k]), 0, 300) : '';
+}
+$channel = lead_channel($attr);
 
 // Allow-list both dropdowns: an unknown value means a tampered payload.
 $service = $clean('service', 120);
@@ -131,9 +141,28 @@ if ($url && $key) {
     error_log('[lead] Supabase config missing — relying on email');
 }
 
+// The panel's own copy, with where the lead came from.
+try {
+    $nul = fn(string $v) => $v === '' ? null : $v;
+    leads_db()->prepare(
+        'INSERT INTO leads (created_at, form, name, email, phone, business, service, enquiry_type, message, page,
+            landing_page, referrer, channel, utm_source, utm_medium, utm_campaign, utm_term, utm_content, gclid, fbclid, user_agent)
+         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
+    )->execute([
+        gmdate('c'), $nul($form), $name, $email, $phoneE164, $nul($business), $nul($service), $nul($enquiryType), $nul($message), $sourcePath,
+        $nul($attr['landing_page']), $nul($attr['referrer']), $channel, $nul($attr['utm_source']), $nul($attr['utm_medium']),
+        $nul($attr['utm_campaign']), $nul($attr['utm_term']), $nul($attr['utm_content']), $nul($attr['gclid']), $nul($attr['fbclid']),
+        mb_substr($_SERVER['HTTP_USER_AGENT'] ?? '', 0, 300) ?: null,
+    ]);
+    $stored = true;
+    leads_purge();
+} catch (Throwable $e) {
+    error_log('[lead] panel insert failed: ' . $e->getMessage());
+}
+
 /* ---- notify ---- */
 $to = $cfg('LEAD_NOTIFY_TO') ?: 'me@sushantrana.com';
-$d = compact('name', 'email', 'business', 'service', 'typeLabel', 'enquiryType', 'message', 'sourcePath') + [
+$d = compact('name', 'email', 'business', 'service', 'typeLabel', 'enquiryType', 'message', 'sourcePath', 'channel') + [
     'phone' => $phoneE164,
     'receivedAt' => $received,
 ];

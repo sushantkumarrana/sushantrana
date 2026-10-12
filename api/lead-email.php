@@ -49,7 +49,8 @@ function lead_email_html(array $d): string
     $rows = e_row('Email', '<a href="mailto:' . esc($d['email']) . '" style="color:' . $o . ';text-decoration:none;">' . esc($d['email']) . '</a>')
         . e_row('Phone', '<a href="' . esc($tel) . '" style="color:' . $o . ';text-decoration:none;">' . esc($d['phone']) . '</a>')
         . e_row('Business', $d['business'] !== '' ? esc($d['business']) : '<span style="color:' . $muted . ';">&mdash;</span>')
-        . e_row('Wants', esc($d['typeLabel']), true);
+        . e_row('Wants', esc($d['typeLabel']))
+        . e_row('Came from', esc($d['channel'] ?? 'Direct'), true);
 
     $buttons = e_button('mailto:' . $d['email'], 'Reply', $o, '#ffffff')
         . e_button($tel, 'Call', '#f1f1f1', $ink)
@@ -120,6 +121,7 @@ function lead_email_text(array $d): string
         $d['message'] ?: '(none)',
         '',
         'Page:     ' . ($d['sourcePath'] ?: '/'),
+        'Source:   ' . ($d['channel'] ?? 'Direct'),
         "Received: {$d['receivedAt']}",
     ]);
 }

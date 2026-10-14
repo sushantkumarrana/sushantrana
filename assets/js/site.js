@@ -993,9 +993,73 @@
       sending: "Sending…",
     };
 
-    const rules = kind === "shopify" ? shopify : maintenance;
+    /* Service pages: one form, driven by markup. The root carries
+       data-form-name, data-service and data-thanks; step 1 is the same
+       contact block as the Shopify form; a [data-field][data-req] box in a
+       later step must be answered. Every later box is sent as "Label: value". */
+    const boxes = () => steps.slice(1).flatMap((s) => $$("[data-field]", s));
+    const answers = (b) =>
+      $$("input, select, textarea", b)
+        .filter((i) => (i.type === "checkbox" || i.type === "radio" ? i.checked : i.value.trim()))
+        .map((i) => i.value.trim());
+    const labelOf = (b) => $("span", b).textContent.replace("*", "").trim();
+    const required = (n) => {
+      const missing = $$("[data-req]", steps[n]).filter((b) => !answers(b).length);
+      missing.forEach((b) => note(form, b.dataset.field, "Please answer this."));
+      return !missing.length;
+    };
 
-    if (kind === "shopify") {
+    const generic = {
+      validate: (n) => (n === 0 ? shopify.validate(0) : required(n)),
+      busyNext: true,
+      finalCheck: () => required(steps.length - 1),
+      payload() {
+        const message = boxes()
+          .map((b) => answers(b).length && `${labelOf(b)}: ${answers(b).join(", ")}`)
+          .filter(Boolean)
+          .join("\n");
+        return {
+          name: val("name"),
+          email: val("email"),
+          phone: val("phone"),
+          phoneCountry: select.value,
+          business: val("company"),
+          // a page may let the visitor pick the service (contact, strategy call)
+          service: val("service") || root.dataset.service,
+          enquiryType: root.dataset.enquiry || "service",
+          message,
+          company_website: val("website"),
+        };
+      },
+      success() {
+        const name = root.dataset.formName;
+        const fields = { company: val("company") };
+        boxes().forEach((b) => (fields[b.dataset.field] = answers(b)));
+        const phone = `+${dialOf(select)}${val("phone").replace(/\D/g, "")}`;
+        pushLead(name, fields, { name: val("name"), email: val("email"), phone });
+        const filled = boxes().filter((b) => answers(b).length);
+        saveLead(`lead-${name}`, {
+          name: val("name"), email: val("email"), phone, company: val("company"),
+          answers: filled.map((b) => [labelOf(b), answers(b).join(", ")]),
+        });
+        location.href = root.dataset.thanks;
+      },
+      fieldStep: 0,
+      sending: "Sending…",
+    };
+
+    const rules = kind === "shopify" ? shopify : kind === "maintenance" ? maintenance : generic;
+
+    if (kind === "generic") {
+      ["name", "email", "phone", "company"].forEach((n) => clearOn(n));
+      const clear = (e) => {
+        const b = e.target.closest("[data-field]");
+        if (b && b.closest("[data-step]") !== steps[0]) note(form, b.dataset.field, null);
+        formError(form, null);
+      };
+      form.addEventListener("input", clear);
+      form.addEventListener("change", clear);
+    } else if (kind === "shopify") {
       ["name", "email", "phone", "company", "service", "platform", "revenue", "timeline", "budget"].forEach((n) => clearOn(n));
     } else {
       ["platform", "name", "email", "phone"].forEach((n) => clearOn(n));
@@ -1027,7 +1091,7 @@
       if (busy) return;
       // Enter inside an earlier step means "Next", not "send".
       if (step < steps.length - 1) return next.click();
-      if (kind === "shopify" && !(await rules.finalCheck())) return;
+      if (kind !== "maintenance" && !(await rules.finalCheck())) return;
       busy = true;
       busyBtn(submit, true, rules.sending);
       formError(form, null);
@@ -1040,7 +1104,7 @@
       try {
         const { ok, data } = await postLead(
           rules.payload(),
-          kind === "shopify" ? "shopify_store_development" : "website_maintenance"
+          kind === "shopify" ? "shopify_store_development" : kind === "maintenance" ? "website_maintenance" : root.dataset.formName
         );
         if (!ok) {
           const msg = data.error || "Could not send. Please try again.";
@@ -1099,12 +1163,14 @@
         if (!t || t.closest("[data-modal-panel]")) return;
         const href = t.getAttribute("href") || "";
         const txt = (t.textContent || "").trim().toLowerCase();
+        // data-no-popup: a real link (e.g. contact page -> booking page)
         const hit =
-          t.hasAttribute("data-consult") ||
+          !t.hasAttribute("data-no-popup") &&
+          (t.hasAttribute("data-consult") ||
           href === "#contact" ||
           href.startsWith("/contact") ||
           txt.startsWith("book") ||
-          (quote && (t.hasAttribute("data-quote") || txt.startsWith("get your free")));
+          (quote && (t.hasAttribute("data-quote") || txt.startsWith("get your free"))));
         if (!hit) return;
         e.preventDefault();
         e.stopPropagation();
@@ -1250,7 +1316,8 @@
 
     const render = () => {
       walk.style.transform = `translateX(calc(${progress} * (100% - 130px)))`;
-      fill.style.width = `calc(${progress} * 75%)`;
+      // the track runs between the first and last dot: (n-1)/n of the row
+      fill.style.width = `calc(${progress} * ${(100 * (n - 1)) / n}%)`;
       const a = clamp(Math.floor(progress * n), 0, n - 1);
       if (a === active) return;
       active = a;
@@ -1295,6 +1362,30 @@
     addEventListener("resize", onScroll);
     render();
     onScroll();
+  });
+
+  /* ------------------------------------------ service pages: live demos */
+
+  // An input whose text is copied into every [data-mirror-out] of the same name.
+  $$("[data-mirror]").forEach((input) => {
+    const outs = $$(`[data-mirror-out="${input.dataset.mirror}"]`);
+    const paint = () => outs.forEach((o) => (o.textContent = input.value.trim() || input.placeholder));
+    input.addEventListener("input", paint);
+    paint();
+  });
+
+  // Self check: ticked boxes fill the meter and pick one of three messages.
+  $$("[data-leaks]").forEach((box) => {
+    const checks = $$("input[type=checkbox]", box);
+    const paint = () => {
+      const n = checks.filter((c) => c.checked).length;
+      const level = n === 0 ? 0 : n <= checks.length / 2 ? 1 : 2;
+      $("[data-leak-count]", box).textContent = n;
+      $("[data-leak-bar]", box).style.width = `${(n / checks.length) * 100}%`;
+      $$("[data-leak-msg]", box).forEach((m) => (m.hidden = +m.dataset.leakMsg !== level));
+    };
+    checks.forEach((c) => c.addEventListener("change", paint));
+    paint();
   });
 
   /* ---------------------------------------------- prices in local money */
@@ -1347,6 +1438,52 @@
   }
 
   /* ------------------------------------- thank-you pages → WhatsApp */
+
+  // Service pages: same hand-off, the answers come from the generic form.
+  const gw = $("[data-wa-generic]");
+  if (gw) {
+    const key = `lead-${gw.dataset.waGeneric}`;
+    const svc = gw.dataset.service;
+    let lead = null;
+    try {
+      const raw = sessionStorage.getItem(key);
+      if (raw) lead = JSON.parse(raw);
+      sessionStorage.removeItem(key);
+    } catch {
+      /* malformed or blocked: generic message */
+    }
+    const message =
+      lead && lead.name
+        ? [
+            `Hi Sushant, I just sent a ${svc} enquiry on sushantrana.com.`,
+            "",
+            `Name: ${lead.name}`,
+            lead.company ? `Business: ${lead.company}` : null,
+            `Email: ${lead.email}`,
+            `Phone: ${lead.phone}`,
+            ...(lead.answers || []).map(([label, v]) => `${label}: ${v}`),
+          ].filter((l) => l !== null).join("\n")
+        : `Hi Sushant, I just sent a ${svc} enquiry on your website and would like to talk.`;
+    const url = `https://wa.me/${gw.dataset.waNumber}?text=${encodeURIComponent(message)}`;
+    $$("[data-wa-link]", gw).forEach((a) => {
+      a.href = url;
+      a.hidden = false;
+    });
+    // ?preview=1 holds the page so it can be checked without the bounce.
+    if (!new URLSearchParams(location.search).has("preview")) {
+      let left = Math.round(+gw.dataset.delay / 1000);
+      const paint = () => {
+        $$("[data-left]", gw).forEach((n) => (n.textContent = left));
+        $$("[data-sec]", gw).forEach((n) => (n.textContent = left === 1 ? "second" : "seconds"));
+      };
+      paint();
+      setInterval(() => {
+        left = Math.max(0, left - 1);
+        paint();
+      }, 1000);
+      setTimeout(() => (location.href = url), +gw.dataset.delay);
+    }
+  }
 
   const wa = $("[data-wa-thanks]");
   if (wa) {

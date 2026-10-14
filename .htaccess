@@ -37,6 +37,6 @@ RewriteRule ^services/website-maintenance/thank-you/?$ /thank-you-website-mainte
 
 # Repo files that are not part of the site (notes, local dev router, DB
 # migrations) — the whole repo is deployed, so hide them from visitors.
-RedirectMatch 404 ^/(dev|supabase|_originals|\.claude|\.git)(/|$)
+RedirectMatch 404 ^/(dev|supabase|_originals|includes|\.claude|\.git)(/|$)
 
 RedirectMatch 404 \.md$

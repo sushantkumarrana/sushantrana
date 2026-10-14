@@ -7,6 +7,8 @@ No Node.js, no React, no build step. Every page is a normal `.html` file.
 | Path | What it is |
 | --- | --- |
 | `index.html`, `about/index.html`, `blog/…/index.html` … | One folder per URL, so `/about/` works on any host |
+| `includes/header.html`, `includes/footer.html` | The one shared nav and footer; `dev/sync-layout.py` stamps them into every page |
+| `dev/page-gen/` | Generator for the service and industry pages (dev only) |
 | `assets/css/style.css` | All styling (Tailwind output, readable) plus the animation rules at the bottom |
 | `assets/js/site.js` | All interactivity: menus, popups, forms, tabs, counters, scroll animations |
 | `assets/vendor/` | Lenis (smooth scroll) and libphonenumber (phone validation) |
@@ -27,6 +29,7 @@ No Node.js, no React, no build step. Every page is a normal `.html` file.
 
 ## Editing
 
-- Text: open the page's `index.html` and edit. The nav and footer are copied into every page, so a nav change means editing each file (or search-and-replace across the folder).
+- Text: open the page's `index.html` and edit.
+- Nav or footer: edit `includes/header.html` or `includes/footer.html`, then run `python3 -I dev/sync-layout.py`. Keep the header markup neutral: the script highlights each page's own link.
 - A new blog post: copy an existing `blog/<slug>/index.html`, change the content, then add it to `blog/index.html`, the home page's "Latest insights", `sitemap.xml` and `llms.txt`.
 - Styling: Tailwind classes in the HTML resolve against `assets/css/style.css`. A class that is not already used somewhere on the site does not exist in that file; write plain CSS for it at the bottom instead.

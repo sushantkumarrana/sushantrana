@@ -4,23 +4,62 @@
 
 ## Pages
 
-- [Home](https://sushantrana.com): Overview of services, results and client work.
-- [About](https://sushantrana.com/about): Background, experience and the brands Sushant has worked with.
+- [Home](https://sushantrana.com/): Overview of services, results and client work.
+- [About](https://sushantrana.com/about/): Background, experience and the brands Sushant has worked with.
+- [Contact](https://sushantrana.com/contact/): WhatsApp or call +91 82890 51732, email me@sushantrana.com, or send a message. Based in Chandigarh, India.
+- [Book a Strategy Call](https://sushantrana.com/contact/book-strategy-call/): Free 30 minute strategy call on Google Meet, booked by form and confirmed on WhatsApp.
 
 ## Services
 
-- [Shopify Store Development](https://sushantrana.com/services/shopify-store-development): New stores, redesigns, theme development and migrations, delivered in 4-6 weeks.
-- [Website Maintenance](https://sushantrana.com/services/website-maintenance): Maintenance plans from ₹18,000/year for WordPress, Shopify, Wix, Webflow, Framer and custom sites.
+- [Shopify Store Development](https://sushantrana.com/services/shopify-store-development/): New stores, redesigns, theme development and migrations, delivered in 4-6 weeks.
+- [Website Maintenance](https://sushantrana.com/services/website-maintenance/): Maintenance plans from ₹18,000/year for WordPress, Shopify, Wix, Webflow, Framer and custom sites.
+- [Google Ads Management](https://sushantrana.com/services/google-ads/): Search, Performance Max, Shopping, Display, YouTube and remarketing campaigns, with conversion tracking, weekly optimization and a free account audit.
+- [Amazon PPC Management Services](https://sushantrana.com/services/amazon-ads/): Amazon PPC management services that push your products to the top and lower your ACoS. Sponsored Products, Brands and Display. Book a free audit.
+- [Auto Repair Marketing Services for More Cars](https://sushantrana.com/industries/auto-repair/): Auto repair marketing services that keep your bays full. Google Ads and local SEO that turn local searches into booked jobs. Book a free marketing call.
+- [Dental Marketing Services for More Patients](https://sushantrana.com/industries/dental/): Dental marketing services that bring new patients with Google Ads, local SEO and high converting landing pages. Book a free dental marketing call.
+- [Ecommerce SEO Services for Online Stores](https://sushantrana.com/services/ecommerce-seo/): Ecommerce SEO services that rank your product and category pages for buying searches, so shoppers find your store for free. Book a free audit.
+- [Education Marketing Services for Admissions](https://sushantrana.com/industries/education/): Education marketing services that bring more student enquiries and admissions with Google Ads, Meta Ads and landing pages. Book a free call.
+- [Email Marketing Automation Services](https://sushantrana.com/services/email-automation/): Email marketing automation services: I set up flows that nurture leads and recover lost sales while you sleep, with the right message at the right time.
+- [Enterprise SEO Services for Large Sites](https://sushantrana.com/services/enterprise-seo/): Enterprise SEO services for large websites with thousands of pages, using template level fixes and a clear strategy. Book a free consultation.
+- [GoHighLevel Setup & Automation Services](https://sushantrana.com/services/gohighlevel/): GoHighLevel setup services: I set up your CRM, funnels, and email and SMS follow up on autopilot, so you capture and close more leads.
+- [Google Business Profile (GMB) Optimization](https://sushantrana.com/services/google-business-profile/): Google Business Profile optimization so you rank in the map, get more calls and win more local customers. Book a free profile audit with me.
+- [Google Shopping Ads Services](https://sushantrana.com/services/google-shopping-ads/): Google Shopping Ads services that put your products, prices and images in front of ready to buy shoppers. Feed setup, full tracking. Book a free audit.
+- [HubSpot CRM Implementation & Setup Services](https://sushantrana.com/services/hubspot-crm/): HubSpot CRM implementation services: I set up and automate HubSpot so marketing and sales work together. Pipelines, workflows, migration, training.
+- [Landing Page Design Services That Convert](https://sushantrana.com/services/landing-pages/): Landing page design services that turn your ad clicks into leads and sales, with strong copy, clean design and full tracking. Free quote.
+- [Law Firm Marketing Services for More Clients](https://sushantrana.com/industries/legal-firms/): Law firm marketing services that bring quality clients with Google Ads, local SEO and landing pages built around your practice areas. Book a free call.
+- [Link Building Services (White Hat)](https://sushantrana.com/services/link-building/): I build real, high quality backlinks that grow your authority and rankings, using safe white hat methods only. Book a free backlink audit with me.
+- [LinkedIn Ads Services for B2B Leads](https://sushantrana.com/services/linkedin-ads/): LinkedIn Ads services that reach decision makers and bring high quality B2B leads. Precise targeting, lead gen forms, full tracking. Book a consultation.
+- [Local SEO Services That Get You Found](https://sushantrana.com/services/local-seo/): Local SEO services that help you rank in Google Maps and the local pack, so nearby customers find you first. Book a free local SEO audit.
+- [Meta Ads Services, Facebook & Instagram](https://sushantrana.com/services/meta-ads/): Meta Ads services on Facebook and Instagram that turn scrolls into leads and sales. Smart targeting, strong creatives, full tracking. Book a free call.
+- [On-Page SEO Services That Rank](https://sushantrana.com/services/on-page-seo/): On-page SEO services that help Google understand and rank your pages, from titles and headings to content and internal links. Book a free audit.
+- [Performance Marketing Services in India](https://sushantrana.com/services/performance-marketing/): Performance marketing services that turn ad spend into real sales and leads. Paid ads across Google, Meta, LinkedIn and more. Book a free strategy call.
+- [Real Estate Lead Generation Services](https://sushantrana.com/industries/real-estate/): Real estate lead generation services for agents and developers: quality buyer and seller leads from Google Ads, Meta Ads, local SEO and landing pages.
+- [Sales Funnel Setup Services That Convert](https://sushantrana.com/services/sales-funnel-setup/): Sales funnel setup services: I design and build funnels that turn strangers into paying customers, with pages, copy, automation and tracking.
+- [Free Website SEO Audit Report](https://sushantrana.com/services/seo-audit/): Get a free website SEO audit that shows exactly why you are not ranking, with a clear, honest action plan. No jargon and no obligation.
+- [Technical SEO Services & Audit](https://sushantrana.com/services/technical-seo/): Technical SEO services that fix crawl and index problems, slow speed and Core Web Vitals holding your rankings back. Book a free technical SEO audit.
+- [WordPress Website Development Services](https://sushantrana.com/services/wordpress-development/): I build fast, SEO ready WordPress websites that look great and are easy for you to manage yourself. Custom design, WooCommerce and more.
+- [YouTube Ads Services That Drive Sales](https://sushantrana.com/services/youtube-ads/): YouTube Ads services that grow your brand and bring real sales, not just views. Smart targeting, cheap reach and full tracking. Book a free strategy call.
+- [Zoho CRM Implementation & Setup Services](https://sushantrana.com/services/zoho-crm/): Zoho CRM implementation services: I set up, customize and automate Zoho CRM so you stop losing leads. Pipelines, automation, migration and training.
+
+## Case Studies
+
+- [Meta Ads Case Studies](https://sushantrana.com/case-studies/meta-ads/): Meta Ads accounts we run, led by OurKnots (0.72x to 5.13x ROAS), plus lead generation clients.
+- [Google Ads Case Studies](https://sushantrana.com/case-studies/google-ads/): Google Ads accounts we run, led by OurKnots (0.71x to 14.05x ROAS), plus lead generation clients.
+- [OurKnots Meta Ads Case Study](https://sushantrana.com/case-studies/ourknots/): D2C laces and trims brand on Meta, from a 0.72x ROAS in Feb 2025 to ₹3.62L revenue at 5.13x in Sep 2026, with monthly Meta Ads Manager screenshots.
+- [OurKnots Google Ads Case Study](https://sushantrana.com/case-studies/ourknots-google-ads/): Same brand on Google Ads, from 0.71x ROAS in Feb 2026 to 14.05x in Sep 2026 on a ~₹9K monthly budget.
+- [Yalla Renovation Google Ads Case Study](https://sushantrana.com/case-studies/yalla-renovation/): Dubai renovation company on Google Ads, Oct 2024 to Sep 2026: 12.5M impressions, 254K clicks and 2,287 tracked form submissions from Search and Performance Max.
+- [4S Study Abroad Meta Ads Case Study](https://sushantrana.com/case-studies/4s-study-abroad/): Dubai, UAE study-abroad consultancy on Meta Ads, Oct 2024 to Oct 2026: 7,514 student enquiries (5,372 form leads, 2,142 WhatsApp conversations) at AED 8.79 each.
+- [4S Study Abroad Google Ads Case Study](https://sushantrana.com/case-studies/4s-study-abroad-google-ads/): Same client on Google Ads, Apr 2020 to Dec 2024: 8,859 student enquiries at ₹277.91 each, a costly 2023 and a 59.6% cut in cost per enquiry by Q4 2024.
 
 ## Blog
 
-- [Blog](https://sushantrana.com/blog): Articles on revenue systems, lead quality and practical AI automation.
-- [Will My Store Look Different From Other Shopify Sites?](https://sushantrana.com/blog/will-my-shopify-store-look-different): Yes, if it is built around your brand instead of dressed up from a theme. Why Shopify stores look alike, and what it takes to make yours unmistakable.
-- [Revenue Systems vs Marketing Campaigns: Why One Compounds and the Other Expires](https://sushantrana.com/blog/revenue-systems-vs-marketing-campaigns): Campaigns end. Systems compound. The structural difference between businesses that grow predictably and businesses that buy growth one month at a time.
-- [Lead Quality Over Lead Volume: The Metric Shift That Changes Everything](https://sushantrana.com/blog/lead-quality-over-lead-volume): A thousand leads that never answer the phone cost more than a hundred that do. How to rebuild campaigns around qualified conversations instead of form fills.
-- [Practical AI Automation for Businesses That Don't Have a Data Team](https://sushantrana.com/blog/practical-ai-automation-without-a-data-team): You don't need ML engineers. You need five workflows: lead scoring, follow-up, reporting, routing, and reactivation — built on the CRM you already pay for.
+- [Blog](https://sushantrana.com/blog/): Articles on revenue systems, lead quality and practical AI automation.
+- [Will My Store Look Different From Other Shopify Sites?](https://sushantrana.com/blog/will-my-shopify-store-look-different/): Yes, if it is built around your brand instead of dressed up from a theme. Why Shopify stores look alike, and what it takes to make yours unmistakable.
+- [Revenue Systems vs Marketing Campaigns: Why One Compounds and the Other Expires](https://sushantrana.com/blog/revenue-systems-vs-marketing-campaigns/): Campaigns end. Systems compound. The structural difference between businesses that grow predictably and businesses that buy growth one month at a time.
+- [Lead Quality Over Lead Volume: The Metric Shift That Changes Everything](https://sushantrana.com/blog/lead-quality-over-lead-volume/): A thousand leads that never answer the phone cost more than a hundred that do. How to rebuild campaigns around qualified conversations instead of form fills.
+- [Practical AI Automation for Businesses That Don't Have a Data Team](https://sushantrana.com/blog/practical-ai-automation-without-a-data-team/): You don't need ML engineers. You need five workflows: lead scoring, follow-up, reporting, routing, and reactivation — built on the CRM you already pay for.
 
 ## Optional
 
-- [Privacy Policy](https://sushantrana.com/privacy-policy)
-- [Terms and Conditions](https://sushantrana.com/terms-and-conditions)
+- [Privacy Policy](https://sushantrana.com/privacy-policy/)
+- [Terms and Conditions](https://sushantrana.com/terms-and-conditions/)

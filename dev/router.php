@@ -3,6 +3,7 @@
 $root = $_SERVER['DOCUMENT_ROOT'];
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $file = $root . $path;
+if (preg_match('#^/includes/#', $path)) { http_response_code(404); readfile("$root/404.html"); return true; }
 if (is_file($file)) return false;
 if (is_dir($file)) {
     if (substr($path, -1) !== '/') { header("Location: $path/", true, 301); return true; }

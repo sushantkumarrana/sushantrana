@@ -5727,3 +5727,98 @@ html:not(.js) .grow-h, .is-in .grow-h {
     transform: none;
   }
 }
+
+/* ---- service pages: form chips, self-check boxes, demo bits ---- */
+
+.svc-chip { cursor: pointer; }
+.svc-chip span {
+  display: inline-flex;
+  border: 1px solid var(--color-line);
+  border-radius: 9999px;
+  background: #fff;
+  padding: 0.4rem 0.85rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-ink);
+  transition: border-color 0.2s, background-color 0.2s, color 0.2s;
+}
+.svc-chip:hover span { border-color: var(--color-orange); }
+.svc-chip input:checked + span { border-color: var(--color-orange); background: var(--color-orange); color: #fff; }
+.svc-chip input:focus-visible + span, .svc-check input:focus-visible + .svc-box { outline: 2px solid var(--color-orange); outline-offset: 2px; }
+
+.svc-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  cursor: pointer;
+  border: 1px solid var(--color-line);
+  border-radius: 1rem;
+  background: #fff;
+  padding: 0.85rem 1rem;
+  transition: border-color 0.2s;
+}
+.svc-check:hover { border-color: var(--color-orange); }
+.svc-box {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 1.375rem;
+  height: 1.375rem;
+  margin-top: 0.1rem;
+  border: 2px solid var(--color-line);
+  border-radius: 0.4rem;
+  color: transparent;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+.svc-check input:checked + .svc-box { border-color: var(--color-orange); background: var(--color-orange); color: #fff; }
+
+.svc-serp-title { color: #1a0dab; }
+.svc-cap { display: inline-block; }
+.svc-cap::first-letter { text-transform: uppercase; }
+
+@media (min-width: 1024px) {
+  .svc-proc-cols { grid-template-columns: repeat(var(--n), minmax(0, 1fr)); }
+}
+.aspect-video { aspect-ratio: 16 / 9; }
+.bottom-3 { bottom: 0.75rem; }
+.left-3 { left: 0.75rem; }
+.right-3 { right: 0.75rem; }
+.w-24 { width: 6rem; }
+.w-3\/4 { width: 75%; }
+.w-5\/6 { width: 83.333333%; }
+/* a long button label wraps instead of widening its grid column on phones */
+.svc-split > * { min-width: 0; }
+.svc-wrap { white-space: normal; text-align: center; line-height: 1.3; padding-block: 0.85rem; }
+/* tab buttons in a two-column grid on phones: long words break instead of overflowing */
+main [data-tabs] [data-tab] { min-width: 0; overflow-wrap: anywhere; }
+.break-words { overflow-wrap: break-word; }
+.grid-cols-6 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.justify-end { justify-content: flex-end; }
+/* journey charts on case studies: hover or focus a month for its numbers */
+.svc-col { outline: none; border-radius: 0.4rem; transition: background-color 0.15s; }
+.svc-col:hover, .svc-col:focus-visible { background: rgba(10, 10, 10, 0.05); }
+.svc-tip {
+  position: absolute; top: 0; left: 50%; z-index: 5; transform: translate(-50%, -105%);
+  opacity: 0; pointer-events: none; transition: opacity 0.15s; white-space: nowrap;
+  background: #0a0a0a; color: #fff; border-radius: 0.6rem; padding: 0.45rem 0.65rem; font-size: 11px; line-height: 1.4;
+}
+.svc-col[data-edge="l"] .svc-tip { left: 0; transform: translate(0, -105%); }
+.svc-col[data-edge="r"] .svc-tip { left: auto; right: 0; transform: translate(0, -105%); }
+.svc-col:hover .svc-tip, .svc-col:focus-visible .svc-tip { opacity: 1; }
+.svc-partial { background-image: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.55) 0 3px, transparent 3px 6px); }
+.-translate-x-full { transform: translateX(-100%); }
+.gap-x-4 { column-gap: 1rem; }
+.h-56 { height: 14rem; }
+.left-\[18\%\] { left: 18%; }
+.right-\[18\%\] { right: 18%; }
+.ml-10 { margin-left: 2.5rem; }
+.pr-3 { padding-right: 0.75rem; }
+.rounded-sm { border-radius: 0.125rem; }
+@media (min-width: 40rem) { .sm\:h-64 { height: 16rem; } }
+/* very small phones: the step numbers are enough, drop the step names */
+@media (max-width: 359px) { [data-step-form="generic"] [data-step-label] { display: none; } }
+.min-w-\[520px\]{min-width:520px}
+.min-w-\[720px\]{min-width:720px}
+/* The hero (the section holding the H1) is the LCP area: show it on first paint.
+   Hiding it until site.js adds .is-in delayed LCP by the script load + fade. */
+.js section:has(h1) [data-reveal] { opacity: 1; transform: none; transition: none; }

@@ -7,6 +7,7 @@ Edit includes/header.html or includes/footer.html, run this, commit. Each
 page's <header>...</header> and <footer>...</footer> are replaced; the nav
 link for the page's own URL is highlighted (keep the include files neutral).
 """
+import hashlib
 import re
 import subprocess
 import sys
@@ -67,7 +68,10 @@ def stamp(html: str, path: str) -> str:
     a, b = html.find("<header"), html.find("</header>")
     c, e = html.find("<footer"), html.find("</footer>")
     assert 0 <= a < b < c < e, path
-    return html[:a] + highlight(header, path) + html[b + 9:c] + footer + html[e + 9:]
+    html = html[:a] + highlight(header, path) + html[b + 9:c] + footer + html[e + 9:]
+    # ?v=<content hash>: browsers cache CSS/JS for a week, so a changed file needs a new URL
+    return re.sub(r'"(/assets/[\w./-]+\.(?:css|js))(?:\?v=\w+)?"',
+                  lambda m: f'"{m[1]}?v={hashlib.md5((ROOT / m[1][1:]).read_bytes()).hexdigest()[:8]}"', html)
 
 
 def pages():

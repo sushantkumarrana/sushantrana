@@ -7,7 +7,7 @@ map, deploy steps and editing rules.
 - Pages: one folder per URL with an `index.html` (`about/index.html`, `blog/<slug>/index.html` …). Every page is plain HTML; no page is PHP.
 - Header and footer live once in `includes/header.html` and `includes/footer.html`. After editing either, run `python3 -I dev/sync-layout.py` to stamp them into every page (it also highlights each page's own nav link). Never edit a page's header/footer by hand.
 - Service pages are generated from specs: `dev/page-gen/` (see its README).
-- Styling: `assets/css/style.css`. Interactivity and animations: `assets/js/site.js`.
+- Styling: `assets/css/style.css`. Interactivity and animations: `assets/js/site.js`. After changing either, run `python3 -I dev/sync-layout.py`: it stamps `?v=<hash>` on every CSS/JS link, so browsers (which cache them for a week) fetch the new file.
 - Lead forms post to `api/lead.php`. Keys live in `api/config.php` (git-ignored).
 - Local preview: `php -S localhost:8090 dev/router.php` from the repo root.
 - `.htaccess` hides `dev/`, `supabase/`, `.claude/` and every `.md` file from visitors.

@@ -11,6 +11,7 @@
 
 ## Services
 
+- [Services](https://sushantrana.com/services/): Every service in one place, grouped into SEO, paid ads, CRM and automation, and websites, with case studies and industry pages.
 - [Shopify Store Development](https://sushantrana.com/services/shopify-store-development/): New stores, redesigns, theme development and migrations, delivered in 4-6 weeks.
 - [Website Maintenance](https://sushantrana.com/services/website-maintenance/): Maintenance plans from ₹18,000/year for WordPress, Shopify, Wix, Webflow, Framer and custom sites.
 - [Google Ads Management](https://sushantrana.com/services/google-ads/): Search, Performance Max, Shopping, Display, YouTube and remarketing campaigns, with conversion tracking, weekly optimization and a free account audit.

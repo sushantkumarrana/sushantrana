@@ -3,6 +3,8 @@
 Options -Indexes
 DirectoryIndex index.html index.php
 ErrorDocument 404 /404.html
+# llms.txt and llms-full.txt hold ₹, — and ✓; without this they show as mojibake.
+AddCharset UTF-8 .txt
 
 RewriteEngine On
 

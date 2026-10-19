@@ -32,4 +32,5 @@ No Node.js, no React, no build step. Every page is a normal `.html` file.
 - Text: open the page's `index.html` and edit.
 - Nav or footer: edit `includes/header.html` or `includes/footer.html`, then run `python3 -I dev/sync-layout.py`. Keep the header markup neutral: the script highlights each page's own link.
 - A new blog post: copy an existing `blog/<slug>/index.html`, change the content, then add it to `blog/index.html`, the home page's "Latest insights", `sitemap.xml` and `llms.txt`.
+- After changing page text or `sitemap.xml`: run `python3 -I dev/build-llms-full.py` to rebuild `llms-full.txt` (the text of every sitemap page in one file, for AI crawlers).
 - Styling: Tailwind classes in the HTML resolve against `assets/css/style.css`. A class that is not already used somewhere on the site does not exist in that file; write plain CSS for it at the bottom instead.

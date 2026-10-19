@@ -62,5 +62,6 @@
 
 ## Optional
 
+- [Full site text](https://sushantrana.com/llms-full.txt): The text of every page above in one file.
 - [Privacy Policy](https://sushantrana.com/privacy-policy/)
 - [Terms and Conditions](https://sushantrana.com/terms-and-conditions/)

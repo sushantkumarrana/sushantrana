@@ -176,7 +176,7 @@ RELATED = [
     ("Technical SEO", "/services/technical-seo/"),
     ("Link building", "/services/link-building/"),
     ("SEO audit", "/services/seo-audit/"),
-    ("Content SEO", "/services/content-seo/"),
+    ("Content SEO", None),
     ("Local SEO", "/services/local-seo/"),
     ("Ecommerce SEO", "/services/ecommerce-seo/"),
 ]
@@ -285,7 +285,7 @@ PAGE["sections"] = [
                   ]}),
     L.chips_section({"id": "who", "h2": ("Websites", "I work with"),
                      "body": "Business websites, service sites, ecommerce stores and blogs across many industries. If you have pages that should rank but do not, on-page SEO can turn them around.",
-                     "chips": [("Business websites", None), ("Service businesses", "/industries/local-businesses/"), ("Ecommerce stores", "/industries/ecommerce/"), ("Blogs", "/services/content-seo/")]}),
+                     "chips": [("Business websites", None), ("Service businesses", None), ("Ecommerce stores", None), ("Blogs", None)]}),
     L.chips_section({"id": "related", "h2": ("Services that pair with", "on-page SEO"),
                      "body": "Well tuned pages go further on a healthy site with strong links and fresh content.", "chips": RELATED}),
     L.faq(PAGE["faq"]),

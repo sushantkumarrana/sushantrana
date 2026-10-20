@@ -33,7 +33,7 @@ PAGE = {
     "og_alt": "Meta Ads case studies by Sushant Rana",
     "desc": "Real Meta Ads results: OurKnots from 0.72x to 5.13x ROAS, 4S Study Abroad's 7,514 student enquiries at AED 8.79, and more lead generation accounts.",
     "cta": "Book your free strategy call",
-    "trail": [("Home", "/"), ("Case Studies", "/case-studies/"), ("Meta Ads", None)],
+    "trail": [("Home", "/"), ("Meta Ads", None)],
     "related": [],
     "hero": {
         "pill": "Case studies · Meta Ads",

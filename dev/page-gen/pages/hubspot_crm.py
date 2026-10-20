@@ -209,10 +209,10 @@ FAQ = [
 RELATED = [
     ("Zoho CRM", "/services/zoho-crm/"),
     ("GoHighLevel", "/services/gohighlevel/"),
-    ("CRM consulting", "/services/crm-consulting/"),
+    ("CRM consulting", None),
     ("Sales funnel setup", "/services/sales-funnel-setup/"),
     ("Email automation", "/services/email-automation/"),
-    ("Lead generation", "/services/lead-generation/"),
+    ("Lead generation", None),
     ("Google Ads", "/services/google-ads/"),
     ("LinkedIn Ads", "/services/linkedin-ads/"),
 ]
@@ -328,7 +328,7 @@ PAGE["sections"] = [
                   ]}),
     L.chips_section({"id": "who", "h2": ("Businesses I set up", "HubSpot for"),
                      "body": "Sales and marketing teams, B2B companies, agencies, consultants and growing businesses. If you want your marketing and sales working together, HubSpot is a strong choice.",
-                     "chips": [("Sales and marketing teams", None), ("B2B companies", "/industries/b2b-companies/"), ("Agencies", None), ("Consultants", None),
+                     "chips": [("Sales and marketing teams", None), ("B2B companies", None), ("Agencies", None), ("Consultants", None),
                                ("Growing businesses", None)]}),
     L.chips_section({"id": "related", "h2": ("Services that pair with", "HubSpot"),
                      "body": "HubSpot earns more when the leads feeding it and the follow up coming out of it are handled alongside it.", "chips": RELATED}),

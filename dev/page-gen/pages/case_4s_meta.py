@@ -185,7 +185,7 @@ PAGE = {
     "og_alt": "4S Study Abroad Meta Ads case study by Sushant Rana",
     "desc": "4S Study Abroad on Meta Ads: 7,514 student enquiries at AED 8.79 each over 24 months in Dubai, UAE, from Germany-focused lead forms and WhatsApp.",
     "cta": CTA,
-    "trail": [("Home", "/"), ("Case Studies", "/case-studies/"), ("Meta Ads", "/case-studies/meta-ads/"), ("4S Study Abroad", None)],
+    "trail": [("Home", "/"), ("Meta Ads", "/case-studies/meta-ads/"), ("4S Study Abroad", None)],
     "related": [],
     "faq": {"pill": "Common questions", "h2": ("Meta Ads for education,", "answered"), "body": [], "items": FAQ},
     "hero": {

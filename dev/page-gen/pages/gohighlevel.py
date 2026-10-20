@@ -200,8 +200,8 @@ RELATED = [
     ("HubSpot CRM", "/services/hubspot-crm/"),
     ("Sales funnel setup", "/services/sales-funnel-setup/"),
     ("Email automation", "/services/email-automation/"),
-    ("WhatsApp automation", "/services/whatsapp-automation/"),
-    ("Lead generation", "/services/lead-generation/"),
+    ("WhatsApp automation", None),
+    ("Lead generation", None),
     ("Google Business Profile", "/services/google-business-profile/"),
 ]
 
@@ -318,7 +318,7 @@ PAGE["sections"] = [
                   ]}),
     L.chips_section({"id": "who", "h2": ("Businesses I set up", "GoHighLevel for"),
                      "body": "Local service businesses, coaches and consultants, clinics and, importantly, marketing agencies that want to deliver systems to their own clients. If you want your lead handling on autopilot, GoHighLevel is a strong fit.",
-                     "chips": [("Local service businesses", "/industries/local-businesses/"), ("Coaches and consultants", None), ("Clinics", "/industries/healthcare/"),
+                     "chips": [("Local service businesses", None), ("Coaches and consultants", None), ("Clinics", None),
                                ("Dental clinics", "/industries/dental/"), ("Auto repair shops", "/industries/auto-repair/"), ("Marketing agencies", None)]}),
     L.chips_section({"id": "related", "h2": ("Services that pair with", "GoHighLevel"),
                      "body": "GoHighLevel earns more when the leads feeding it and the pages they land on are handled alongside it.", "chips": RELATED}),

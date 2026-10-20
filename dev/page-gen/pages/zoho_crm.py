@@ -196,10 +196,10 @@ FAQ = [
 RELATED = [
     ("HubSpot CRM", "/services/hubspot-crm/"),
     ("GoHighLevel", "/services/gohighlevel/"),
-    ("CRM consulting", "/services/crm-consulting/"),
+    ("CRM consulting", None),
     ("Sales funnel setup", "/services/sales-funnel-setup/"),
     ("Email automation", "/services/email-automation/"),
-    ("Lead generation", "/services/lead-generation/"),
+    ("Lead generation", None),
     ("Google Ads", "/services/google-ads/"),
 ]
 
@@ -313,7 +313,7 @@ PAGE["sections"] = [
                   ]}),
     L.chips_section({"id": "who", "h2": ("Businesses I set up", "Zoho CRM for"),
                      "body": "Sales teams, service businesses, agencies, consultants and small to mid sized companies. If you have leads to manage and sales to close, a well built CRM will help you do it better.",
-                     "chips": [("Sales teams", None), ("Service businesses", "/industries/local-businesses/"), ("Agencies", None), ("Consultants", None),
+                     "chips": [("Sales teams", None), ("Service businesses", None), ("Agencies", None), ("Consultants", None),
                                ("Small to mid sized companies", None)]}),
     L.chips_section({"id": "related", "h2": ("Services that pair with", "Zoho CRM"),
                      "body": "A CRM earns more when the leads feeding it and the follow up coming out of it are handled alongside it.", "chips": RELATED}),

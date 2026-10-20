@@ -150,7 +150,7 @@ RELATED = [
     ("Google Ads", "/services/google-ads/"),
     ("Meta Ads", "/services/meta-ads/"),
     ("YouTube Ads", "/services/youtube-ads/"),
-    ("Lead generation", "/services/lead-generation/"),
+    ("Lead generation", None),
     ("Landing pages", "/services/landing-pages/"),
 ]
 
@@ -265,7 +265,7 @@ PAGE["sections"] = [
                   ]}),
     L.chips_section({"id": "who", "h2": ("Businesses I run", "LinkedIn Ads for"),
                      "body": "B2B service providers, software and SaaS companies, consultants, recruitment and staffing firms, and businesses that sell high value products. If you sell to other businesses, LinkedIn can be a strong channel for you.",
-                     "chips": [("B2B service providers", "/industries/b2b-companies/"), ("Software and SaaS", "/industries/saas/"), ("Consultants", None),
+                     "chips": [("B2B service providers", None), ("Software and SaaS", None), ("Consultants", None),
                                ("Recruitment and staffing", None), ("High value products", None)]}),
     L.chips_section({"id": "related", "h2": ("Services that pair with", "LinkedIn Ads"),
                      "body": "LinkedIn often works best as part of a wider paid ads plan, with a landing page built for the offer.", "chips": RELATED}),

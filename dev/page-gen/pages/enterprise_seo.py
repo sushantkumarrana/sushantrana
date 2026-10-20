@@ -174,8 +174,8 @@ RELATED = [
     ("Ecommerce SEO", "/services/ecommerce-seo/"),
     ("On-page SEO", "/services/on-page-seo/"),
     ("SEO audit", "/services/seo-audit/"),
-    ("Content SEO", "/services/content-seo/"),
-    ("Reporting dashboards", "/services/reporting-dashboard/"),
+    ("Content SEO", None),
+    ("Reporting dashboards", None),
 ]
 
 PAGE = {
@@ -283,8 +283,8 @@ PAGE["sections"] = [
                   ]}),
     L.chips_section({"id": "who", "h2": ("Large websites", "I work with"),
                      "body": "Large brands, big ecommerce stores, publishers, SaaS companies and multi location or multi language sites. If your site has thousands of pages, enterprise SEO can unlock its full potential.",
-                     "chips": [("Large brands", None), ("Big ecommerce stores", "/industries/ecommerce/"), ("Publishers", "/services/content-seo/"),
-                               ("SaaS companies", "/industries/saas/"), ("Multi location sites", "/services/local-seo/"), ("Multi language sites", None)]}),
+                     "chips": [("Large brands", None), ("Big ecommerce stores", None), ("Publishers", None),
+                               ("SaaS companies", None), ("Multi location sites", "/services/local-seo/"), ("Multi language sites", None)]}),
     L.chips_section({"id": "related", "h2": ("Services that pair with", "enterprise SEO"),
                      "body": "Large sites need the technical, content and reporting sides handled as one plan.", "chips": RELATED}),
     L.faq(PAGE["faq"]),

@@ -80,7 +80,7 @@ PAGE = {
     "og_alt": "OurKnots Google Ads case study by Sushant Rana",
     "desc": "How OurKnots went from a 0.71x ROAS on Google Ads in Feb 2026 to 14.05x in Sep 2026 on the same ~₹9K monthly budget, with ₹206 per conversion.",
     "cta": CTA,
-    "trail": [("Home", "/"), ("Case Studies", "/case-studies/"), ("Google Ads", "/case-studies/google-ads/"), ("OurKnots", None)],
+    "trail": [("Home", "/"), ("Google Ads", "/case-studies/google-ads/"), ("OurKnots", None)],
     "related": [],
     "hero": {
         "pill": "Case study · Google Ads",

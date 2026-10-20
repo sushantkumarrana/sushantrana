@@ -13,4 +13,6 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
 <IfModule mod_headers.c>
   Header always set X-Robots-Tag "noindex, nofollow"
   Header always set Strict-Transport-Security "max-age=31536000"
+  # Root .htaccess sets SAMEORIGIN for the site; the panel is never framed.
+  Header always set X-Frame-Options "DENY"
 </IfModule>

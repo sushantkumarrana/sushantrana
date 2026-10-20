@@ -190,7 +190,7 @@ RELATED = [
     ("Google Business Profile", "/services/google-business-profile/"),
     ("Meta Ads", "/services/meta-ads/"),
     ("Landing pages", "/services/landing-pages/"),
-    ("CRM consulting", "/services/crm-consulting/"),
+    ("CRM consulting", None),
 ]
 
 PAGE = {
@@ -211,7 +211,7 @@ PAGE = {
     "og_alt": "Law firm marketing services by Sushant Rana",
     "desc": "Law firm marketing services that bring quality clients with Google Ads, local SEO and landing pages built around your practice areas. Book a free call.",
     "cta": CTA,
-    "trail": [("Home", "/"), ("Industries", "/industries/"), ("Legal Firms", None)],
+    "trail": [("Home", "/"), ("Legal Firms", None)],
     "related": RELATED,
     "faq": {"pill": "Common questions", "h2": ("Frequently asked questions", "about law firm marketing"),
             "body": ["Channels, costs, practice areas and tracking. If yours is not here, ask me on the call."], "items": FAQ},
@@ -306,7 +306,7 @@ PAGE["sections"] = [
     L.chips_section({"id": "who", "h2": ("Law firms", "I work with"),
                      "body": "I help solo lawyers and multi lawyer firms across practice areas such as family law, personal injury, criminal defence, corporate, immigration and property law. Whatever your focus, I can bring you more of the right clients.",
                      "chips": [("Solo lawyers", None), ("Multi lawyer firms", None), ("Family law", None), ("Personal injury", None), ("Criminal defence", None),
-                               ("Corporate", None), ("Immigration", None), ("Property law", None), ("Local businesses", "/industries/local-businesses/")]}),
+                               ("Corporate", None), ("Immigration", None), ("Property law", None), ("Local businesses", None)]}),
     L.chips_section({"id": "related", "h2": ("Services behind", "your law firm marketing"),
                      "body": "The channels, pages and intake follow up that bring cases in, each with its own page if you want the detail.", "chips": RELATED}),
     L.faq(PAGE["faq"]),

@@ -6,7 +6,7 @@ This file holds the full text of all 48 pages listed in https://sushantrana.com/
 
 ---
 
-# Sushant Rana — Business Growth Consultant | Revenue Systems, Not Just Campaigns
+# Sushant Rana | Business Growth Consultant & Revenue Systems
 
 URL: https://sushantrana.com/
 
@@ -254,8 +254,6 @@ The solution
 
 Positioned around lead time and certification, built search-led demand on Google & Microsoft Ads, LinkedIn retargeting, and a scored CRM pipeline.
 
-Read full case study
-
 Healthcare
 
 #### Multi-location clinic fills its calendar without discounting
@@ -279,8 +277,6 @@ Bookings depended on referrals. A previous agency generated calls, but mostly pr
 The solution
 
 Shifted from symptom to treatment-decision keywords, call tracking, per-branch extensions, and WhatsApp booking + reminder automation.
-
-Read full case study
 
 Education
 
@@ -306,8 +302,6 @@ The solution
 
 Lead scoring and qualification at the form level, Meta lead-gen with qualifying forms, and CRM automation routing hot leads within five minutes.
 
-Read full case study
-
 SaaS · B2B
 
 #### SaaS platform moves from founder-led sales to inbound demos
@@ -332,8 +326,6 @@ The solution
 
 Built a demand engine around manual reporting pain, LinkedIn thought-leader ads, category search, and HubSpot trial-nurture workflows.
 
-Read full case study
-
 Construction
 
 #### Commercial contractor wins larger tenders with a credibility engine
@@ -357,8 +349,6 @@ A capable contractor kept losing large tenders to less-qualified firms with slic
 The solution
 
 Rebuilt the site around proof and capability, developer & PMC targeting, and tender-stage remarketing to stay top of mind.
-
-Read full case study
 
 Client feedback
 
@@ -441,11 +431,11 @@ No obligation · Senior-led · 4 markets
 
 ---
 
-# About Sushant Rana: Growth Consultant & Project Manager, Chandigarh
+# About Sushant Rana — Growth Consultant, Chandigarh
 
 URL: https://sushantrana.com/about/
 
-Sushant Rana has run digital marketing since 2017: Google Ads, Meta Ads, CRM automation, SEO and website development for nine client brands across India, the UAE, Canada, Switzerland and the USA.
+Sushant Rana, in digital marketing since 2017: Google Ads, Meta Ads, CRM automation, SEO and websites for nine brands in India, UAE, Canada, Switzerland, USA.
 
 - Home
 - About
@@ -551,8 +541,6 @@ Result: Increased admissions across North India, with Himachal Pradesh the stron
 - SEO
 - Online presence
 
-Read the Achievers Perfect Career Institute case study →
-
 [Image: Screenshot of the OurKnots website]
 
 OurKnots website. D2C ethnic laces, trims and accessories, India.
@@ -591,8 +579,6 @@ Result: Over one year of continuous lead delivery
 - Meta Ads
 - Lead generation
 
-Read the Warrior's Cove case study →
-
 [Image: Screenshot of the Bazayan.ch website]
 
 Bazayan.ch website. Pharmaceutical API supply (B2B), Switzerland.
@@ -609,8 +595,6 @@ Result: Static site replaced with a modern, clearer website and a stronger onlin
 
 - Website development
 - B2B web design
-
-Read the Bazayan.ch case study →
 
 [Image: Screenshot of the Touch Abroad website]
 
@@ -630,8 +614,6 @@ Result: Two years of continuous website and paid media work
 - Google Ads
 - Meta Ads
 
-Read the Touch Abroad case study →
-
 [Image: Screenshot of the Trust Legal website]
 
 Trust Legal website. Law firm, New Delhi, India.
@@ -650,8 +632,6 @@ Result: Two years of ongoing website maintenance
 - Website maintenance
 - Technical support
 
-Read the Trust Legal case study →
-
 [Image: Screenshot of the Elixir Engineering website]
 
 Elixir Engineering website. Fire safety systems engineering, India.
@@ -668,8 +648,6 @@ Result: 40–45 leads per month from SEO and Google Ads
 
 - SEO
 - Google Ads
-
-Read the Elixir Engineering case study →
 
 What we do
 
@@ -1058,7 +1036,7 @@ No obligation · Free 30 minute strategy call
 
 URL: https://sushantrana.com/services/shopify-store-development/
 
-Custom Shopify store development by Sushant Rana: new stores, redesigns, theme development and migrations, built to convert and handed over in 4-6 weeks. Get a free quote.
+Custom Shopify store development by Sushant Rana: new stores, redesigns, themes and migrations, built to convert, handed over in 4-6 weeks. Get a free quote.
 
 - Home
 - Services
@@ -2267,7 +2245,6 @@ So on every account we connect the ads to your CRM. The click is saved with each
 - Zoho CRM
 - HubSpot CRM
 - GoHighLevel
-- CRM consulting
 Book your free Google Ads audit
 
 What Google Ads learns from Example
@@ -2500,7 +2477,7 @@ No obligation · Free account audit
 
 ---
 
-# Blog | Sushant Rana
+# Blog: Revenue Systems, Ads & AI Automation | Sushant Rana
 
 URL: https://sushantrana.com/blog/
 
@@ -2565,7 +2542,7 @@ Pick the service you need. I'll reply within one business day.
 
 ---
 
-# Will My Store Look Different From Other Shopify Sites? | Sushant Rana
+# Will My Shopify Store Look Different? | Sushant Rana
 
 URL: https://sushantrana.com/blog/will-my-shopify-store-look-different/
 
@@ -2725,7 +2702,7 @@ Read article
 
 ---
 
-# Revenue Systems vs Marketing Campaigns: Why One Compounds and the Other Expires | Sushant Rana
+# Revenue Systems vs Marketing Campaigns | Sushant Rana
 
 URL: https://sushantrana.com/blog/revenue-systems-vs-marketing-campaigns/
 
@@ -2846,7 +2823,7 @@ Read article
 
 ---
 
-# Lead Quality Over Lead Volume: The Metric Shift That Changes Everything | Sushant Rana
+# Lead Quality Over Lead Volume | Sushant Rana
 
 URL: https://sushantrana.com/blog/lead-quality-over-lead-volume/
 
@@ -2963,7 +2940,7 @@ Read article
 
 ---
 
-# Practical AI Automation for Businesses That Don't Have a Data Team | Sushant Rana
+# Practical AI Automation Without a Data Team | Sushant Rana
 
 URL: https://sushantrana.com/blog/practical-ai-automation-without-a-data-team/
 
@@ -3078,7 +3055,7 @@ Read article
 
 ---
 
-# Privacy Policy | Sushant Rana
+# Privacy Policy | Sushant Rana, Business Growth Consultant
 
 URL: https://sushantrana.com/privacy-policy/
 
@@ -3699,7 +3676,6 @@ URL: https://sushantrana.com/industries/auto-repair/
 Auto repair marketing services that keep your bays full. Google Ads and local SEO that turn local searches into booked jobs. Book a free marketing call.
 
 - Home
-- Industries
 - Auto Repair
 
 Auto repair marketing services
@@ -3839,7 +3815,6 @@ So we connect your ads to your CRM. Each call and enquiry is saved with the ad i
 - Zoho CRM
 - HubSpot CRM
 - GoHighLevel
-- CRM consulting
 Book your free auto repair marketing call
 
 What Google Ads learns from Example
@@ -4069,7 +4044,6 @@ URL: https://sushantrana.com/industries/dental/
 Dental marketing services that bring new patients with Google Ads, local SEO and high converting landing pages. Book a free dental marketing call.
 
 - Home
-- Industries
 - Dental
 
 Dental marketing services
@@ -4209,7 +4183,6 @@ So we connect your ads to your CRM. Each enquiry is saved with the ad it came fr
 - Zoho CRM
 - HubSpot CRM
 - GoHighLevel
-- CRM consulting
 Book your free dental marketing strategy call
 
 What Google Ads learns from Example
@@ -4784,7 +4757,6 @@ URL: https://sushantrana.com/industries/education/
 Education marketing services that bring more student enquiries and admissions with Google Ads, Meta Ads and landing pages. Book a free call.
 
 - Home
-- Industries
 - Education
 
 Education marketing services
@@ -4952,7 +4924,6 @@ So we connect your ads to your CRM. Each enquiry is saved with the ad it came fr
 - Zoho CRM
 - HubSpot CRM
 - GoHighLevel
-- CRM consulting
 Book your free education marketing call
 
 What Google Ads learns from Example
@@ -5995,7 +5966,6 @@ GoHighLevel sees what happens after the form: who replied, who booked and who pa
 - Zoho CRM
 - HubSpot CRM
 - GoHighLevel
-- CRM consulting
 Book your free GoHighLevel consultation
 
 What Google Ads learns from Example
@@ -7090,7 +7060,6 @@ HubSpot already knows which of those leads became real deals. So when we set it 
 - Zoho CRM
 - HubSpot CRM
 - GoHighLevel
-- CRM consulting
 Book your free HubSpot consultation
 
 What Google Ads learns from Example
@@ -7689,7 +7658,6 @@ URL: https://sushantrana.com/industries/legal-firms/
 Law firm marketing services that bring quality clients with Google Ads, local SEO and landing pages built around your practice areas. Book a free call.
 
 - Home
-- Industries
 - Legal Firms
 
 Law firm marketing services
@@ -7829,7 +7797,6 @@ So we connect your ads to your CRM. Each call and enquiry is saved with the ad i
 - Zoho CRM
 - HubSpot CRM
 - GoHighLevel
-- CRM consulting
 Book your free legal marketing call
 
 What Google Ads learns from Example
@@ -8599,7 +8566,6 @@ So on every account we connect the ads to your CRM. Each lead is saved with wher
 - Zoho CRM
 - HubSpot CRM
 - GoHighLevel
-- CRM consulting
 Book your free LinkedIn Ads consultation
 
 What LinkedIn Ads learns from Example
@@ -9386,7 +9352,6 @@ So on every account we connect the ads to your CRM. Each lead is saved with wher
 - Zoho CRM
 - HubSpot CRM
 - GoHighLevel
-- CRM consulting
 Book your free Meta Ads strategy call
 
 What Meta Ads learns from Example
@@ -10132,7 +10097,6 @@ So on every account we connect the ads to your CRM. Each lead is saved with wher
 - Zoho CRM
 - HubSpot CRM
 - GoHighLevel
-- CRM consulting
 Book your free performance marketing strategy call
 
 What Google and Meta learn from Example
@@ -10384,7 +10348,6 @@ URL: https://sushantrana.com/industries/real-estate/
 Real estate lead generation services for agents and developers: quality buyer and seller leads from Google Ads, Meta Ads, local SEO and landing pages.
 
 - Home
-- Industries
 - Real Estate
 
 Real estate lead generation
@@ -10531,7 +10494,6 @@ So we connect your ads to your CRM. Each enquiry is saved with the ad it came fr
 - Zoho CRM
 - HubSpot CRM
 - GoHighLevel
-- CRM consulting
 Book your free real estate marketing call
 
 What Google Ads learns from Example
@@ -12337,7 +12299,6 @@ So on every account we connect the ads to your CRM. Each lead is saved with wher
 - Zoho CRM
 - HubSpot CRM
 - GoHighLevel
-- CRM consulting
 Book your free YouTube Ads strategy call
 
 What YouTube Ads learns from Example
@@ -12712,7 +12673,6 @@ Your Zoho CRM is the one place that knows which leads were real. So when we set 
 - Zoho CRM
 - HubSpot CRM
 - GoHighLevel
-- CRM consulting
 Book your free Zoho CRM consultation
 
 What Google Ads learns from Example
@@ -13257,7 +13217,6 @@ URL: https://sushantrana.com/case-studies/ourknots/
 How OurKnots grew from its first order in Nov 2024 to ₹3.84L of store sales in Sep 2026, as Meta ROAS rose from 0.72x to 5.13x. Real data and screenshots.
 
 - Home
-- Case Studies
 - Meta Ads
 - OurKnots
 
@@ -13628,7 +13587,6 @@ URL: https://sushantrana.com/case-studies/ourknots-google-ads/
 How OurKnots went from a 0.71x ROAS on Google Ads in Feb 2026 to 14.05x in Sep 2026 on the same ~₹9K monthly budget, with ₹206 per conversion.
 
 - Home
-- Case Studies
 - Google Ads
 - OurKnots
 
@@ -13804,7 +13762,6 @@ URL: https://sushantrana.com/case-studies/yalla-renovation/
 Yalla Renovation, Dubai, on Google Ads over 24 months: 12.5M impressions, 254K clicks and 2,287 tracked form submissions from Search and Performance Max.
 
 - Home
-- Case Studies
 - Google Ads
 - Yalla Renovation
 
@@ -14183,7 +14140,6 @@ URL: https://sushantrana.com/case-studies/4s-study-abroad/
 4S Study Abroad on Meta Ads: 7,514 student enquiries at AED 8.79 each over 24 months in Dubai, UAE, from Germany-focused lead forms and WhatsApp.
 
 - Home
-- Case Studies
 - Meta Ads
 - 4S Study Abroad
 
@@ -14568,7 +14524,6 @@ URL: https://sushantrana.com/case-studies/4s-study-abroad-google-ads/
 4S Study Abroad on Google Ads, Apr 2020 to Dec 2024: 8,859 student enquiries at ₹278 each, and cost per enquiry cut 59.6% after a tough 2023.
 
 - Home
-- Case Studies
 - Google Ads
 - 4S Study Abroad
 
@@ -15033,7 +14988,6 @@ URL: https://sushantrana.com/case-studies/meta-ads/
 Real Meta Ads results: OurKnots from 0.72x to 5.13x ROAS, 4S Study Abroad's 7,514 student enquiries at AED 8.79, and more lead generation accounts.
 
 - Home
-- Case Studies
 - Meta Ads
 
 Case studies · Meta Ads
@@ -15414,7 +15368,6 @@ URL: https://sushantrana.com/case-studies/google-ads/
 Real Google Ads results: OurKnots from 0.71x to 14.05x ROAS, Yalla Renovation's 2,287 tracked form leads in Dubai, and more lead generation accounts.
 
 - Home
-- Case Studies
 - Google Ads
 
 Case studies · Google Ads

@@ -209,7 +209,7 @@ PAGE = {
     "og_alt": "Yalla Renovation Google Ads case study by Sushant Rana",
     "desc": "Yalla Renovation, Dubai, on Google Ads over 24 months: 12.5M impressions, 254K clicks and 2,287 tracked form submissions from Search and Performance Max.",
     "cta": CTA,
-    "trail": [("Home", "/"), ("Case Studies", "/case-studies/"), ("Google Ads", "/case-studies/google-ads/"), ("Yalla Renovation", None)],
+    "trail": [("Home", "/"), ("Google Ads", "/case-studies/google-ads/"), ("Yalla Renovation", None)],
     "related": [],
     "hero": {
         "pill": "Case study · Google Ads",

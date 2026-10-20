@@ -290,7 +290,7 @@ PAGE["sections"] = [
                   ]}),
     L.chips_section({"id": "who", "h2": ("Amazon sellers", "I work with"),
                      "body": "Private label brands, D2C sellers, resellers and businesses launching new products on Amazon. Whether you have one product or a full catalog, I can build a plan that grows your sales and protects your margins.",
-                     "chips": [("Private label brands", None), ("D2C sellers", "/industries/ecommerce/"), ("Resellers", None), ("New product launches", None)]}),
+                     "chips": [("Private label brands", None), ("D2C sellers", None), ("Resellers", None), ("New product launches", None)]}),
     L.chips_section({"id": "related", "h2": ("Services that pair with", "Amazon Ads"),
                      "body": "Ecommerce sellers often run Amazon alongside Google Shopping, Google Ads and Meta Ads, with one plan across all of them.", "chips": RELATED}),
     L.faq(PAGE["faq"]),

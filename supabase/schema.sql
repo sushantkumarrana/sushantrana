@@ -33,11 +33,10 @@ create index if not exists leads_status_idx     on public.leads (status);
 create index if not exists leads_service_idx    on public.leads (service);
 
 -- ---------------------------------------------------------------------
---  Security: RLS ON with NO policies.
---  That means the anon/publishable key cannot read or write this table
---  at all — so nobody can scrape your leads from the browser.
---  The API route uses the service_role key, which bypasses RLS and is
---  only ever used server-side.
+--  Security: RLS ON. The live project has one policy, "site can submit
+--  leads" (INSERT for anon), because api/lead.php uses the publishable
+--  key. anon has only the INSERT grant (migrations/003), so the key
+--  cannot read, change or delete leads.
 -- ---------------------------------------------------------------------
 alter table public.leads enable row level security;
 

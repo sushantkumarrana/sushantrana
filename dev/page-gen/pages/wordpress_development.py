@@ -198,8 +198,8 @@ FAQ = [
 RELATED = [
     ("Landing pages", "/services/landing-pages/"),
     ("Website maintenance", "/services/website-maintenance/"),
-    ("Website redesign", "/services/website-redesign/"),
-    ("Ecommerce website", "/services/ecommerce-website/"),
+    ("Website redesign", None),
+    ("Ecommerce website", None),
     ("Technical SEO", "/services/technical-seo/"),
     ("On page SEO", "/services/on-page-seo/"),
 ]
@@ -310,9 +310,9 @@ PAGE["sections"] = [
                   ]}),
     L.chips_section({"id": "who", "h2": ("Businesses I build", "websites for"),
                      "body": "I build WordPress websites for service businesses, clinics, consultants, local shops, startups and online stores across many industries. If you need a website that looks professional and performs, I can build it for you.",
-                     "chips": [("Service businesses", "/industries/local-businesses/"), ("Clinics", "/industries/healthcare/"), ("Consultants", None),
-                               ("Local shops", None), ("Startups", None), ("Online stores", "/industries/ecommerce/"),
-                               ("Education", "/industries/education/"), ("Legal firms", "/industries/legal-firms/"), ("B2B companies", "/industries/b2b-companies/")]}),
+                     "chips": [("Service businesses", None), ("Clinics", None), ("Consultants", None),
+                               ("Local shops", None), ("Startups", None), ("Online stores", None),
+                               ("Education", "/industries/education/"), ("Legal firms", "/industries/legal-firms/"), ("B2B companies", None)]}),
     L.chips_section({"id": "related", "h2": ("Services that pair with", "your new website"),
                      "body": "A new site does more when it is looked after, focused pages back up your campaigns and the SEO keeps building.", "chips": RELATED}),
     L.faq(PAGE["faq"]),

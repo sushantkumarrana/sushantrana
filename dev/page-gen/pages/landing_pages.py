@@ -203,7 +203,7 @@ RELATED = [
     ("WordPress development", "/services/wordpress-development/"),
     ("Shopify store development", "/services/shopify-store-development/"),
     ("Website maintenance", "/services/website-maintenance/"),
-    ("Lead generation", "/services/lead-generation/"),
+    ("Lead generation", None),
 ]
 
 PAGE = {
@@ -309,9 +309,9 @@ PAGE["sections"] = [
                   ]}),
     L.chips_section({"id": "who", "h2": ("Who needs a high converting", "landing page"),
                      "body": "I build landing pages for businesses running paid ads, service providers who need leads, online stores promoting offers, coaches and course creators, and anyone launching a new product or campaign. If you want more results from your traffic, a landing page can help.",
-                     "chips": [("Service providers", "/industries/local-businesses/"), ("Online stores", "/industries/ecommerce/"), ("Coaches and course creators", "/industries/education/"),
-                               ("Healthcare", "/industries/healthcare/"), ("Real estate", "/industries/real-estate/"), ("SaaS", "/industries/saas/"),
-                               ("B2B companies", "/industries/b2b-companies/"), ("New product launches", None)]}),
+                     "chips": [("Service providers", None), ("Online stores", None), ("Coaches and course creators", "/industries/education/"),
+                               ("Healthcare", None), ("Real estate", "/industries/real-estate/"), ("SaaS", None),
+                               ("B2B companies", None), ("New product launches", None)]}),
     L.chips_section({"id": "related", "h2": ("Services that pair with", "landing pages"),
                      "body": "Landing pages and ads work together, and a well looked after site keeps every page fast.", "chips": RELATED}),
     L.faq(PAGE["faq"]),

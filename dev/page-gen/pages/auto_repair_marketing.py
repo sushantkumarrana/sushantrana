@@ -174,7 +174,7 @@ RELATED = [
     ("Google Business Profile", "/services/google-business-profile/"),
     ("Meta Ads", "/services/meta-ads/"),
     ("Landing pages", "/services/landing-pages/"),
-    ("Lead generation", "/services/lead-generation/"),
+    ("Lead generation", None),
 ]
 
 PAGE = {
@@ -195,7 +195,7 @@ PAGE = {
     "og_alt": "Auto repair marketing services by Sushant Rana",
     "desc": "Auto repair marketing services that keep your bays full. Google Ads and local SEO that turn local searches into booked jobs. Book a free marketing call.",
     "cta": CTA,
-    "trail": [("Home", "/"), ("Industries", "/industries/"), ("Auto Repair", None)],
+    "trail": [("Home", "/"), ("Auto Repair", None)],
     "related": RELATED,
     "faq": {"pill": "Common questions", "h2": ("Frequently asked questions", "about auto repair marketing"),
             "body": ["Channels, budgets, timelines and tracking. If yours is not here, ask me on the call."], "items": FAQ},
@@ -288,7 +288,7 @@ PAGE["sections"] = [
     L.chips_section({"id": "who", "h2": ("Auto shops", "I work with"),
                      "body": "I help general repair shops, tyre and wheel shops, body and collision shops, oil change and quick service centres, and specialty and multi location garages. Whatever you fix, I can bring you more of the right customers.",
                      "chips": [("General repair shops", None), ("Tyre and wheel shops", None), ("Body and collision shops", None), ("Oil change and quick service", None),
-                               ("Specialty and multi location garages", None), ("Automobile", "/industries/automobile/"), ("Local businesses", "/industries/local-businesses/")]}),
+                               ("Specialty and multi location garages", None), ("Automobile", None), ("Local businesses", None)]}),
     L.chips_section({"id": "related", "h2": ("Services behind", "your auto repair marketing"),
                      "body": "The channels and pages that bring cars in, each with its own page if you want the detail.", "chips": RELATED}),
     L.faq(PAGE["faq"]),

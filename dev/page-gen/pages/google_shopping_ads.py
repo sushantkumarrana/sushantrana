@@ -136,9 +136,9 @@ RELATED = [
     ("Performance marketing", "/services/performance-marketing/"),
     ("Google Ads", "/services/google-ads/"),
     ("Amazon Ads", "/services/amazon-ads/"),
-    ("Remarketing", "/services/remarketing/"),
+    ("Remarketing", None),
     ("Ecommerce SEO", "/services/ecommerce-seo/"),
-    ("Ecommerce websites", "/services/ecommerce-website/"),
+    ("Ecommerce websites", None),
 ]
 
 PAGE = {
@@ -253,7 +253,7 @@ PAGE["sections"] = [
                   ]}),
     L.chips_section({"id": "who", "h2": ("Online stores", "I work with"),
                      "body": "I run Google Shopping for Shopify stores, WooCommerce stores and other ecommerce platforms, across many product categories. If you sell physical products online, Shopping Ads can grow your sales.",
-                     "chips": [("Ecommerce brands", "/industries/ecommerce/"), ("Shopify stores", None), ("WooCommerce stores", None), ("Other ecommerce platforms", None)]}),
+                     "chips": [("Ecommerce brands", None), ("Shopify stores", None), ("WooCommerce stores", None), ("Other ecommerce platforms", None)]}),
     L.chips_section({"id": "related", "h2": ("Services that pair with", "Google Shopping"),
                      "body": "Online stores often run Shopping alongside Google Ads, Amazon and remarketing, with a store and SEO built to convert the clicks.", "chips": RELATED}),
     L.faq(PAGE["faq"]),

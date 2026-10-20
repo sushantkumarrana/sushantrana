@@ -186,7 +186,7 @@ RELATED = [
     ("YouTube Ads", "/services/youtube-ads/"),
     ("Amazon Ads", "/services/amazon-ads/"),
     ("Google Shopping Ads", "/services/google-shopping-ads/"),
-    ("Remarketing", "/services/remarketing/"),
+    ("Remarketing", None),
     ("Landing pages", "/services/landing-pages/"),
 ]
 
@@ -302,9 +302,9 @@ PAGE["sections"] = [
                   ]}),
     L.chips_section({"id": "who", "h2": ("Industries I run", "performance marketing for"),
                      "body": "I have run paid campaigns for many types of businesses, and I adjust my approach to fit each one. If your business depends on a steady flow of leads or online sales, performance marketing can work for you. If you are not sure, just book a call and I will give you an honest answer.",
-                     "chips": [("Ecommerce brands", "/industries/ecommerce/"), ("Healthcare clinics", "/industries/healthcare/"), ("Dental clinics", "/industries/dental/"),
+                     "chips": [("Ecommerce brands", None), ("Healthcare clinics", None), ("Dental clinics", "/industries/dental/"),
                                ("Real estate", "/industries/real-estate/"), ("Education and coaching", "/industries/education/"), ("Legal firms", "/industries/legal-firms/"),
-                               ("Home services", None), ("B2B companies", "/industries/b2b-companies/"), ("Local service businesses", "/industries/local-businesses/")]}),
+                               ("Home services", None), ("B2B companies", None), ("Local service businesses", None)]}),
     L.chips_section({"id": "related", "h2": ("Every channel,", "one plan"),
                      "body": "Each platform has its own page with the detail of how I run it. Pick the one you want to know more about.", "chips": RELATED}),
     L.faq(PAGE["faq"]),

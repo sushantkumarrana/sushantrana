@@ -32,7 +32,7 @@ PAGE = {
     "og_alt": "Google Ads case studies by Sushant Rana",
     "desc": "Real Google Ads results: OurKnots from 0.71x to 14.05x ROAS, Yalla Renovation's 2,287 tracked form leads in Dubai, and more lead generation accounts.",
     "cta": "Book your free strategy call",
-    "trail": [("Home", "/"), ("Case Studies", "/case-studies/"), ("Google Ads", None)],
+    "trail": [("Home", "/"), ("Google Ads", None)],
     "related": [],
     "hero": {
         "pill": "Case studies · Google Ads",

@@ -180,7 +180,7 @@ RELATED = [
     ("Google Ads", "/services/google-ads/"),
     ("LinkedIn Ads", "/services/linkedin-ads/"),
     ("YouTube Ads", "/services/youtube-ads/"),
-    ("Remarketing", "/services/remarketing/"),
+    ("Remarketing", None),
     ("Landing pages", "/services/landing-pages/"),
 ]
 
@@ -296,8 +296,8 @@ PAGE["sections"] = [
                   ]}),
     L.chips_section({"id": "who", "h2": ("Businesses I run", "Meta Ads for"),
                      "body": "Ecommerce brands, coaches and course creators, healthcare and dental clinics, real estate, local services, restaurants and B2C businesses. If your customers use Facebook or Instagram, and almost everyone does, Meta Ads can work for you.",
-                     "chips": [("Ecommerce brands", "/industries/ecommerce/"), ("Coaches and course creators", "/industries/education/"), ("Healthcare", "/industries/healthcare/"),
-                               ("Dental clinics", "/industries/dental/"), ("Real estate", "/industries/real-estate/"), ("Local services", "/industries/local-businesses/"),
+                     "chips": [("Ecommerce brands", None), ("Coaches and course creators", "/industries/education/"), ("Healthcare", None),
+                               ("Dental clinics", "/industries/dental/"), ("Real estate", "/industries/real-estate/"), ("Local services", None),
                                ("Restaurants", None), ("B2C businesses", None)]}),
     L.chips_section({"id": "related", "h2": ("Services that pair with", "Meta Ads"),
                      "body": "Meta Ads are one part of a full paid ads plan. These are the channels and pages that work alongside them.", "chips": RELATED}),

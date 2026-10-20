@@ -34,7 +34,10 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') reply(['ok' => false, 'error' => 'Met
 
 /* ---- throttle: 5 per minute per IP, kept in the temp dir ---- */
 // ponytail: file-per-IP in sys temp; move to the DB if abuse ever outgrows it.
-$ip = trim(explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'] ?? '')[0]) ?: ($_SERVER['REMOTE_ADDR'] ?? 'unknown');
+// Last X-Forwarded-For entry: the CDN appends the real client IP; the first
+// entries are whatever the visitor sent, so a bot could rotate them.
+$xff = array_filter(array_map('trim', explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'] ?? '')));
+$ip = end($xff) ?: ($_SERVER['REMOTE_ADDR'] ?? 'unknown');
 $hitFile = sys_get_temp_dir() . '/sr-lead-' . md5($ip);
 $now = time();
 $hits = array_filter(

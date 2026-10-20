@@ -228,7 +228,7 @@ PAGE = {
     "og_alt": "4S Study Abroad Google Ads case study by Sushant Rana",
     "desc": "4S Study Abroad on Google Ads, Apr 2020 to Dec 2024: 8,859 student enquiries at ₹278 each, and cost per enquiry cut 59.6% after a tough 2023.",
     "cta": CTA,
-    "trail": [("Home", "/"), ("Case Studies", "/case-studies/"), ("Google Ads", "/case-studies/google-ads/"), ("4S Study Abroad", None)],
+    "trail": [("Home", "/"), ("Google Ads", "/case-studies/google-ads/"), ("4S Study Abroad", None)],
     "related": [],
     "faq": {"pill": "Common questions", "h2": ("Google Ads for education,", "answered"), "body": [], "items": FAQ},
     "hero": {

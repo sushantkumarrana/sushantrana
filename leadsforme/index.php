@@ -74,7 +74,7 @@ if (!$auth) {
 }
 
 /* ---- login / logout ---- */
-if ($action === 'logout') {
+if ($action === 'logout' && $_SERVER['REQUEST_METHOD'] === 'POST' && $csrfOk()) {
     $_SESSION = [];
     session_destroy();
     header('Location: ./');
@@ -175,7 +175,7 @@ $back = $qs(['p' => $page > 1 ? $page : '']);
 ob_start(); ?>
 <header class="top">
   <div><strong>Leads</strong> <span class="muted">· sushantrana.com</span></div>
-  <div><span class="muted"><?= $h($auth['user']) ?></span> · <a href="?a=logout">Sign out</a></div>
+  <div><span class="muted"><?= $h($auth['user']) ?></span> · <form method="post" action="?a=logout" style="display:inline"><input type="hidden" name="csrf" value="<?= $h($_SESSION['csrf']) ?>"><button type="submit" class="linkbtn">Sign out</button></form></div>
 </header>
 
 <section class="cards">
@@ -314,7 +314,7 @@ function page(string $title, string $body, bool $wide = false): never
 :root{--ink:#0a0a0a;--body:#3a3a3a;--muted:#777;--line:#e6e3df;--bg:#f6f4f1;--card:#fff;--o:#ff4d00;--o-soft:rgba(255,77,0,.1)}
 @media (prefers-color-scheme:dark){:root{--ink:#f2f0ed;--body:#d6d2cc;--muted:#9a958e;--line:#2c2a27;--bg:#121110;--card:#1b1a18;--o-soft:rgba(255,77,0,.18)}}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--body);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
-a{color:var(--o)}.muted{color:var(--muted)}.small{font-size:13px}main{margin:0 auto;padding:24px 16px}
+a,.linkbtn{color:var(--o)}.linkbtn{background:none;border:0;padding:0;font:inherit;cursor:pointer}.muted{color:var(--muted)}.small{font-size:13px}main{margin:0 auto;padding:24px 16px}
 main.narrow{max-width:420px;padding-top:12vh}main.wide{max-width:1200px}
 h1{color:var(--ink);font-size:22px;margin:0 0 6px}
 .box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:28px;display:grid;gap:14px}

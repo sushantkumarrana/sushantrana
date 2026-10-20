@@ -558,7 +558,7 @@ def crm_box(platform):
         + "</div>")) + "</div>")
 
 
-CRM_LINKS = [("Zoho CRM", "/services/zoho-crm/"), ("HubSpot CRM", "/services/hubspot-crm/"), ("GoHighLevel", "/services/gohighlevel/"), ("CRM consulting", "/services/crm-consulting/")]
+CRM_LINKS = [("Zoho CRM", "/services/zoho-crm/"), ("HubSpot CRM", "/services/hubspot-crm/"), ("GoHighLevel", "/services/gohighlevel/")]
 
 
 def crm_section(platform, cta, h2=None, body=None, bullets=None):

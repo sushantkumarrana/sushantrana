@@ -202,7 +202,7 @@ PAGE = {
     "og_alt": "OurKnots Meta Ads case study by Sushant Rana",
     "desc": "How OurKnots grew from its first order in Nov 2024 to ₹3.84L of store sales in Sep 2026, as Meta ROAS rose from 0.72x to 5.13x. Real data and screenshots.",
     "cta": CTA,
-    "trail": [("Home", "/"), ("Case Studies", "/case-studies/"), ("Meta Ads", "/case-studies/meta-ads/"), ("OurKnots", None)],
+    "trail": [("Home", "/"), ("Meta Ads", "/case-studies/meta-ads/"), ("OurKnots", None)],
     "related": [],
     "hero": {
         "pill": "Case study · Meta Ads",

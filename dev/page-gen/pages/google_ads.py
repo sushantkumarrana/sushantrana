@@ -193,7 +193,7 @@ crm_box = (
         + verdict("so it bids for more people like your real customers.", "Google sees the 2 leads that mattered,")
         + "</div>")) + "</div>")
 
-CRMS = [("Zoho CRM", "/services/zoho-crm/"), ("HubSpot CRM", "/services/hubspot-crm/"), ("GoHighLevel", "/services/gohighlevel/"), ("CRM consulting", "/services/crm-consulting/")]
+CRMS = [("Zoho CRM", "/services/zoho-crm/"), ("HubSpot CRM", "/services/hubspot-crm/"), ("GoHighLevel", "/services/gohighlevel/")]
 crm_links = ('<ul class="mt-7 flex list-none flex-wrap gap-2.5">' + "".join(
     f'<li><a class="inline-flex rounded-full border border-[var(--color-line)] bg-white px-4 py-2 font-[family-name:var(--font-display)] text-xs font-semibold text-ink transition hover:border-orange hover:text-orange" href="{h}">{t}</a></li>'
     for t, h in CRMS) + "</ul>")
@@ -261,7 +261,7 @@ projects_section = (
 
 RELATED = [
     ("Google Shopping Ads", "/services/google-shopping-ads/"),
-    ("Remarketing", "/services/remarketing/"),
+    ("Remarketing", None),
     ("YouTube Ads", "/services/youtube-ads/"),
     ("Landing pages", "/services/landing-pages/"),
     ("Performance marketing", "/services/performance-marketing/"),
@@ -378,9 +378,9 @@ PAGE["sections"] = [
                   ]}),
     L.chips_section({"id": "who", "h2": ("Businesses I run", "Google Ads for"),
                      "body": "Ecommerce stores, local service businesses, clinics, property, education, law firms, home services and B2B companies. If your business needs leads or online sales, Google Ads can work for you.",
-                     "chips": [("Ecommerce stores", "/industries/ecommerce/"), ("Local businesses", "/industries/local-businesses/"), ("Healthcare", "/industries/healthcare/"),
+                     "chips": [("Ecommerce stores", None), ("Local businesses", None), ("Healthcare", None),
                                ("Dental clinics", "/industries/dental/"), ("Real estate", "/industries/real-estate/"), ("Education", "/industries/education/"),
-                               ("Legal firms", "/industries/legal-firms/"), ("Home services", None), ("B2B companies", "/industries/b2b-companies/")]}),
+                               ("Legal firms", "/industries/legal-firms/"), ("Home services", None), ("B2B companies", None)]}),
     L.chips_section({"id": "related", "h2": ("Services that pair with", "Google Ads"),
                      "body": "Ads earn more when the landing page, the follow up and the other channels are handled alongside them.", "chips": RELATED}),
     L.faq(PAGE["faq"]),

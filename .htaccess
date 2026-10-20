@@ -15,6 +15,11 @@ RewriteCond %{HTTPS} off
 RewriteCond %{HTTP_HOST} ^sushantrana\.com$ [NC]
 RewriteRule ^(.*)$ https://sushantrana.com/$1 [R=301,L]
 
+# /about/index.html -> /about/ (one URL per page). THE_REQUEST: only what the
+# browser asked for, so DirectoryIndex's internal index.html never loops.
+RewriteCond %{THE_REQUEST} \s/+(.*/)?index\.html[\s?]
+RewriteRule ^(.*/)?index\.html$ /$1 [R=301,L]
+
 # Thank-you pages were renamed per form; old URLs keep working.
 RewriteRule ^thank-you/?$ /thank-you-consultation/ [R=301,L]
 RewriteRule ^services/shopify-store-development/thank-you/?$ /thank-you-shopify-store-development/ [R=301,L]
@@ -40,5 +45,18 @@ RewriteRule ^services/website-maintenance/thank-you/?$ /thank-you-website-mainte
 # Repo files that are not part of the site (notes, local dev router, DB
 # migrations) — the whole repo is deployed, so hide them from visitors.
 RedirectMatch 404 ^/(dev|supabase|_originals|includes|\.claude|\.git)(/|$)
+RedirectMatch 404 ^/\.gitignore$
 
 RedirectMatch 404 \.md$
+
+# Security headers. No Content-Security-Policy yet: GTM injects third-party
+# tags chosen in the GTM dashboard, so a policy needs that tag list first.
+<IfModule mod_headers.c>
+  Header always set Strict-Transport-Security "max-age=31536000"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+  Header always unset X-Powered-By
+  Header unset X-Powered-By
+</IfModule>

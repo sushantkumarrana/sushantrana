@@ -205,8 +205,8 @@ RELATED = [
     ("Meta Ads", "/services/meta-ads/"),
     ("Local SEO", "/services/local-seo/"),
     ("Landing pages", "/services/landing-pages/"),
-    ("Remarketing", "/services/remarketing/"),
-    ("CRM consulting", "/services/crm-consulting/"),
+    ("Remarketing", None),
+    ("CRM consulting", None),
 ]
 
 PAGE = {
@@ -227,7 +227,7 @@ PAGE = {
     "og_alt": "Real estate lead generation services by Sushant Rana",
     "desc": "Real estate lead generation services for agents and developers: quality buyer and seller leads from Google Ads, Meta Ads, local SEO and landing pages.",
     "cta": CTA,
-    "trail": [("Home", "/"), ("Industries", "/industries/"), ("Real Estate", None)],
+    "trail": [("Home", "/"), ("Real Estate", None)],
     "related": RELATED,
     "faq": {"pill": "Common questions", "h2": ("Frequently asked questions", "about real estate marketing"),
             "body": ["Channels, lead quality, budgets and follow up. If yours is not here, ask me on the call."], "items": FAQ},
@@ -320,7 +320,7 @@ PAGE["sections"] = [
     L.chips_section({"id": "who", "h2": ("Real estate businesses", "I work with"),
                      "body": "I help individual agents and realtors, brokers and agencies, property developers and builders, and teams selling apartments, plots or commercial spaces. Whether you sell one project or many, I can bring you quality leads.",
                      "chips": [("Agents and realtors", None), ("Brokers and agencies", None), ("Developers and builders", None), ("Apartments", None), ("Plots", None),
-                               ("Commercial spaces", None), ("Local businesses", "/industries/local-businesses/")]}),
+                               ("Commercial spaces", None), ("Local businesses", None)]}),
     L.chips_section({"id": "related", "h2": ("Services behind", "your real estate marketing"),
                      "body": "The channels, pages and follow up that bring serious leads in, each with its own page if you want the detail.", "chips": RELATED}),
     L.faq(PAGE["faq"]),

@@ -182,9 +182,9 @@ RELATED = [
     ("Google Shopping Ads", "/services/google-shopping-ads/"),
     ("Technical SEO", "/services/technical-seo/"),
     ("On-page SEO", "/services/on-page-seo/"),
-    ("Ecommerce websites", "/services/ecommerce-website/"),
+    ("Ecommerce websites", None),
     ("Link building", "/services/link-building/"),
-    ("Content SEO", "/services/content-seo/"),
+    ("Content SEO", None),
 ]
 
 PAGE = {
@@ -293,7 +293,7 @@ PAGE["sections"] = [
     L.chips_section({"id": "who", "h2": ("Online stores", "I work with"),
                      "body": "Shopify stores, WooCommerce stores and other ecommerce platforms across many product categories. If you sell products online, ecommerce SEO can grow your free sales.",
                      "chips": [("Shopify stores", "/services/shopify-store-development/"), ("WooCommerce stores", "/services/wordpress-development/"),
-                               ("Other ecommerce platforms", "/services/ecommerce-website/"), ("Ecommerce brands", "/industries/ecommerce/")]}),
+                               ("Other ecommerce platforms", None), ("Ecommerce brands", None)]}),
     L.chips_section({"id": "related", "h2": ("Services that pair with", "ecommerce SEO"),
                      "body": "Online stores grow fastest when SEO, Shopping ads and a healthy store are handled together.", "chips": RELATED}),
     L.faq(PAGE["faq"]),

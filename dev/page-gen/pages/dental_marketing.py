@@ -167,7 +167,7 @@ RELATED = [
     ("Google Business Profile", "/services/google-business-profile/"),
     ("Meta Ads", "/services/meta-ads/"),
     ("Landing pages", "/services/landing-pages/"),
-    ("Lead generation", "/services/lead-generation/"),
+    ("Lead generation", None),
 ]
 
 PAGE = {
@@ -188,7 +188,7 @@ PAGE = {
     "og_alt": "Dental marketing services by Sushant Rana",
     "desc": "Dental marketing services that bring new patients with Google Ads, local SEO and high converting landing pages. Book a free dental marketing call.",
     "cta": CTA,
-    "trail": [("Home", "/"), ("Industries", "/industries/"), ("Dental", None)],
+    "trail": [("Home", "/"), ("Dental", None)],
     "related": RELATED,
     "faq": {"pill": "Common questions", "h2": ("Frequently asked questions", "about dental marketing"),
             "body": ["Channels, budgets, timelines and tracking. If yours is not here, ask me on the call."], "items": FAQ},
@@ -281,7 +281,7 @@ PAGE["sections"] = [
     L.chips_section({"id": "who", "h2": ("Dental clinics", "I work with"),
                      "body": "I help general dentists, cosmetic and implant clinics, orthodontists and multi location dental practices. Whether you are a new clinic or an established one wanting to grow, I can bring you more of the patients you want.",
                      "chips": [("General dentists", None), ("Cosmetic and implant clinics", None), ("Orthodontists", None), ("Multi location practices", None),
-                               ("New clinics", None), ("Healthcare", "/industries/healthcare/"), ("Local businesses", "/industries/local-businesses/")]}),
+                               ("New clinics", None), ("Healthcare", None), ("Local businesses", None)]}),
     L.chips_section({"id": "related", "h2": ("Services behind", "your dental marketing"),
                      "body": "The channels and pages that bring patients in, each with its own page if you want the detail.", "chips": RELATED}),
     L.faq(PAGE["faq"]),

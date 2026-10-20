@@ -300,7 +300,7 @@ PAGE["sections"] = [
                   ]}),
     L.chips_section({"id": "who", "h2": ("Websites", "I work with"),
                      "body": "Business websites, ecommerce stores, large content sites and any site that has stopped ranking or was never set up correctly. If you suspect a technical problem is holding you back, I can find and fix it.",
-                     "chips": [("Business websites", None), ("Ecommerce stores", "/industries/ecommerce/"), ("Large content sites", "/services/enterprise-seo/"),
+                     "chips": [("Business websites", None), ("Ecommerce stores", None), ("Large content sites", "/services/enterprise-seo/"),
                                ("Sites that stopped ranking", "/services/seo-audit/"), ("Sites never set up correctly", None)]}),
     L.chips_section({"id": "related", "h2": ("Services that pair with", "technical SEO"),
                      "body": "A healthy site lets your pages, content and links do their job. These are the services that build on it.", "chips": RELATED}),

@@ -175,7 +175,7 @@ RELATED = [
     ("Google Ads", "/services/google-ads/"),
     ("Meta Ads", "/services/meta-ads/"),
     ("LinkedIn Ads", "/services/linkedin-ads/"),
-    ("Remarketing", "/services/remarketing/"),
+    ("Remarketing", None),
     ("Landing pages", "/services/landing-pages/"),
 ]
 
@@ -291,8 +291,8 @@ PAGE["sections"] = [
                   ]}),
     L.chips_section({"id": "who", "h2": ("Businesses I run", "YouTube Ads for"),
                      "body": "Ecommerce brands, coaches and course creators, local services, healthcare, real estate and any business that can tell a good story on video. If you have something to show, YouTube can work for you.",
-                     "chips": [("Ecommerce brands", "/industries/ecommerce/"), ("Coaches and course creators", "/industries/education/"), ("Local services", "/industries/local-businesses/"),
-                               ("Healthcare", "/industries/healthcare/"), ("Real estate", "/industries/real-estate/")]}),
+                     "chips": [("Ecommerce brands", None), ("Coaches and course creators", "/industries/education/"), ("Local services", None),
+                               ("Healthcare", None), ("Real estate", "/industries/real-estate/")]}),
     L.chips_section({"id": "related", "h2": ("Services that pair with", "YouTube Ads"),
                      "body": "YouTube works best alongside search, social and remarketing, so viewers who remember you can find you again.", "chips": RELATED}),
     L.faq(PAGE["faq"]),

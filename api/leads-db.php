@@ -111,6 +111,39 @@ function leads_purge(): void
     $db->prepare('DELETE FROM visitors WHERE last_seen < ?')->execute([$cut]);
 }
 
+const MANUAL_CHANNELS = ['WhatsApp', 'Telegram', 'Phone call', 'LinkedIn DM', 'Referral', 'Other'];
+
+/** Change a lead's status from the panel. Returns an error message, or null when saved.
+ *  'won' needs the deal amount: it is what the ad platforms are told the lead was worth. */
+function lead_set_status(PDO $db, int $id, string $status, ?string $value, ?string $currency): ?string
+{
+    if (!in_array($status, LEAD_STATUSES, true)) return 'Unknown status.';
+    if ($status === 'won') {
+        $amount = trim((string) $value);
+        if (!is_numeric($amount) || (float) $amount <= 0) return 'Enter the deal amount to mark this lead won.';
+        if (!in_array($currency, LEAD_CURRENCIES, true)) return 'Choose the currency of the deal.';
+        $db->prepare('UPDATE leads SET status = ?, value = ?, currency = ?, status_at = ? WHERE id = ?')
+            ->execute([$status, (float) $amount, $currency, gmdate('c'), $id]);
+        return null;
+    }
+    $db->prepare('UPDATE leads SET status = ?, status_at = ? WHERE id = ?')->execute([$status, gmdate('c'), $id]);
+    return null;
+}
+
+/** A lead that came in by WhatsApp, Telegram, a call, a LinkedIn DM or a referral. Returns its id. */
+function lead_add_manual(PDO $db, array $in): int
+{
+    $s = fn(string $k, int $max) => mb_substr(trim((string) ($in[$k] ?? '')), 0, $max);
+    if ($s('name', 120) === '') throw new InvalidArgumentException('Enter a name.');
+    if ($s('phone', 40) === '' && $s('email', 200) === '') throw new InvalidArgumentException('Enter a phone number or an email.');
+    if (!in_array($in['channel'] ?? '', MANUAL_CHANNELS, true)) throw new InvalidArgumentException('Choose where the lead came from.');
+    $db->prepare("INSERT INTO leads (created_at, form, name, email, phone, business, service, message, channel, status)
+        VALUES (?, 'manual', ?, ?, ?, ?, ?, ?, ?, 'new')")
+        ->execute([gmdate('c'), $s('name', 120), $s('email', 200), $s('phone', 40), $s('business', 200) ?: null,
+            $s('service', 120) ?: null, $s('message', 4000) ?: null, $in['channel']]);
+    return (int) $db->lastInsertId();
+}
+
 /**
  * Where the visitor came from, from what the browser remembered on landing.
  * Click IDs beat UTMs: Google and Meta add them to ad clicks automatically.

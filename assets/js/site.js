@@ -170,7 +170,8 @@
       "click",
       (e) => {
         const a = e.target.closest("a, button");
-        if (!a) return;
+        // a form's own Next / Back / Send buttons are form progress, not calls to action
+        if (!a || (a.tagName === "BUTTON" && a.closest("form"))) return;
         const href = a.getAttribute("href") || "";
         const x = /^https:\/\/(wa\.me|api\.whatsapp\.com)\//.test(href) ? "whatsapp"
           : href.startsWith("tel:") ? "call"

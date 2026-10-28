@@ -211,7 +211,7 @@
     bar.innerHTML =
       '<p class="consent-title">Can I count your visit?</p>' +
       '<p class="consent-body">I use cookies to see which pages help visitors and which ads bring enquiries. ' +
-      'Nothing is shared or sold. <a href="/privacy-policy/#cookies">Privacy Policy</a></p>' +
+      'Nothing is shared or sold. <a href="/privacy-policy/#cookies-and-analytics">Privacy Policy</a></p>' +
       '<div class="consent-actions"><button type="button" class="consent-btn consent-yes" data-consent="granted">Accept</button>' +
       '<button type="button" class="consent-btn" data-consent="denied">Decline</button></div>';
     bar.addEventListener("click", (e) => {

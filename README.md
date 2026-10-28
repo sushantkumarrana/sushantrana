@@ -25,6 +25,8 @@ No Node.js, no React, no build step. Every page is a normal `.html` file.
 2. Copy `api/config.sample.php` to `api/config.php` and fill in the Supabase and Resend keys.
 3. hPanel → Advanced → Cron Jobs, every 6 hours:
    `curl -s https://sushantrana.com/api/heartbeat.php > /dev/null`
+   and daily at 02:30 IST (visit totals and 90-day clean-up for the leads panel):
+   `php ~/domains/sushantrana.com/public_html/api/cron-daily.php`
 4. Open the site, submit the consultation form once, confirm the email arrives.
 
 ## Editing

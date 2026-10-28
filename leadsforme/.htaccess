@@ -8,7 +8,7 @@ RewriteEngine On
 RewriteCond %{HTTP_HOST} !^leadsforme\. [NC]
 RewriteRule ^ - [F,L]
 # views are included by index.php, never opened directly
-RewriteRule ^views/ - [F,L]
+RewriteRule ^(views/|reports\.php) - [F,L]
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
 

@@ -5822,3 +5822,17 @@ main [data-tabs] [data-tab] { min-width: 0; overflow-wrap: anywhere; }
 /* The hero (the section holding the H1) is the LCP area: show it on first paint.
    Hiding it until site.js adds .is-in delayed LCP by the script load + fade. */
 .js section:has(h1) [data-reveal] { opacity: 1; transform: none; transition: none; }
+
+/* Cookie consent bar (site.js), shown only in Europe, the UK and Switzerland.
+   Leaves room on the right for the floating WhatsApp button. */
+.consent-bar { position: fixed; z-index: 100; left: 12px; right: 76px; bottom: 12px; max-width: 26rem; padding: 1rem 1.1rem;
+  background: #fff; color: var(--color-body); border: 1px solid var(--color-line); border-radius: 1rem;
+  box-shadow: 0 18px 40px -18px rgba(10, 10, 10, 0.35); font-size: 0.875rem; line-height: 1.5; }
+.consent-title { font-weight: 700; color: var(--color-ink); }
+.consent-body { margin-top: 0.25rem; }
+.consent-body a { color: var(--color-orange); text-decoration: underline; text-underline-offset: 3px; }
+.consent-actions { display: flex; gap: 0.5rem; margin-top: 0.75rem; }
+.consent-btn { flex: 1; padding: 0.55rem 0.9rem; border-radius: 999px; border: 1px solid var(--color-line); font-weight: 600; color: var(--color-ink); background: #fff; cursor: pointer; }
+.consent-yes { background: var(--color-orange); border-color: var(--color-orange); color: #fff; }
+.consent-btn:focus-visible { outline: 2px solid var(--color-orange); outline-offset: 2px; }
+@media (min-width: 40rem) { .consent-bar { left: 24px; bottom: 24px; } }

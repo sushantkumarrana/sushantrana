@@ -124,8 +124,11 @@
   };
 
   let queue = [];
-  const flushTrack = () => {
-    if (!queue.length) return;
+  /** Send queued events. While a European visitor has not answered the
+   *  banner they wait, so an "Accept" still gets this page into the story;
+   *  leaving = true sends them anyway, anonymous, as the page is closing. */
+  const flushTrack = (leaving = false) => {
+    if (!queue.length || (!leaving && consent() === "pending")) return;
     const { v, s } = trackIds();
     const body = JSON.stringify({ v, s, tz, ref: document.referrer, attr: v ? attribution : {}, e: queue.splice(0, 50) });
     if (!(navigator.sendBeacon && navigator.sendBeacon("/api/t.php", new Blob([body], { type: "application/json" }))))
@@ -135,7 +138,7 @@
   const track = (t, fields = {}) => {
     if (silenced) return;
     queue.push({ t, p: location.pathname, ...fields });
-    if (queue.length >= 50) flushTrack();
+    if (queue.length >= 50) flushTrack(true);
   };
 
   if (!silenced) {
@@ -155,7 +158,7 @@
       onScroll(); // catches a fast scroll whose events never fired (background tab, smooth scroll)
       if (shownAt) track("engaged", { n: Date.now() - shownAt });
       shownAt = 0;
-      flushTrack();
+      flushTrack(true);
     };
     document.addEventListener("visibilitychange", () => {
       if (document.visibilityState === "hidden") leave();
@@ -178,7 +181,7 @@
         if (!x) return;
         const l = (a.innerText || a.getAttribute("aria-label") || "").replace(/\s+/g, " ").trim().slice(0, 120);
         track("click", { x, l });
-        if (x !== "cta") flushTrack(); // the page is about to be left
+        if (x !== "cta") flushTrack(true); // the page is about to be left
       },
       true
     );
@@ -197,6 +200,36 @@
     );
 
     setInterval(flushTrack, 10000);
+  }
+
+  /* ---- cookie consent: a banner only in Europe, the UK and Switzerland ---- */
+  if (consent() === "pending") {
+    const bar = document.createElement("div");
+    bar.className = "consent-bar";
+    bar.setAttribute("role", "dialog");
+    bar.setAttribute("aria-label", "Cookie consent");
+    bar.innerHTML =
+      '<p class="consent-title">Can I count your visit?</p>' +
+      '<p class="consent-body">I use cookies to see which pages help visitors and which ads bring enquiries. ' +
+      'Nothing is shared or sold. <a href="/privacy-policy/#cookies">Privacy Policy</a></p>' +
+      '<div class="consent-actions"><button type="button" class="consent-btn consent-yes" data-consent="granted">Accept</button>' +
+      '<button type="button" class="consent-btn" data-consent="denied">Decline</button></div>';
+    bar.addEventListener("click", (e) => {
+      const b = e.target.closest("[data-consent]");
+      if (!b) return;
+      const g = b.dataset.consent;
+      store.set("sr_consent", g);
+      window.dataLayer = window.dataLayer || [];
+      // the gtag() shape: GTM reads consent commands only as an arguments object
+      (function () {
+        window.dataLayer.push(arguments);
+      })("consent", "update", { ad_storage: g, ad_user_data: g, ad_personalization: g, analytics_storage: g });
+      bar.remove();
+      // the story starts on this page, even if its page_view already left anonymous (tab switched first)
+      if (g === "granted" && !queue.some((q) => q.t === "page_view")) track("page_view");
+      flushTrack(); // with IDs after Accept, without after Decline
+    });
+    document.body.append(bar);
   }
 
   /** Replace one class set with another. */

@@ -11,13 +11,15 @@
 
 declare(strict_types=1);
 
-// Privacy Policy promises deletion within three weeks of last contact.
-// Change the policy page too if you change this. 'won' leads are kept.
-const LEADS_RETENTION_DAYS = 21;
-const LEAD_STATUSES = ['new', 'contacted', 'won', 'lost'];
+// Privacy Policy promises deletion within 90 days. Change the policy page
+// too if you change this. 'won' leads are kept; visitor stories go too.
+const LEADS_RETENTION_DAYS = 90;
+const LEAD_STATUSES = ['new', 'qualified', 'wrong', 'won', 'lost'];
+const LEAD_CURRENCIES = ['INR', 'AED', 'USD', 'EUR', 'GBP', 'CAD', 'CHF'];
 
 function leads_data_dir(): string
 {
+    if ($env = getenv('LEADS_DATA_DIR')) return $env;  // dev/tests
     $parts = explode('/domains/', __DIR__, 2);
     $dir = count($parts) === 2 ? $parts[0] . '/leads-data' : dirname(__DIR__) . '/.data';
     if (!is_dir($dir)) mkdir($dir, 0700, true);
@@ -48,6 +50,10 @@ function leads_db(): PDO
             page         TEXT,                       -- page the form was sent from
             landing_page TEXT,                       -- first page of the visit
             journey      TEXT,                       -- every page of the visit, in order ("/ > /services/ > …")
+            visitor_id   TEXT,                       -- links the visitor's story (events)
+            value REAL, currency TEXT,               -- deal amount, set when won
+            li_fat_id    TEXT, ad_group TEXT, keyword TEXT,
+            status_at    TEXT,                       -- UTC, last status change
             referrer     TEXT,                       -- site that sent the visitor
             channel      TEXT,                       -- Google Ads, Facebook Ads, Organic search …
             utm_source   TEXT, utm_medium TEXT, utm_campaign TEXT, utm_term TEXT, utm_content TEXT,
@@ -57,17 +63,52 @@ function leads_db(): PDO
         );
         CREATE INDEX IF NOT EXISTS leads_created_at ON leads (created_at DESC);
         SQL);
-    // databases made before the journey column existed
-    if (!in_array('journey', array_column($db->query('PRAGMA table_info(leads)')->fetchAll(), 'name'), true)) {
-        $db->exec('ALTER TABLE leads ADD COLUMN journey TEXT');
+    // databases made before these columns existed
+    $have = array_column($db->query('PRAGMA table_info(leads)')->fetchAll(), 'name');
+    foreach (['journey' => 'TEXT', 'visitor_id' => 'TEXT', 'value' => 'REAL', 'currency' => 'TEXT', 'li_fat_id' => 'TEXT',
+              'status_at' => 'TEXT', 'ad_group' => 'TEXT', 'keyword' => 'TEXT'] as $col => $type) {
+        if (!in_array($col, $have, true)) $db->exec("ALTER TABLE leads ADD COLUMN $col $type");
     }
+    $db->exec("UPDATE leads SET status = 'new' WHERE status = 'contacted'");
+    $db->exec(<<<SQL
+        CREATE INDEX IF NOT EXISTS leads_visitor ON leads (visitor_id);
+        -- the site's own analytics (api/t.php); no IP addresses, no form contents
+        CREATE TABLE IF NOT EXISTS visitors (
+            id TEXT PRIMARY KEY, first_seen TEXT, last_seen TEXT, country TEXT, first_channel TEXT, first_landing TEXT
+        );
+        CREATE TABLE IF NOT EXISTS sessions (
+            id TEXT PRIMARY KEY, visitor_id TEXT, started_at TEXT, last_at TEXT, landing TEXT, channel TEXT, referrer TEXT,
+            utm_source TEXT, utm_medium TEXT, utm_campaign TEXT, device TEXT, country TEXT
+        );
+        CREATE INDEX IF NOT EXISTS sessions_visitor ON sessions (visitor_id);
+        CREATE TABLE IF NOT EXISTS events (
+            id INTEGER PRIMARY KEY, ts TEXT, visitor_id TEXT, session_id TEXT, type TEXT, path TEXT, target TEXT,
+            label TEXT, value INTEGER, lead_id INTEGER
+        );
+        CREATE INDEX IF NOT EXISTS events_ts ON events (ts);
+        CREATE INDEX IF NOT EXISTS events_visitor ON events (visitor_id);
+        CREATE INDEX IF NOT EXISTS events_path ON events (path, ts);
+        -- daily totals, no visitor or session IDs, kept after the 90 days
+        CREATE TABLE IF NOT EXISTS page_daily (
+            day TEXT, path TEXT, views INT, visitors INT, engaged_ms INT, engaged_n INT, s25 INT, s50 INT, s75 INT, s90 INT,
+            wa INT, call INT, email INT, form_start INT, form_submit INT, PRIMARY KEY (day, path)
+        );
+        CREATE TABLE IF NOT EXISTS channel_daily (
+            day TEXT, channel TEXT, sessions INT, visitors INT, wa INT, call INT, form_start INT, form_submit INT,
+            PRIMARY KEY (day, channel)
+        );
+        SQL);
     return $db;
 }
 
 function leads_purge(): void
 {
-    leads_db()->prepare("DELETE FROM leads WHERE status <> 'won' AND created_at < ?")
-        ->execute([gmdate('c', time() - LEADS_RETENTION_DAYS * 86400)]);
+    $db = leads_db();
+    $cut = gmdate('c', time() - LEADS_RETENTION_DAYS * 86400);
+    $db->prepare("DELETE FROM leads WHERE status <> 'won' AND created_at < ?")->execute([$cut]);
+    $db->prepare('DELETE FROM events WHERE ts < ?')->execute([$cut]);
+    $db->prepare('DELETE FROM sessions WHERE last_at < ?')->execute([$cut]);
+    $db->prepare('DELETE FROM visitors WHERE last_seen < ?')->execute([$cut]);
 }
 
 /**

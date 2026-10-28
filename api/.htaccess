@@ -5,6 +5,6 @@
 <Files "config.sample.php">
   Require all denied
 </Files>
-<FilesMatch "^(catalog|lead-email|leads-db)\.php$">
+<FilesMatch "^(catalog|lead-email|leads-db|track)\.php$">
   Require all denied
 </FilesMatch>

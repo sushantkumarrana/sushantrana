@@ -67,10 +67,12 @@ $form = preg_replace('/[^a-z_]/', '', $clean('form', 40));
 // First-touch attribution the browser kept since landing (site.js, sr_attr).
 $attrIn = is_array($body['attribution'] ?? null) ? $body['attribution'] : [];
 $attr = [];
-foreach (['landing_page', 'referrer', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'fbclid'] as $k) {
+foreach (['landing_page', 'referrer', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'fbclid', 'li_fat_id'] as $k) {
     $attr[$k] = is_string($attrIn[$k] ?? null) ? mb_substr(trim($attrIn[$k]), 0, 300) : '';
 }
 $channel = lead_channel($attr);
+// The visitor's story in the site's own analytics (site.js trackIds), when counted.
+$visitorId = preg_match('/^[a-f0-9]{32}$/', (string) ($body['visitorId'] ?? '')) ? $body['visitorId'] : null;
 
 // Pages this visit went through, oldest first (site.js, sr_journey).
 $journeyIn = is_array($body['journey'] ?? null) ? $body['journey'] : [];
@@ -130,6 +132,7 @@ function http_json(string $url, array $headers, array $payload, int $timeout = 8
 }
 
 $stored = false;
+$leadId = null;
 $url = $cfg('SUPABASE_URL');
 $key = $cfg('SUPABASE_PUBLISHABLE_KEY');
 if ($url && $key) {
@@ -156,14 +159,17 @@ try {
     $nul = fn(string $v) => $v === '' ? null : $v;
     leads_db()->prepare(
         'INSERT INTO leads (created_at, form, name, email, phone, business, service, enquiry_type, message, page,
-            landing_page, journey, referrer, channel, utm_source, utm_medium, utm_campaign, utm_term, utm_content, gclid, fbclid, user_agent)
-         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
+            landing_page, journey, referrer, channel, utm_source, utm_medium, utm_campaign, utm_term, utm_content, gclid, fbclid, user_agent,
+            visitor_id, li_fat_id)
+         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
     )->execute([
         gmdate('c'), $nul($form), $name, $email, $phoneE164, $nul($business), $nul($service), $nul($enquiryType), $nul($message), $sourcePath,
         $nul($attr['landing_page']), $nul($journey), $nul($attr['referrer']), $channel, $nul($attr['utm_source']), $nul($attr['utm_medium']),
         $nul($attr['utm_campaign']), $nul($attr['utm_term']), $nul($attr['utm_content']), $nul($attr['gclid']), $nul($attr['fbclid']),
         mb_substr($_SERVER['HTTP_USER_AGENT'] ?? '', 0, 300) ?: null,
+        $visitorId, $nul($attr['li_fat_id']),
     ]);
+    $leadId = (int) leads_db()->lastInsertId();
     $stored = true;
     leads_purge();
 } catch (Throwable $e) {
@@ -201,7 +207,7 @@ if (!$stored && !$emailed) {
     reply(['ok' => false, 'error' => "Something went wrong. Please email me directly at $to."], 500);
 }
 
-reply(['ok' => true]);
+reply(['ok' => true, 'lead' => $leadId]);
 
 /* ------------------------------------------------------------------ */
 

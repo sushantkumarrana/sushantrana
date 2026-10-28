@@ -803,10 +803,15 @@
     const res = await fetch("/api/lead.php", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...payload, form, attribution, journey, sourcePath: location.pathname }),
+      body: JSON.stringify({ ...payload, form, attribution, journey, visitorId: trackIds().v, sourcePath: location.pathname }),
     });
     const data = await res.json().catch(() => ({}));
-    return { ok: res.ok && data.ok, data };
+    const ok = res.ok && data.ok;
+    if (ok) {
+      track("form_submit", { x: form, lead: data.lead });
+      flushTrack(true); // the thank-you redirect comes next
+    }
+    return { ok, data };
   }
 
   const NETWORK = "Network problem. Please check your connection and retry.";

@@ -19,7 +19,7 @@
    * Kept from the first page of the visit for 90 days; a new ad click or
    * campaign link replaces it, so the lead is credited to the latest one. */
   const ATTR_KEY = "sr_attr";
-  const ATTR_PARAMS = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "gclid", "gbraid", "wbraid", "fbclid"];
+  const ATTR_PARAMS = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "gclid", "gbraid", "wbraid", "fbclid", "li_fat_id"];
   const attribution = (() => {
     let saved = null;
     try {
@@ -63,6 +63,141 @@
     }
     return j;
   })();
+
+  /* ---- the site's own analytics (api/t.php, read in leadsforme) ----
+   * A visitor ID kept 90 days and a session ID (new after 30 idle minutes),
+   * only once the visitor may be counted: always outside Europe, after
+   * "Accept" inside it. Otherwise events go without IDs, as plain counts.
+   * Never sends form contents, names, emails or phone numbers. */
+  const raw = (k) => {
+    try {
+      return localStorage.getItem(k);
+    } catch {
+      return null;
+    }
+  };
+  const store = {
+    get(k) {
+      try {
+        return JSON.parse(raw(k) || "null");
+      } catch {
+        return null;
+      }
+    },
+    set(k, v) {
+      try {
+        localStorage.setItem(k, typeof v === "string" ? v : JSON.stringify(v));
+      } catch {
+        /* storage blocked: this visitor stays anonymous */
+      }
+    },
+  };
+  const tz = (() => {
+    try {
+      return Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+    } catch {
+      return "";
+    }
+  })();
+  // localStorage.sr_region = "eu" previews the European path from anywhere
+  const inEurope = () => raw("sr_region") === "eu" || tz.startsWith("Europe/");
+  const consent = () => {
+    if (!inEurope()) return "granted";
+    const c = raw("sr_consent");
+    return c === "granted" || c === "denied" ? c : "pending";
+  };
+  const silenced = /(^|;\s*)sr_me=1/.test(document.cookie) || navigator.webdriver === true;
+  const newId = () => Array.from(crypto.getRandomValues(new Uint8Array(16)), (b) => b.toString(16).padStart(2, "0")).join("");
+
+  /** {v, s}: visitor and session IDs, or nulls when this visitor is not counted. */
+  const trackIds = () => {
+    if (consent() !== "granted") return { v: null, s: null };
+    const now = Date.now();
+    let v = store.get("sr_vid");
+    if (!v || !v.id || now - v.t > 90 * 864e5) store.set("sr_vid", (v = { id: newId(), t: now }));
+    let s = store.get("sr_sid");
+    if (!s || !s.id || now - s.last > 30 * 6e4) s = { id: newId() };
+    store.set("sr_sid", { id: s.id, last: now });
+    // nothing was saved (storage blocked): a new ID per page would invent visitors
+    if (!store.get("sr_vid")) return { v: null, s: null };
+    return { v: v.id, s: s.id };
+  };
+
+  let queue = [];
+  const flushTrack = () => {
+    if (!queue.length) return;
+    const { v, s } = trackIds();
+    const body = JSON.stringify({ v, s, tz, ref: document.referrer, attr: v ? attribution : {}, e: queue.splice(0, 50) });
+    if (!(navigator.sendBeacon && navigator.sendBeacon("/api/t.php", new Blob([body], { type: "application/json" }))))
+      fetch("/api/t.php", { method: "POST", body, keepalive: true }).catch(() => {});
+  };
+  /** Queue one event: t is page_view | scroll | engaged | click | form_start | form_submit. */
+  const track = (t, fields = {}) => {
+    if (silenced) return;
+    queue.push({ t, p: location.pathname, ...fields });
+    if (queue.length >= 50) flushTrack();
+  };
+
+  if (!silenced) {
+    track("page_view");
+
+    const seen = new Set();
+    const onScroll = () => {
+      const max = document.documentElement.scrollHeight;
+      const pct = max ? ((scrollY + innerHeight) / max) * 100 : 100;
+      [25, 50, 75, 90].forEach((n) => pct >= n && !seen.has(n) && (seen.add(n), track("scroll", { n })));
+    };
+    addEventListener("scroll", onScroll, { passive: true });
+    addEventListener("load", onScroll);
+
+    let shownAt = document.visibilityState === "visible" ? Date.now() : 0;
+    const leave = () => {
+      onScroll(); // catches a fast scroll whose events never fired (background tab, smooth scroll)
+      if (shownAt) track("engaged", { n: Date.now() - shownAt });
+      shownAt = 0;
+      flushTrack();
+    };
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "hidden") leave();
+      else shownAt = Date.now();
+    });
+    addEventListener("pagehide", leave);
+
+    document.addEventListener(
+      "click",
+      (e) => {
+        const a = e.target.closest("a, button");
+        if (!a) return;
+        const href = a.getAttribute("href") || "";
+        const x = /^https:\/\/(wa\.me|api\.whatsapp\.com)\//.test(href) ? "whatsapp"
+          : href.startsWith("tel:") ? "call"
+          : href.startsWith("mailto:") ? "email"
+          : a.host && a.host !== location.host ? "outbound"
+          : a.matches(".btn, [data-consult]") ? "cta"
+          : "";
+        if (!x) return;
+        const l = (a.innerText || a.getAttribute("aria-label") || "").replace(/\s+/g, " ").trim().slice(0, 120);
+        track("click", { x, l });
+        if (x !== "cta") flushTrack(); // the page is about to be left
+      },
+      true
+    );
+
+    const started = new WeakSet();
+    document.addEventListener(
+      "input",
+      (e) => {
+        const f = e.target.closest && e.target.closest("form");
+        if (!f || started.has(f)) return;
+        started.add(f);
+        const named = f.closest("[data-form-name]");
+        track("form_start", { x: named ? named.dataset.formName : f.matches("[data-lead-form]") ? "consultation" : "form" });
+      },
+      true
+    );
+
+    setInterval(flushTrack, 10000);
+  }
 
   /** Replace one class set with another. */
   const cls = (el, add, remove) => {

@@ -126,9 +126,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $csrfOk() && $action === 'lead-new'
     exit;
 }
 
+/* ---- shared by the report views ---- */
+require __DIR__ . '/reports.php';
+$ist = fn(string $utc, string $fmt = 'j M Y, g:i a') => (new DateTime($utc))->setTimezone(new DateTimeZone(TZ))->format($fmt);
+$num = fn($n) => number_format((float) $n);
+$dur = fn(int $s) => $s >= 60 ? intdiv($s, 60) . 'm ' . ($s % 60) . 's' : $s . 's';
+// Date range: a preset or from/to, never older than the 90 days the raw tables keep.
+$today = (new DateTime('now', new DateTimeZone(TZ)))->format('Y-m-d');
+$oldest = (new DateTime('now', new DateTimeZone(TZ)))->modify('-' . (LEADS_RETENTION_DAYS - 1) . ' days')->format('Y-m-d');
+$preset = in_array($_GET['r'] ?? '', ['1', '7', '30', '90', 'custom'], true) ? $_GET['r'] : '30';
+$isDay = fn($d) => is_string($d) && preg_match('/^\d{4}-\d{2}-\d{2}$/', $d);
+if ($preset === 'custom' && $isDay($_GET['from'] ?? null) && $isDay($_GET['to'] ?? null)) {
+    [$from, $to] = [max($oldest, $_GET['from']), min($today, $_GET['to'])];
+} else {
+    $preset = $preset === 'custom' ? '30' : $preset;
+    $from = (new DateTime($today))->modify('-' . ((int) $preset - 1) . ' days')->format('Y-m-d');
+    $to = $today;
+}
+$rangeQs = $preset === 'custom' ? "r=custom&from=$from&to=$to" : "r=$preset";
+$rangeForm = function (string $view, array $extra = []) use ($h, $preset, $from, $to, $oldest, $today): string {
+    $opts = '';
+    foreach (['1' => 'Today', '7' => '7 days', '30' => '30 days', '90' => '90 days', 'custom' => 'Custom'] as $k => $label) {
+        $opts .= '<option value="' . $k . '"' . ($preset === (string) $k ? ' selected' : '') . ">$label</option>";
+    }
+    $hidden = '';
+    foreach (['v' => $view] + $extra as $k => $v) $hidden .= '<input type="hidden" name="' . $h($k) . '" value="' . $h($v) . '">';
+    return '<form class="filters" method="get">' . $hidden . '<select name="r" aria-label="Date range">' . $opts . '</select>'
+        . '<label>From <input type="date" name="from" min="' . $oldest . '" max="' . $today . '" value="' . $from . '"></label>'
+        . '<label>To <input type="date" name="to" min="' . $oldest . '" max="' . $today . '" value="' . $to . '"></label><button>Show</button>'
+        . '<span class="muted small">Custom dates apply when "Custom" is chosen.</span></form>';
+};
+$bar = fn(float $part, float $max) => '<span class="bar"><i style="width:' . ($max > 0 ? round($part / $max * 100, 1) : 0) . '%"></i></span>';
+
 /* ---- views (views/*.php, each ends with page()) ---- */
-$view = (string) ($_GET['v'] ?? 'leads');
-if (!preg_match('/^[a-z-]+$/', $view) || !is_file(__DIR__ . "/views/$view.php")) $view = 'leads';
+$view = (string) ($_GET['v'] ?? 'overview');
+if (!preg_match('/^[a-z-]+$/', $view) || !is_file(__DIR__ . "/views/$view.php")) $view = 'overview';
 require __DIR__ . "/views/$view.php";
 
 
@@ -176,7 +208,7 @@ HTML;
 function nav(string $active, callable $h, string $user): string
 {
     $links = '';
-    foreach (['leads' => 'Leads'] as $v => $label) {
+    foreach (['overview' => 'Overview', 'leads' => 'Leads', 'pages' => 'Pages', 'visitors' => 'Visitors', 'settings' => 'Settings'] as $v => $label) {
         $links .= '<a href="?v=' . $v . '"' . ($v === $active ? ' class="on" aria-current="page"' : '') . ">$label</a>";
     }
     $csrf = $h($_SESSION['csrf']);
@@ -226,6 +258,20 @@ summary.row{cursor:pointer;list-style:none}summary.row::-webkit-details-marker{d
 .st{display:inline-block;font-size:12px;font-weight:700;text-transform:uppercase;border-radius:6px;padding:3px 8px;background:var(--line);color:var(--ink)}
 .st-new{background:var(--o);color:#fff}.st-qualified{background:#2563c9;color:#fff}.st-won{background:#1f8a4c;color:#fff}.st-wrong,.st-lost{opacity:.6}
 .tabs{display:flex;gap:14px;align-items:center;flex-wrap:wrap}.tabs a{color:var(--body);text-decoration:none;font-weight:600}.tabs a.on{color:var(--o)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin:14px 0 22px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:grid;gap:2px}
+.kpi b{font-size:24px;color:var(--ink);font-variant-numeric:tabular-nums}.kpi span{font-size:13px;color:var(--muted)}
+h2{color:var(--ink);font-size:17px;margin:22px 0 10px}
+.scroll{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:14px}
+table.rep{border-collapse:collapse;width:100%;font-size:14px;min-width:640px}
+.rep th,.rep td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+.rep th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700}
+.rep td.n,.rep th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}.rep tr:last-child td{border-bottom:0}
+.bar{display:inline-block;width:110px;height:8px;background:var(--line);border-radius:4px;vertical-align:middle;margin-right:8px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--o);border-radius:4px}
+.story{list-style:none;margin:0;padding:0 0 0 14px;border-left:2px solid var(--line);display:grid;gap:6px;font-size:14px}
+.story time{color:var(--muted);font-variant-numeric:tabular-nums;margin-right:8px}
+.sess{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:12px}
 .detail{padding:4px 16px 18px}
 dl{display:grid;grid-template-columns:200px 1fr;gap:6px 14px;margin:0 0 12px;font-size:14px}dt{color:var(--muted)}dd{margin:0;word-break:break-word;color:var(--ink)}
 .msg{white-space:normal;background:var(--bg);border-left:3px solid var(--o);border-radius:0 8px 8px 0;padding:12px 14px;margin-bottom:12px}

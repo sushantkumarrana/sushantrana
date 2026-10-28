@@ -189,7 +189,7 @@ RELATED = [
 
 PAGE = {
     "path": "/services/ecommerce-seo/",
-    "slug": "ecommerce-seo",
+    "slug": "ecommerce-seo", "thanks": "seo",
     "form_name": "ecommerce_seo",
     "service": "Ecommerce SEO",
     "service_name": "Ecommerce SEO services",

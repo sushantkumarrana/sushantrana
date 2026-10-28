@@ -219,7 +219,7 @@ RELATED = [
 
 PAGE = {
     "path": "/services/hubspot-crm/",
-    "slug": "hubspot-crm",
+    "slug": "hubspot-crm", "thanks": "crm-automation",
     "form_name": "hubspot_crm",
     "service": "HubSpot CRM",
     "service_name": "HubSpot CRM implementation and setup",

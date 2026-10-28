@@ -184,7 +184,7 @@ RELATED = [
 
 PAGE = {
     "path": "/services/local-seo/",
-    "slug": "local-seo",
+    "slug": "local-seo", "thanks": "seo",
     "form_name": "local_seo",
     "service": "Local SEO",
     "service_name": "Local SEO services",

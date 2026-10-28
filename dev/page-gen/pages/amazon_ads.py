@@ -182,7 +182,7 @@ RELATED = [
 
 PAGE = {
     "path": "/services/amazon-ads/",
-    "slug": "amazon-ads",
+    "slug": "amazon-ads", "thanks": "paid-ads",
     "form_name": "amazon_ads",
     "service": "Amazon Ads",
     "service_name": "Amazon PPC management",

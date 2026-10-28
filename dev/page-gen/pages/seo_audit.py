@@ -199,7 +199,7 @@ RELATED = [
 
 PAGE = {
     "path": "/services/seo-audit/",
-    "slug": "seo-audit",
+    "slug": "seo-audit", "thanks": "seo",
     "form_name": "seo_audit",
     "service": "SEO Audit",
     "service_name": "Website SEO audit",

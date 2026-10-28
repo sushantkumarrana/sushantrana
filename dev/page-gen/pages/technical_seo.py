@@ -198,7 +198,7 @@ RELATED = [
 
 PAGE = {
     "path": "/services/technical-seo/",
-    "slug": "technical-seo",
+    "slug": "technical-seo", "thanks": "seo",
     "form_name": "technical_seo",
     "service": "Technical SEO",
     "service_name": "Technical SEO services",

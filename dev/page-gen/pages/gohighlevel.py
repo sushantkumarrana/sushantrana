@@ -207,7 +207,7 @@ RELATED = [
 
 PAGE = {
     "path": "/services/gohighlevel/",
-    "slug": "gohighlevel",
+    "slug": "gohighlevel", "thanks": "crm-automation",
     "form_name": "gohighlevel",
     "service": "GoHighLevel",
     "service_name": "GoHighLevel setup and automation",

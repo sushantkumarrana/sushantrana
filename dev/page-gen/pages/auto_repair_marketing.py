@@ -179,7 +179,7 @@ RELATED = [
 
 PAGE = {
     "path": "/industries/auto-repair/",
-    "slug": "auto-repair-marketing",
+    "slug": "auto-repair-marketing", "thanks": "industry",
     "form_name": "auto_repair_marketing",
     "service": "Auto Repair Marketing",
     "service_name": "Auto repair marketing services",

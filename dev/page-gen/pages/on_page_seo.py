@@ -183,7 +183,7 @@ RELATED = [
 
 PAGE = {
     "path": "/services/on-page-seo/",
-    "slug": "on-page-seo",
+    "slug": "on-page-seo", "thanks": "seo",
     "form_name": "on_page_seo",
     "service": "On-Page SEO",
     "service_name": "On-page SEO services",

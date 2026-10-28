@@ -43,6 +43,27 @@
     return a;
   })();
 
+  /* ---- the pages this visit went through (sent with every lead) ----
+   * One entry per page view in this tab, thank-you pages left out. */
+  const JOURNEY_KEY = "sr_journey";
+  const journey = (() => {
+    let j = [];
+    try {
+      j = JSON.parse(sessionStorage.getItem(JOURNEY_KEY) || "[]");
+    } catch {
+      /* storage blocked: this page only */
+    }
+    if (!location.pathname.startsWith("/thank-you") && j[j.length - 1] !== location.pathname) {
+      j = [...j, location.pathname].slice(-30);
+      try {
+        sessionStorage.setItem(JOURNEY_KEY, JSON.stringify(j));
+      } catch {
+        /* fine: the lead still gets this page */
+      }
+    }
+    return j;
+  })();
+
   /** Replace one class set with another. */
   const cls = (el, add, remove) => {
     split(remove).forEach((c) => el.classList.remove(c));
@@ -601,7 +622,8 @@
     const flat = {};
     for (const [k, v] of Object.entries(fields)) flat[k] = Array.isArray(v) ? v.join(", ") : v ?? "";
     window.dataLayer.push({
-      event: `lead_${formName}`,
+      // the GA4 lead events (lead_paid_ads …) fire on the thank-you page instead
+      event: "lead_submit",
       form_name: formName,
       form_page: location.pathname,
       ...flat,
@@ -613,7 +635,7 @@
     const res = await fetch("/api/lead.php", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...payload, form, attribution, sourcePath: location.pathname }),
+      body: JSON.stringify({ ...payload, form, attribution, journey, sourcePath: location.pathname }),
     });
     const data = await res.json().catch(() => ({}));
     return { ok: res.ok && data.ok, data };
@@ -627,6 +649,13 @@
       /* storage blocked: the thank-you page falls back to a generic message */
     }
   };
+
+  /* Thank-you pages are shared by a whole group of forms, so the form leaves
+     a note of who sent it. The thank-you page reads it once: a refresh or a
+     back-button visit finds nothing and sends no second lead event. */
+  const LAST_KEY = "sr_last_lead";
+  const sentLead = (form, service, wa) =>
+    saveLead(LAST_KEY, { form, service, wa, form_page: location.pathname, journey });
 
   /* ---- the consultation form (popup + blog sidebar) ---- */
 
@@ -697,6 +726,7 @@
           { enquiry_type: str("enquiryType"), service: str("service"), business: str("business"), message: str("message") },
           { name, email: str("email"), phone: `+${dialOf(select)}${str("phone").replace(/\D/g, "")}` }
         );
+        sentLead("consultation", str("service") || "consultation");
         location.href = "/thank-you-consultation/";
       } catch {
         formError(form, NETWORK);
@@ -767,9 +797,6 @@
     lineOn: "bg-orange",
     lineOff: "bg-ink/10",
   };
-
-  const SHOPIFY_KEY = "shopify-lead";
-  const MAINT_KEY = "maintenance-lead";
 
   $$("[data-step-form]").forEach((root) => {
     const kind = root.dataset.stepForm;
@@ -896,12 +923,15 @@
           },
           { name: f("name"), email: f("email"), phone: `+${dial}${f("phone").replace(/\D/g, "")}` }
         );
-        saveLead(SHOPIFY_KEY, {
+        saveLead("lead-shopify_store_development", {
           name: f("name"), company: f("company"), email: f("email"), phone: `+${dial} ${f("phone")}`,
-          service: f("service"), platform: f("platform"), revenue: f("revenue"), products: f("products"),
-          timeline: f("timeline"), budget: f("budget"), details: f("details"),
+          answers: [
+            ["What I need", f("service")], ["Current platform", f("platform")], ["Monthly revenue", f("revenue")],
+            ["Products", f("products")], ["Timeline", f("timeline")], ["Budget", f("budget")], ["Notes", f("details")],
+          ].filter(([, v]) => v),
         });
-        location.href = "/thank-you-shopify-store-development/";
+        sentLead("shopify_store_development", "Shopify store");
+        location.href = "/thank-you-website/";
       },
       // a rejected email or phone goes back to step 1, next to the field
       fieldStep: 0,
@@ -982,12 +1012,16 @@
           },
           { name: val("name"), email: val("email"), phone: `+${dial}${val("phone").replace(/\D/g, "")}` }
         );
-        saveLead(MAINT_KEY, {
-          name: val("name"), email: val("email"), phone: `+${dial} ${val("phone")}`, website: val("site"),
-          platform: val("platform"), problems: picks("problems").join(", "), reason: picks("reasons").join(", "),
-          plan: val("plan"), access: accessText(),
+        saveLead("lead-website_maintenance", {
+          name: val("name"), email: val("email"), phone: `+${dial} ${val("phone")}`,
+          answers: [
+            ["Website", val("site")], ["Platform", val("platform")], ["Problems", picks("problems").join(", ")],
+            ["Why maintenance", picks("reasons").join(", ")], ["Plan", val("plan")], ["Access", accessText()],
+          ].filter(([, v]) => v),
         });
-        location.href = "/thank-you-website-maintenance/";
+        // maintenance requests go to the maintenance team's WhatsApp
+        sentLead("website_maintenance", "website maintenance", "919501110124");
+        location.href = "/thank-you-website/";
       },
       fieldStep: null,
       sending: "Sending…",
@@ -1042,6 +1076,7 @@
           name: val("name"), email: val("email"), phone, company: val("company"),
           answers: filled.map((b) => [labelOf(b), answers(b).join(", ")]),
         });
+        sentLead(name, val("service") || root.dataset.service);
         location.href = root.dataset.thanks;
       },
       fieldStep: 0,
@@ -1437,13 +1472,51 @@
     }
   }
 
+  /* ------------------------------------- thank-you pages → GA4 lead event */
+
+  /** "a > b > c" for GA4, which keeps 100 characters of a parameter:
+   *  a long visit keeps its first page and as many of the last ones as fit. */
+  const fitJourney = (p) => {
+    const all = p.join(" > ");
+    if (all.length <= 100) return all;
+    const tail = [];
+    for (let i = p.length - 1; i > 0 && [p[0], "…", p[i], ...tail].join(" > ").length <= 100; i--) tail.unshift(p[i]);
+    return [p[0], "…", ...tail].join(" > ").slice(0, 100);
+  };
+
+  const last = (() => {
+    if (!location.pathname.startsWith("/thank-you")) return null;
+    try {
+      const v = JSON.parse(sessionStorage.getItem(LAST_KEY) || "null");
+      sessionStorage.removeItem(LAST_KEY);
+      return v;
+    } catch {
+      return null;
+    }
+  })();
+  if (last) {
+    const path = last.journey || [];
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      // /thank-you-paid-ads/ → lead_paid_ads
+      event: `lead_${location.pathname.replace(/^\/thank-you-|\/$/g, "").replace(/-/g, "_")}`,
+      lead_form: last.form,
+      lead_service: last.service,
+      form_page: last.form_page,
+      landing_page: path[0] || last.form_page,
+      page_journey: fitJourney(path),
+      journey_steps: path.length,
+      first_landing_page: (attribution.landing_page || "").slice(0, 100),
+    });
+  }
+
   /* ------------------------------------- thank-you pages → WhatsApp */
 
-  // Service pages: same hand-off, the answers come from the generic form.
+  // The form's answers, typed out into a WhatsApp message.
   const gw = $("[data-wa-generic]");
   if (gw) {
-    const key = `lead-${gw.dataset.waGeneric}`;
-    const svc = gw.dataset.service;
+    const key = `lead-${last ? last.form : gw.dataset.waGeneric}`;
+    const svc = (last && last.service) || gw.dataset.service;
     let lead = null;
     try {
       const raw = sessionStorage.getItem(key);
@@ -1464,7 +1537,7 @@
             ...(lead.answers || []).map(([label, v]) => `${label}: ${v}`),
           ].filter((l) => l !== null).join("\n")
         : `Hi Sushant, I just sent a ${svc} enquiry on your website and would like to talk.`;
-    const url = `https://wa.me/${gw.dataset.waNumber}?text=${encodeURIComponent(message)}`;
+    const url = `https://wa.me/${(last && last.wa) || gw.dataset.waNumber}?text=${encodeURIComponent(message)}`;
     $$("[data-wa-link]", gw).forEach((a) => {
       a.href = url;
       a.hidden = false;
@@ -1483,80 +1556,5 @@
       }, 1000);
       setTimeout(() => (location.href = url), +gw.dataset.delay);
     }
-  }
-
-  const wa = $("[data-wa-thanks]");
-  if (wa) {
-    const shop = wa.dataset.waThanks === "shopify";
-    const key = shop ? SHOPIFY_KEY : MAINT_KEY;
-    const delay = +wa.dataset.delay;
-    let lead = null;
-    try {
-      const raw = sessionStorage.getItem(key);
-      if (raw) lead = JSON.parse(raw);
-      // Shopify clears at once; maintenance keeps it until the hand-off.
-      if (shop) sessionStorage.removeItem(key);
-    } catch {
-      /* malformed or blocked: generic message */
-    }
-
-    const line = (label, v) => (v ? `${label}: ${v}` : null);
-    const message = shop
-      ? lead && lead.name
-        ? [
-            "Hi Sushant, I just requested a Shopify store quote on sushantrana.com.",
-            "",
-            line("Name", lead.name), line("Business", lead.company), line("Email", lead.email),
-            line("Phone", lead.phone), line("What I need", lead.service), line("Current platform", lead.platform),
-            line("Monthly revenue", lead.revenue), line("Products", lead.products), line("Timeline", lead.timeline),
-            line("Budget", lead.budget), lead.details ? `\nNotes: ${lead.details}` : null,
-          ].filter((l) => l !== null).join("\n")
-        : "Hi Sushant, I just requested a Shopify store quote on your website and would like to talk about my store."
-      : lead && lead.name
-        ? [
-            "Hi Sushant, I just sent a website maintenance request on sushantrana.com.",
-            "",
-            line("Name", lead.name), line("Email", lead.email), line("Phone", lead.phone),
-            line("Website", lead.website), line("Platform", lead.platform), line("Problems", lead.problems),
-            line("Why maintenance", lead.reason), line("Plan", lead.plan), line("Access", lead.access),
-          ].filter((l) => l !== null).join("\n")
-        : "Hi Sushant, I just sent a website maintenance request on your website and would like to talk about my site.";
-
-    const number = shop ? "918289051732" : "919501110124";
-    const url = `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
-    $$("[data-wa-link]", wa).forEach((a) => {
-      a.href = url;
-      a.hidden = false;
-    });
-
-    // ?preview=1 holds the page so it can be checked without the bounce.
-    const preview = new URLSearchParams(location.search).has("preview");
-    if (!shop) {
-      $$("[data-auto]", wa).forEach((n) => (n.hidden = false));
-      $$("[data-manual]", wa).forEach((n) => (n.hidden = true));
-      const ring = $("[data-ring]", wa);
-      if (ring) ring.classList.add("run");
-    }
-    if (shop && preview) return;
-
-    let left = Math.round(delay / 1000);
-    const paint = () => {
-      $$("[data-left]", wa).forEach((n) => (n.textContent = left));
-      $$("[data-sec]", wa).forEach((n) => (n.textContent = left === 1 ? "second" : "seconds"));
-    };
-    paint();
-    setInterval(() => {
-      left = Math.max(0, left - 1);
-      paint();
-    }, 1000);
-    if (!preview)
-      setTimeout(() => {
-        try {
-          sessionStorage.removeItem(key);
-        } catch {
-          /* ignore */
-        }
-        location.href = url;
-      }, delay);
   }
 })();

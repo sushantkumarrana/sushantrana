@@ -181,7 +181,7 @@ RELATED = [
 
 PAGE = {
     "path": "/services/youtube-ads/",
-    "slug": "youtube-ads",
+    "slug": "youtube-ads", "thanks": "paid-ads",
     "form_name": "youtube_ads",
     "service": "YouTube Ads",
     "service_name": "YouTube Ads management",

@@ -20,8 +20,8 @@ SITE = "https://sushantrana.com"
 ROOT = Path(".")
 SKIP = {"dev", "_originals", "includes", "leadsforme", "supabase", "node_modules", ".git", ".claude", "api"}
 # 301s in .htaccess: old path -> new path
-REDIRECTS = {"/thank-you/": "/thank-you-consultation/", "/services/shopify-store-development/thank-you/": "/thank-you-shopify-store-development/",
-             "/services/website-maintenance/thank-you/": "/thank-you-website-maintenance/"}
+REDIRECTS = {"/thank-you/": "/thank-you-consultation/", "/services/shopify-store-development/thank-you/": "/thank-you-website/",
+             "/services/website-maintenance/thank-you/": "/thank-you-website/"}
 
 fails, warns = [], []
 

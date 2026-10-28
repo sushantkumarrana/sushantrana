@@ -156,7 +156,7 @@ RELATED = [
 
 PAGE = {
     "path": "/services/linkedin-ads/",
-    "slug": "linkedin-ads",
+    "slug": "linkedin-ads", "thanks": "paid-ads",
     "form_name": "linkedin_ads",
     "service": "LinkedIn Ads",
     "service_name": "LinkedIn Ads management",

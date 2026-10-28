@@ -206,7 +206,7 @@ RELATED = [
 
 PAGE = {
     "path": "/services/wordpress-development/",
-    "slug": "wordpress-development",
+    "slug": "wordpress-development", "thanks": "website",
     "form_name": "wordpress_development",
     "service": "WordPress Development",
     "service_name": "WordPress website development",

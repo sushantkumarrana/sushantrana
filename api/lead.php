@@ -72,6 +72,13 @@ foreach (['landing_page', 'referrer', 'utm_source', 'utm_medium', 'utm_campaign'
 }
 $channel = lead_channel($attr);
 
+// Pages this visit went through, oldest first (site.js, sr_journey).
+$journeyIn = is_array($body['journey'] ?? null) ? $body['journey'] : [];
+$journey = mb_substr(implode(' > ', array_map(
+    fn($p) => mb_substr(trim($p), 0, 200),
+    array_filter(array_slice($journeyIn, -30), 'is_string')
+)), 0, 4000);
+
 // Allow-list both dropdowns: an unknown value means a tampered payload.
 $service = $clean('service', 120);
 if ($service !== OTHER_SERVICE && !in_array($service, ALL_SERVICES, true)) $service = '';
@@ -149,11 +156,11 @@ try {
     $nul = fn(string $v) => $v === '' ? null : $v;
     leads_db()->prepare(
         'INSERT INTO leads (created_at, form, name, email, phone, business, service, enquiry_type, message, page,
-            landing_page, referrer, channel, utm_source, utm_medium, utm_campaign, utm_term, utm_content, gclid, fbclid, user_agent)
-         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
+            landing_page, journey, referrer, channel, utm_source, utm_medium, utm_campaign, utm_term, utm_content, gclid, fbclid, user_agent)
+         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
     )->execute([
         gmdate('c'), $nul($form), $name, $email, $phoneE164, $nul($business), $nul($service), $nul($enquiryType), $nul($message), $sourcePath,
-        $nul($attr['landing_page']), $nul($attr['referrer']), $channel, $nul($attr['utm_source']), $nul($attr['utm_medium']),
+        $nul($attr['landing_page']), $nul($journey), $nul($attr['referrer']), $channel, $nul($attr['utm_source']), $nul($attr['utm_medium']),
         $nul($attr['utm_campaign']), $nul($attr['utm_term']), $nul($attr['utm_content']), $nul($attr['gclid']), $nul($attr['fbclid']),
         mb_substr($_SERVER['HTTP_USER_AGENT'] ?? '', 0, 300) ?: null,
     ]);
@@ -165,7 +172,8 @@ try {
 
 /* ---- notify ---- */
 $to = $cfg('LEAD_NOTIFY_TO') ?: 'me@sushantrana.com';
-$d = compact('name', 'email', 'business', 'service', 'typeLabel', 'enquiryType', 'message', 'sourcePath', 'channel') + [
+$d = compact('name', 'email', 'business', 'service', 'typeLabel', 'enquiryType', 'message', 'sourcePath', 'channel', 'journey') + [
+    'landingPage' => $attr['landing_page'],
     'phone' => $phoneE164,
     'receivedAt' => $received,
 ];

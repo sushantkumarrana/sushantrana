@@ -189,7 +189,7 @@ RELATED = [
 
 PAGE = {
     "path": "/services/google-business-profile/",
-    "slug": "google-business-profile",
+    "slug": "google-business-profile", "thanks": "seo",
     "form_name": "google_business_profile",
     "service": "Google Business Profile",
     "service_name": "Google Business Profile optimization",

@@ -205,7 +205,7 @@ RELATED = [
 
 PAGE = {
     "path": "/services/zoho-crm/",
-    "slug": "zoho-crm",
+    "slug": "zoho-crm", "thanks": "crm-automation",
     "form_name": "zoho_crm",
     "service": "Zoho CRM",
     "service_name": "Zoho CRM implementation and setup",

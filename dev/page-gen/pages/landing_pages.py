@@ -208,7 +208,7 @@ RELATED = [
 
 PAGE = {
     "path": "/services/landing-pages/",
-    "slug": "landing-pages",
+    "slug": "landing-pages", "thanks": "website",
     "form_name": "landing_pages",
     "service": "Landing Pages",
     "service_name": "Landing page design",

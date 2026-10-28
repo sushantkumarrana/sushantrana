@@ -227,7 +227,7 @@ ob_start(); ?>
       <dl>
         <?php foreach ([
             'Business / website' => $r['business'], 'Enquiry type' => $r['enquiry_type'], 'Sent from page' => $r['page'],
-            'First page of visit' => $r['landing_page'], 'Referrer' => $r['referrer'], 'utm_source' => $r['utm_source'],
+            'First page of visit' => $r['landing_page'], 'Pages this visit' => $r['journey'] ?? null, 'Referrer' => $r['referrer'], 'utm_source' => $r['utm_source'],
             'utm_medium' => $r['utm_medium'], 'utm_campaign' => $r['utm_campaign'], 'utm_term' => $r['utm_term'],
             'utm_content' => $r['utm_content'], 'Google click ID (gclid)' => $r['gclid'], 'Facebook click ID (fbclid)' => $r['fbclid'],
             'Device' => $r['user_agent'],

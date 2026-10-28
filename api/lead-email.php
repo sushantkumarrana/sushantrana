@@ -69,6 +69,8 @@ function lead_email_html(array $d): string
     $type = esc($d['typeLabel']);
     $nameE = esc($d['name']);
     $path = esc($d['sourcePath'] ?: '/');
+    $trail = ($d['landingPage'] ?? '') !== '' ? '<br />First landed on <span style="color:' . $body . ';">' . esc($d['landingPage']) . '</span>' : '';
+    $trail .= ($d['journey'] ?? '') !== '' ? '<br />This visit: <span style="color:' . $body . ';">' . esc($d['journey']) . '</span>' : '';
 
     return <<<HTML
 <!doctype html>
@@ -95,7 +97,7 @@ function lead_email_html(array $d): string
 <tr><td style="padding:8px 28px 0 28px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">{$rows}</table></td></tr>
 {$msg}
 <tr><td style="padding:22px 28px 26px 28px;"><div style="border-top:1px solid {$line};padding-top:14px;font:400 12px/1.7 {$f};color:{$muted};">
-Submitted from <span style="color:{$body};">{$path}</span><br />Reply to this email and it goes straight to {$first}.
+Submitted from <span style="color:{$body};">{$path}</span>{$trail}<br />Reply to this email and it goes straight to {$first}.
 </div></td></tr>
 </table>
 <!--[if mso]></td></tr></table><![endif]-->
@@ -121,6 +123,8 @@ function lead_email_text(array $d): string
         $d['message'] ?: '(none)',
         '',
         'Page:     ' . ($d['sourcePath'] ?: '/'),
+        'Landed:   ' . (($d['landingPage'] ?? '') ?: '—'),
+        'Journey:  ' . (($d['journey'] ?? '') ?: '—'),
         'Source:   ' . ($d['channel'] ?? 'Direct'),
         "Received: {$d['receivedAt']}",
     ]);

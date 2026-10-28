@@ -195,7 +195,7 @@ RELATED = [
 
 PAGE = {
     "path": "/industries/legal-firms/",
-    "slug": "law-firm-marketing",
+    "slug": "law-firm-marketing", "thanks": "industry",
     "form_name": "law_firm_marketing",
     "service": "Law Firm Marketing",
     "service_name": "Law firm marketing services",

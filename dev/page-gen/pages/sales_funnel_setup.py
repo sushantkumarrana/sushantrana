@@ -170,7 +170,7 @@ RELATED = [
 
 PAGE = {
     "path": "/services/sales-funnel-setup/",
-    "slug": "sales-funnel-setup",
+    "slug": "sales-funnel-setup", "thanks": "crm-automation",
     "form_name": "sales_funnel_setup",
     "service": "Sales Funnel Setup",
     "service_name": "Sales funnel setup",

@@ -186,7 +186,7 @@ RELATED = [
 
 PAGE = {
     "path": "/services/meta-ads/",
-    "slug": "meta-ads",
+    "slug": "meta-ads", "thanks": "paid-ads",
     "form_name": "meta_ads",
     "service": "Meta Ads",
     "service_name": "Meta Ads management",

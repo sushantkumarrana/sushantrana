@@ -180,7 +180,7 @@ RELATED = [
 
 PAGE = {
     "path": "/services/enterprise-seo/",
-    "slug": "enterprise-seo",
+    "slug": "enterprise-seo", "thanks": "seo",
     "form_name": "enterprise_seo",
     "service": "Enterprise SEO",
     "service_name": "Enterprise SEO services",

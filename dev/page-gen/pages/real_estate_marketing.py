@@ -211,7 +211,7 @@ RELATED = [
 
 PAGE = {
     "path": "/industries/real-estate/",
-    "slug": "real-estate-marketing",
+    "slug": "real-estate-marketing", "thanks": "industry",
     "form_name": "real_estate_marketing",
     "service": "Real Estate Marketing",
     "service_name": "Real estate marketing services",

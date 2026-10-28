@@ -185,7 +185,7 @@ RELATED = [
 
 PAGE = {
     "path": "/services/email-automation/",
-    "slug": "email-automation",
+    "slug": "email-automation", "thanks": "crm-automation",
     "form_name": "email_automation",
     "service": "Email Automation",
     "service_name": "Email marketing automation",

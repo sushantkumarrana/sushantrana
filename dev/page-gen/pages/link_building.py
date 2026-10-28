@@ -194,7 +194,7 @@ RELATED = [
 
 PAGE = {
     "path": "/services/link-building/",
-    "slug": "link-building",
+    "slug": "link-building", "thanks": "seo",
     "form_name": "link_building",
     "service": "Link Building",
     "service_name": "Link building services",

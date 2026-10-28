@@ -320,7 +320,7 @@ def step_form(p, in_modal=False):
         f'<div data-step="{i + 1}" hidden="" class="grid gap-3">' + "".join(field(f) for f in s["fields"]) + "</div>"
         for i, s in enumerate(fm["steps"]))
     enquiry = f' data-enquiry="{p["enquiry"]}"' if p.get("enquiry") else ""
-    return (f'<div class="card p-5 md:p-6" data-step-form="generic" data-form-name="{p["form_name"]}" data-service="{E(p["service"])}" data-thanks="/thank-you-{p["slug"]}/"{enquiry}>'
+    return (f'<div class="card p-5 md:p-6" data-step-form="generic" data-form-name="{p["form_name"]}" data-service="{E(p["service"])}" data-thanks="/thank-you-{p.get("thanks", p["slug"])}/"{enquiry}>'
             f'<h2 class="{"pr-10 text-lg" if in_modal else "text-xl"} font-extrabold text-ink">{E(fm["title"])}</h2>'
             f'<p class="mt-1.5 text-sm text-muted">{E(fm["sub"])}</p><ol class="mt-5 flex list-none items-center gap-2">{dots}</ol>'
             '<form noValidate="" data-err="border-red-500" data-ok="border-[var(--color-line)] focus:border-orange" data-wrap-err="border-red-500" '
@@ -454,17 +454,35 @@ def build(repo, p):
 WHATSAPP = "918289051732"
 
 
+# One thank-you page per service group (GA4 gets one lead event per group:
+# /thank-you-paid-ads/ → lead_paid_ads). slug → (title, WhatsApp fallback label).
+THANKS_GROUPS = {
+    "paid-ads": ("Paid ads", "paid ads"),
+    "seo": ("SEO", "SEO"),
+    "website": ("Website development", "website"),
+    "crm-automation": ("CRM and automation", "CRM and automation"),
+    "industry": ("Industry marketing", "marketing"),
+}
+
+
 def build_thanks(repo, p):
-    """Thank-you page that opens WhatsApp with the lead's answers (site.js, data-wa-generic)."""
-    t = (repo / "thank-you-shopify-store-development/index.html").read_text()
-    back, back_name = p.get("thanks_back", (p["path"], p["service_name"]))  # shared thank-you pages link to the hub
-    t = re.sub(r"<title>[^<]*</title>", f"<title>Thank you | {E(back_name)} | Sushant Rana</title>", t)
-    t = t.replace('data-wa-thanks="shopify"', f'data-wa-generic="{p["form_name"]}" data-wa-number="{WHATSAPP}" data-service="{E(p.get("wa_label", p["service"]))}"', 1)
-    t = t.replace('href="/services/shopify-store-development/">Shopify store development</a>', f'href="{back}">{E(back_name)}</a>', 1)
-    assert "data-wa-generic" in t and back in t
-    out = repo / f'thank-you-{p["slug"]}' / "index.html"
+    """Thank-you page that opens WhatsApp with the lead's answers (site.js, data-wa-generic).
+    A spec with "thanks" points its form at a shared group page and builds that page."""
+    t = (repo / "thank-you-case-study/index.html").read_text()
+    slug = p.get("thanks", p["slug"])
+    if slug in THANKS_GROUPS:
+        (title, label), (back, back_name), form = THANKS_GROUPS[slug], ("/services/", "all services"), slug.replace("-", "_")
+    else:
+        back, back_name = p.get("thanks_back", (p["path"], p["service_name"]))  # shared thank-you pages link to the hub
+        title, label, form = back_name, p.get("wa_label", p["service"]), p["form_name"]
+    t = re.sub(r"<title>[^<]*</title>", f"<title>Thank you | {E(title)} | Sushant Rana</title>", t)
+    t = re.sub(r'data-wa-generic="[^"]*" data-wa-number="[^"]*" data-service="[^"]*"',
+               f'data-wa-generic="{form}" data-wa-number="{WHATSAPP}" data-service="{E(label)}"', t, count=1)
+    t = t.replace('href="/case-studies/">Case studies</a>', f'href="{back}">{E(back_name)}</a>', 1)
+    assert f'data-wa-generic="{form}"' in t and f'href="{back}"' in t
+    out = repo / f"thank-you-{slug}" / "index.html"
     out.parent.mkdir(exist_ok=True)
-    out.write_text(SYNC.stamp(t, f'/thank-you-{p["slug"]}/'))
+    out.write_text(SYNC.stamp(t, f"/thank-you-{slug}/"))
     return out
 
 

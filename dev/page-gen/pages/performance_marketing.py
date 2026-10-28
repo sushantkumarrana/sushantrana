@@ -192,7 +192,7 @@ RELATED = [
 
 PAGE = {
     "path": "/services/performance-marketing/",
-    "slug": "performance-marketing",
+    "slug": "performance-marketing", "thanks": "paid-ads",
     "form_name": "performance_marketing",
     "service": "Performance Marketing",
     "service_name": "Performance marketing services",

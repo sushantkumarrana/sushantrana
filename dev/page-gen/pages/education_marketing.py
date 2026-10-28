@@ -199,7 +199,7 @@ RELATED = [
 
 PAGE = {
     "path": "/industries/education/",
-    "slug": "education-marketing",
+    "slug": "education-marketing", "thanks": "industry",
     "form_name": "education_marketing",
     "service": "Education Marketing",
     "service_name": "Education marketing services",

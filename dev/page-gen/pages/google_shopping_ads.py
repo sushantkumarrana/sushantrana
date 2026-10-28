@@ -143,7 +143,7 @@ RELATED = [
 
 PAGE = {
     "path": "/services/google-shopping-ads/",
-    "slug": "google-shopping-ads",
+    "slug": "google-shopping-ads", "thanks": "paid-ads",
     "form_name": "google_shopping_ads",
     "service": "Google Shopping Ads",
     "service_name": "Google Shopping Ads management",

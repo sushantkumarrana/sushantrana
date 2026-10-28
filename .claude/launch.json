@@ -12,6 +12,12 @@
         "/Users/sushantrana/Sushant/sushantrana-next/dev/router.php"
       ],
       "port": 8090
+    },
+    {
+      "name": "sushantrana-html",
+      "runtimeExecutable": "php",
+      "runtimeArgs": ["-S", "localhost:8091", "dev/router.php"],
+      "port": 8091
     }
   ]
 }

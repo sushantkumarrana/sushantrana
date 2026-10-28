@@ -47,6 +47,7 @@ function leads_db(): PDO
             message      TEXT,
             page         TEXT,                       -- page the form was sent from
             landing_page TEXT,                       -- first page of the visit
+            journey      TEXT,                       -- every page of the visit, in order ("/ > /services/ > …")
             referrer     TEXT,                       -- site that sent the visitor
             channel      TEXT,                       -- Google Ads, Facebook Ads, Organic search …
             utm_source   TEXT, utm_medium TEXT, utm_campaign TEXT, utm_term TEXT, utm_content TEXT,
@@ -56,6 +57,10 @@ function leads_db(): PDO
         );
         CREATE INDEX IF NOT EXISTS leads_created_at ON leads (created_at DESC);
         SQL);
+    // databases made before the journey column existed
+    if (!in_array('journey', array_column($db->query('PRAGMA table_info(leads)')->fetchAll(), 'name'), true)) {
+        $db->exec('ALTER TABLE leads ADD COLUMN journey TEXT');
+    }
     return $db;
 }
 

@@ -270,7 +270,7 @@ RELATED = [
 
 PAGE = {
     "path": "/services/google-ads/",
-    "slug": "google-ads",
+    "slug": "google-ads", "thanks": "paid-ads",
     "form_name": "google_ads",
     "service": "Google Ads",
     "service_name": "Google Ads management",

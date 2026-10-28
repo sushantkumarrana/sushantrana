@@ -172,7 +172,7 @@ RELATED = [
 
 PAGE = {
     "path": "/industries/dental/",
-    "slug": "dental-marketing",
+    "slug": "dental-marketing", "thanks": "industry",
     "form_name": "dental_marketing",
     "service": "Dental Marketing",
     "service_name": "Dental marketing services",

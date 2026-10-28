@@ -119,8 +119,8 @@ function lead_set_status(PDO $db, int $id, string $status, ?string $value, ?stri
 {
     if (!in_array($status, LEAD_STATUSES, true)) return 'Unknown status.';
     if ($status === 'won') {
-        $amount = trim((string) $value);
-        if (!is_numeric($amount) || (float) $amount <= 0) return 'Enter the deal amount to mark this lead won.';
+        $amount = preg_replace('/[\s,]/', '', (string) $value);   // "1,00,000" and "1 00 000" are fine
+        if (!is_numeric($amount) || !is_finite((float) $amount) || (float) $amount <= 0) return 'Enter the deal amount to mark this lead won.';
         if (!in_array($currency, LEAD_CURRENCIES, true)) return 'Choose the currency of the deal.';
         $db->prepare('UPDATE leads SET status = ?, value = ?, currency = ?, status_at = ? WHERE id = ?')
             ->execute([$status, (float) $amount, $currency, gmdate('c'), $id]);

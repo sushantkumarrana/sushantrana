@@ -99,8 +99,13 @@
       return "";
     }
   })();
+  // EU/EEA, UK and Swiss time zones, including the islands and overseas
+  // regions outside Europe/*; UTC or no zone (privacy browsers) counts too.
+  const europeZone = (z) =>
+    !z || /^(Europe|Arctic)\//.test(z) || /^(Etc\/)?(UTC|GMT|UCT|Universal|Zulu)/.test(z) ||
+    /^(Asia\/(Nicosia|Famagusta)|Atlantic\/(Canary|Madeira|Azores|Reykjavik|Faroe)|Africa\/Ceuta|Indian\/(Reunion|Mayotte)|America\/(Guadeloupe|Martinique|Cayenne|St_Barthelemy|Marigot))$/.test(z);
   // localStorage.sr_region = "eu" previews the European path from anywhere
-  const inEurope = () => raw("sr_region") === "eu" || tz.startsWith("Europe/");
+  const inEurope = () => raw("sr_region") === "eu" || europeZone(tz);
   const consent = () => {
     if (!inEurope()) return "granted";
     const c = raw("sr_consent");
@@ -123,6 +128,9 @@
     return { v: v.id, s: s.id };
   };
 
+  // this page's own campaign tags and click IDs: how this visit arrived (attribution keeps the first)
+  const arrival = {};
+  new URLSearchParams(location.search).forEach((val, k) => ATTR_PARAMS.includes(k) && (arrival[k] = val));
   let queue = [];
   /** Send queued events. While a European visitor has not answered the
    *  banner they wait, so an "Accept" still gets this page into the story;
@@ -130,7 +138,7 @@
   const flushTrack = (leaving = false) => {
     if (!queue.length || (!leaving && consent() === "pending")) return;
     const { v, s } = trackIds();
-    const body = JSON.stringify({ v, s, tz, ref: document.referrer, attr: v ? attribution : {}, e: queue.splice(0, 50) });
+    const body = JSON.stringify({ v, s, tz, ref: document.referrer, attr: v ? attribution : {}, cur: v ? arrival : {}, e: queue.splice(0, 50) });
     if (!(navigator.sendBeacon && navigator.sendBeacon("/api/t.php", new Blob([body], { type: "application/json" }))))
       fetch("/api/t.php", { method: "POST", body, keepalive: true }).catch(() => {});
   };

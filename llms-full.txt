@@ -3128,7 +3128,7 @@ The site also keeps its own first-party visit records, stored only on its own se
 
 - What is recorded — the pages you open, how long you stay and how far you scroll, clicks on WhatsApp, phone, email and buttons, and whether you start or send a form. Not what you type into a form, and not your IP address.
 - Visitor ID — a random ID kept in your browser for 90 days, so visits from the same browser can be joined up and, if you send an enquiry, linked to it.
-- Your choice in Europe, the UK and Switzerland — a banner asks first. If you decline, visits are only counted, without an ID, and Google tags are told not to use cookies.
+- Your choice in Europe, the UK and Switzerland — a banner asks first. If you decline, visits are only counted, without an ID.
 
 You can block or delete cookies in your browser settings at any time; the site will still work. You can also opt out of Google Analytics specifically using Google's browser add-on.
 

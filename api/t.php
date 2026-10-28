@@ -20,8 +20,9 @@ if ($raw === false || strlen($raw) > 16384) done(413);
 $ua = (string) ($_SERVER['HTTP_USER_AGENT'] ?? '');
 if (is_bot($ua)) done();
 
-// 120 requests a minute per IP; the IP only names a temp file, it is never stored.
-$file = leads_data_dir() . '/t-rate-' . md5($_SERVER['REMOTE_ADDR'] ?? '');
+// 120 requests a minute per IP. The file name is a keyed hash that changes daily;
+// cron-daily.php deletes these files after an hour.
+$file = leads_data_dir() . '/t-rate-' . rate_key($_SERVER['REMOTE_ADDR'] ?? '', gmdate('Y-m-d'));
 $hits = array_filter(is_file($file) ? (json_decode((string) file_get_contents($file), true) ?: []) : [], fn($t) => time() - $t < 60);
 if (count($hits) >= 120) done(429);
 file_put_contents($file, json_encode([...$hits, time()]), LOCK_EX);

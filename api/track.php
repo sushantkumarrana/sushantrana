@@ -17,6 +17,8 @@ function track_store(PDO $db, array $body, string $userAgent, int $now): int
 {
     $id = fn($v) => is_string($v) && preg_match('/^[a-f0-9]{32}$/', $v) ? $v : null;
     $str = fn($v, int $max) => is_string($v) ? mb_substr(trim($v), 0, $max) : '';
+    // whole numbers that fit an int, else null (a huge float would warn when cast)
+    $int = fn($v) => is_int($v) || (is_string($v) && $v !== '') ? (($i = filter_var($v, FILTER_VALIDATE_INT)) === false ? null : $i) : null;
     $vid = $id($body['v'] ?? null);
     $sid = $vid ? $id($body['s'] ?? null) : null;
     $ts = gmdate('c', $now);
@@ -27,32 +29,41 @@ function track_store(PDO $db, array $body, string $userAgent, int $now): int
         if (!is_array($e) || !in_array($e['t'] ?? '', TRACK_TYPES, true)) continue;
         $path = $str($e['p'] ?? '', 300);
         if (!str_starts_with($path, '/')) continue;
-        $events[] = [$ts, $vid, $sid, $e['t'], $path, $str($e['x'] ?? '', 120), $str($e['l'] ?? '', 120),
-            is_numeric($e['n'] ?? null) ? (int) $e['n'] : null, is_numeric($e['lead'] ?? null) ? (int) $e['lead'] : null];
+        $events[] = [$ts, $vid, $sid, $e['t'], $path, $str($e['x'] ?? '', 120), $str($e['l'] ?? '', 120), $int($e['n'] ?? null), $int($e['lead'] ?? null)];
     }
     if (!$events) return 0;
 
     $db->beginTransaction();
     if ($vid) {
-        $attr = is_array($body['attr'] ?? null) ? array_map(fn($v) => $str($v, 300), $body['attr']) : [];
-        $attr['referrer'] = $str($body['ref'] ?? '', 300);
-        $channel = lead_channel($attr);
+        $clean = fn($a) => is_array($a) ? array_map(fn($v) => $str($v, 300), $a) : [];
+        $attr = $clean($body['attr'] ?? null) + ['referrer' => ''];   // first touch, kept 90 days: the visitor's first channel
+        $cur = isset($body['cur']) ? $clean($body['cur']) : $attr;     // how this visit arrived: the session's channel
+        $cur['referrer'] = $str($body['ref'] ?? '', 300);
+        $channel = lead_channel($cur);
         $landing = ($attr['landing_page'] ?? '') ?: $events[0][4];
         $db->prepare('INSERT INTO visitors (id, first_seen, last_seen, country, first_channel, first_landing) VALUES (?,?,?,?,?,?)
             ON CONFLICT(id) DO UPDATE SET last_seen = excluded.last_seen')
-            ->execute([$vid, $ts, $ts, $country, $channel, $landing]);
+            ->execute([$vid, $ts, $ts, $country, lead_channel($attr['referrer'] !== '' ? $attr : $attr + $cur), $landing]);
         if ($sid) {
             $db->prepare('INSERT INTO sessions (id, visitor_id, started_at, last_at, landing, channel, referrer, utm_source, utm_medium,
                     utm_campaign, device, country) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)
                 ON CONFLICT(id) DO UPDATE SET last_at = excluded.last_at')
-                ->execute([$sid, $vid, $ts, $ts, $events[0][4], $channel, $attr['referrer'] ?: null, ($attr['utm_source'] ?? '') ?: null,
-                    ($attr['utm_medium'] ?? '') ?: null, ($attr['utm_campaign'] ?? '') ?: null, device_of($userAgent), $country]);
+                ->execute([$sid, $vid, $ts, $ts, $events[0][4], $channel, $cur['referrer'] ?: null, ($cur['utm_source'] ?? '') ?: null,
+                    ($cur['utm_medium'] ?? '') ?: null, ($cur['utm_campaign'] ?? '') ?: null, device_of($userAgent), $country]);
         }
     }
     $ins = $db->prepare('INSERT INTO events (ts, visitor_id, session_id, type, path, target, label, value, lead_id) VALUES (?,?,?,?,?,?,?,?,?)');
     foreach ($events as $row) $ins->execute($row);
     $db->commit();
     return count($events);
+}
+
+/** Name of the per-IP throttle file: keyed with a secret that is never stored with it and a new key every day. */
+function rate_key(string $ip, string $day): string
+{
+    $file = leads_data_dir() . '/t-salt';
+    if (!is_file($file)) file_put_contents($file, bin2hex(random_bytes(32)), LOCK_EX);
+    return hash_hmac('sha256', "$day|$ip", (string) file_get_contents($file));
 }
 
 function is_bot(string $ua): bool

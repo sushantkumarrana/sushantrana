@@ -33,12 +33,21 @@ function rollup_day(PDO $db, string $day): void
     $db->commit();
 }
 
+/** Delete per-IP throttle files (api/t.php, panel login) older than an hour. */
+function cleanup_temp_files(string $dir, int $now): void
+{
+    foreach ([...glob("$dir/t-rate-*") ?: [], ...glob("$dir/login-fail-*") ?: []] as $f) {
+        if ($now - (int) filemtime($f) > 3600) @unlink($f);
+    }
+}
+
 if (PHP_SAPI === 'cli' && realpath($argv[0] ?? '') === __FILE__) {
     $db = leads_db();
     foreach ([1, 2] as $back) {
         rollup_day($db, (new DateTime('now', new DateTimeZone('Asia/Kolkata')))->modify("-$back day")->format('Y-m-d'));
     }
     leads_purge();
+    cleanup_temp_files(leads_data_dir(), time());
     file_put_contents(leads_data_dir() . '/cron-daily.last', gmdate('c'));
     echo "cron-daily ok\n";
 } elseif (PHP_SAPI !== 'cli') {

@@ -224,6 +224,7 @@ HTML;
 function page(string $title, string $body, bool $wide = false): never
 {
     $cls = $wide ? 'wide' : 'narrow';
+    $title = htmlspecialchars($title, ENT_QUOTES, 'UTF-8'); // a page path is visitor input (api/t.php)
     echo <<<HTML
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">

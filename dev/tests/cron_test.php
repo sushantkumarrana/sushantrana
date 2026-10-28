@@ -29,4 +29,12 @@ check($c['channel'] === 'Organic search' && (int) $c['sessions'] === 1 && (int) 
 $cols = array_column($db->query('PRAGMA table_info(page_daily)')->fetchAll(), 'name');
 check(!array_intersect(['visitor_id', 'session_id'], $cols), 'page_daily holds IDs');
 
+// I-4: throttle files older than an hour are deleted
+$dir = getenv('LEADS_DATA_DIR');
+touch("$dir/t-rate-old", time() - 7200);
+touch("$dir/login-fail-old", time() - 7200);
+touch("$dir/t-rate-new", time() - 60);
+cleanup_temp_files($dir, time());
+check(!is_file("$dir/t-rate-old") && !is_file("$dir/login-fail-old") && is_file("$dir/t-rate-new"), 'throttle files not cleaned');
+
 echo "cron ok\n";

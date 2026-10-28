@@ -16,6 +16,8 @@ check(lead_set_status($db, $id, 'won', '50000', 'XYZ') !== null, 'unknown curren
 check(lead_set_status($db, $id, 'won', '50000', 'INR') === null, 'valid won refused');
 $r = $row();
 check($r['status'] === 'won' && (float) $r['value'] === 50000.0 && $r['currency'] === 'INR' && $r['status_at'], 'won not saved');
+check(lead_set_status($db, $id, 'won', '1,00,000', 'INR') === null && (float) $row()['value'] === 100000.0, 'Indian formatted amount refused');
+check(lead_set_status($db, $id, 'won', '1e400', 'INR') === $need, 'infinite amount accepted');
 check(lead_set_status($db, $id, 'qualified', null, null) === null && $row()['status'] === 'qualified', 'qualified refused');
 check(lead_set_status($db, $id, 'contacted', null, null) !== null, 'old status accepted');
 

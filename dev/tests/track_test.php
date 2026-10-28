@@ -36,4 +36,23 @@ check(is_bot('Googlebot/2.1 (+http://www.google.com/bot.html)') && is_bot('') &&
 check(tz_country('Asia/Kolkata') === 'IN' && tz_country('Europe/Zurich') === 'CH' && tz_country('Mars/Base') === '', 'tz_country wrong');
 check(device_of($iphone) === 'mobile' && device_of($chrome) === 'desktop', 'device_of wrong');
 
+// I-5: numbers too big for an int are dropped, with no PHP warning
+set_error_handler(fn($no, $msg) => throw new ErrorException($msg));
+check(track_store($db, ['e' => [['t' => 'scroll', 'p' => '/huge', 'n' => 1e30, 'lead' => '99999999999999999999']]], $chrome, $now) === 1, 'huge number event not stored');
+restore_error_handler();
+check($db->query("SELECT value, lead_id FROM events WHERE path = '/huge'")->fetch() == ['value' => null, 'lead_id' => null], 'huge numbers kept');
+
+// I-6: a visit is credited to how this visit arrived (cur), the visitor to the first ad click (attr)
+$v3 = str_repeat('3', 32);
+track_store($db, ['v' => $v3, 's' => str_repeat('4', 32), 'attr' => ['gclid' => 'old'], 'e' => [['t' => 'page_view', 'p' => '/']]], $chrome, $now);
+track_store($db, ['v' => $v3, 's' => str_repeat('5', 32), 'attr' => ['gclid' => 'old'], 'cur' => [], 'ref' => 'https://www.google.com/',
+    'e' => [['t' => 'page_view', 'p' => '/']]], $chrome, $now);
+check($db->query("SELECT channel FROM sessions WHERE id = '" . str_repeat('5', 32) . "'")->fetchColumn() === 'Organic search', 'returning organic visit credited to the old ad');
+check($db->query("SELECT first_channel FROM visitors WHERE id = '$v3'")->fetchColumn() === 'Google Ads', 'visitor first channel lost');
+
+// I-4: the rate-limit key is not a plain hash of the IP, and changes every day
+check(rate_key('203.0.113.7', '2026-10-28') !== md5('203.0.113.7'), 'rate key is md5(IP)');
+check(rate_key('203.0.113.7', '2026-10-28') !== rate_key('203.0.113.7', '2026-10-29'), 'rate key does not rotate');
+check(rate_key('203.0.113.7', '2026-10-28') === rate_key('203.0.113.7', '2026-10-28'), 'rate key not stable within a day');
+
 echo "track ok\n";

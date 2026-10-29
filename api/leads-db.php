@@ -94,6 +94,11 @@ function leads_db(): PDO
             day TEXT, path TEXT, views INT, visitors INT, engaged_ms INT, engaged_n INT, s25 INT, s50 INT, s75 INT, s90 INT,
             wa INT, call INT, email INT, form_start INT, form_submit INT, PRIMARY KEY (day, path)
         );
+        -- what the ad platforms were told (api/signals.php)
+        CREATE TABLE IF NOT EXISTS signals (
+            id INTEGER PRIMARY KEY, lead_id INT, platform TEXT, event TEXT, value REAL, currency TEXT, created_at TEXT,
+            sent_at TEXT, state TEXT, detail TEXT, tries INT DEFAULT 0, UNIQUE (lead_id, platform, event)
+        );
         CREATE TABLE IF NOT EXISTS channel_daily (
             day TEXT, channel TEXT, sessions INT, visitors INT, wa INT, call INT, form_start INT, form_submit INT,
             PRIMARY KEY (day, channel)
@@ -125,9 +130,10 @@ function lead_set_status(PDO $db, int $id, string $status, ?string $value, ?stri
         if (!in_array($currency, LEAD_CURRENCIES, true)) return 'Choose the currency of the deal.';
         $db->prepare('UPDATE leads SET status = ?, value = ?, currency = ?, status_at = ? WHERE id = ?')
             ->execute([$status, (float) $amount, $currency, gmdate('c'), $id]);
-        return null;
+    } else {
+        $db->prepare('UPDATE leads SET status = ?, status_at = ? WHERE id = ?')->execute([$status, gmdate('c'), $id]);
     }
-    $db->prepare('UPDATE leads SET status = ?, status_at = ? WHERE id = ?')->execute([$status, gmdate('c'), $id]);
+    signal_enqueue($db, $id);
     return null;
 }
 
@@ -191,3 +197,5 @@ if (PHP_SAPI === 'cli' && realpath($argv[0] ?? '') === __FILE__) {
     foreach ($cases as [$in, $want]) assert(lead_channel($in) === $want, json_encode($in) . ' -> ' . lead_channel($in));
     echo "lead_channel ok\n";
 }
+
+require_once __DIR__ . '/signals.php';  // lead_set_status() queues the ad-platform signals

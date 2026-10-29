@@ -31,4 +31,10 @@ return [
 
     // Google Ads script (dev/google-ads-script.js) ↔ api/ads-google.php: same long random key in both
     'GOOGLE_ADS_SCRIPT_KEY' => '',
+
+    // Search Console import: Sushant's own OAuth client ("Claude GSC", project sushantrana-gsc) and its refresh token
+    'GOOGLE_OAUTH_CLIENT_ID' => '',
+    'GOOGLE_OAUTH_CLIENT_SECRET' => '',
+    'GOOGLE_OAUTH_REFRESH_TOKEN' => '',
+    'GSC_SITE' => 'sc-domain:sushantrana.com',
 ];

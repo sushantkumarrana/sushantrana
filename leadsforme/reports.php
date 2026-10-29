@@ -96,7 +96,14 @@ function report_page(PDO $db, string $path, string $from, string $to): array
         GROUP BY target, label ORDER BY n DESC LIMIT 20");
     $cl->execute([$path, ...$r]);
 
+    $g = $db->prepare('SELECT query, SUM(clicks) clicks, SUM(impressions) impressions,
+            ROUND(SUM(position * impressions) / MAX(SUM(impressions), 1), 1) position
+        FROM gsc_daily WHERE page = ? AND day BETWEEN ? AND ? GROUP BY query ORDER BY clicks DESC, impressions DESC LIMIT 20');
+    $g->execute([$path, $from, $to]);
+
     return $row + [
+        'gsc' => array_map(fn($q) => ['query' => $q['query'], 'clicks' => (int) $q['clicks'], 'impressions' => (int) $q['impressions'],
+            'position' => (float) $q['position']], $g->fetchAll()),
         'sources' => array_map('intval', $src->fetchAll(PDO::FETCH_KEY_PAIR)),
         'scroll' => $scroll,
         'clicks' => array_map(fn($c) => ['target' => $c['target'], 'label' => $c['label'], 'n' => (int) $c['n']], $cl->fetchAll()),

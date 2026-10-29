@@ -58,13 +58,15 @@ function signal_enqueue(PDO $db, int $leadId): int
 /** One HTTP call with a JSON body (or none). Never throws: curl errors come back as code 0. */
 function http_json(string $method, string $url, array $headers = [], ?array $body = null, int $timeout = 10): array
 {
+    // a form body when the caller says so (OAuth token endpoint), JSON otherwise
+    $form = in_array('Content-Type: application/x-www-form-urlencoded', $headers, true);
     $ch = curl_init($url);
     curl_setopt_array($ch, [
         CURLOPT_CUSTOMREQUEST => $method,
-        CURLOPT_HTTPHEADER => array_merge(['Content-Type: application/json', 'Accept: application/json'], $headers),
+        CURLOPT_HTTPHEADER => array_merge($form ? ['Accept: application/json'] : ['Content-Type: application/json', 'Accept: application/json'], $headers),
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_TIMEOUT => $timeout,
-    ] + ($body !== null ? [CURLOPT_POSTFIELDS => json_encode($body, JSON_UNESCAPED_UNICODE)] : []));
+    ] + ($body !== null ? [CURLOPT_POSTFIELDS => $form ? http_build_query($body) : json_encode($body, JSON_UNESCAPED_UNICODE)] : []));
     $out = curl_exec($ch);
     $res = ['code' => (int) curl_getinfo($ch, CURLINFO_HTTP_CODE), 'body' => $out === false ? curl_error($ch) : (string) $out];
     curl_close($ch);

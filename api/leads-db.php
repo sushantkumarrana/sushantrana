@@ -106,6 +106,10 @@ function leads_db(): PDO
             day TEXT, campaign TEXT, ad_group TEXT, term TEXT, clicks INT, cost REAL, conversions REAL,
             PRIMARY KEY (day, campaign, ad_group, term)
         );
+        -- Search Console, per day / page path / query (api/gsc.php)
+        CREATE TABLE IF NOT EXISTS gsc_daily (
+            day TEXT, page TEXT, query TEXT, clicks INT, impressions INT, position REAL, PRIMARY KEY (day, page, query)
+        );
         -- what the ad platforms were told (api/signals.php)
         CREATE TABLE IF NOT EXISTS signals (
             id INTEGER PRIMARY KEY, lead_id INT, platform TEXT, event TEXT, value REAL, currency TEXT, created_at TEXT,

@@ -94,6 +94,18 @@ function leads_db(): PDO
             day TEXT, path TEXT, views INT, visitors INT, engaged_ms INT, engaged_n INT, s25 INT, s50 INT, s75 INT, s90 INT,
             wa INT, call INT, email INT, form_start INT, form_submit INT, PRIMARY KEY (day, path)
         );
+        -- ad platforms' own numbers (api/ads-store.php): spend, Google click → campaign, search terms
+        CREATE TABLE IF NOT EXISTS ad_spend (
+            day TEXT, platform TEXT, campaign TEXT, ad_group TEXT, cost REAL, clicks INT, impressions INT, currency TEXT,
+            PRIMARY KEY (day, platform, campaign, ad_group)
+        );
+        CREATE TABLE IF NOT EXISTS ad_clicks (
+            click_id TEXT PRIMARY KEY, platform TEXT, day TEXT, campaign TEXT, ad_group TEXT, keyword TEXT
+        );
+        CREATE TABLE IF NOT EXISTS search_terms (
+            day TEXT, campaign TEXT, ad_group TEXT, term TEXT, clicks INT, cost REAL, conversions REAL,
+            PRIMARY KEY (day, campaign, ad_group, term)
+        );
         -- what the ad platforms were told (api/signals.php)
         CREATE TABLE IF NOT EXISTS signals (
             id INTEGER PRIMARY KEY, lead_id INT, platform TEXT, event TEXT, value REAL, currency TEXT, created_at TEXT,

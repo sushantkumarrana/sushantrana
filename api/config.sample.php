@@ -28,4 +28,7 @@ return [
     // ChatGPT Ads (OpenAI Ads Manager → Conversions): pixel id and a Conversions API key
     'OPENAI_ADS_PIXEL_ID' => '',
     'OPENAI_ADS_CONVERSIONS_KEY' => '',
+
+    // Google Ads script (dev/google-ads-script.js) ↔ api/ads-google.php: same long random key in both
+    'GOOGLE_ADS_SCRIPT_KEY' => '',
 ];

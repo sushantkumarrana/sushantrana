@@ -110,6 +110,61 @@ function report_page(PDO $db, string $path, string $from, string $to): array
     ];
 }
 
+/** Lead channels (lead_channel) that belong to an ad platform in ad_spend. */
+const REPORT_AD_CHANNELS = ['Google Ads' => 'google', 'Facebook Ads' => 'meta', 'LinkedIn Ads' => 'linkedin', 'ChatGPT Ads' => 'chatgpt'];
+
+/**
+ * Spend next to the leads it brought, per platform and campaign. Leads match on
+ * their channel's platform and utm_campaign (Google leads get theirs from the
+ * Google Ads script's click report), ignoring case.
+ */
+function report_campaigns(PDO $db, string $from, string $to): array
+{
+    $key = fn(string $p, ?string $c) => $p . '|' . mb_strtolower(trim((string) $c));
+    $blank = ['cost' => 0.0, 'currency' => null, 'clicks' => 0, 'leads' => 0, 'qualified' => 0, 'won' => 0, 'revenue' => 0.0];
+    $rows = [];
+    $sp = $db->prepare('SELECT platform, campaign, SUM(cost) cost, SUM(clicks) clicks, MAX(currency) currency
+        FROM ad_spend WHERE day BETWEEN ? AND ? GROUP BY platform, campaign');
+    $sp->execute([$from, $to]);
+    foreach ($sp->fetchAll() as $s) {
+        $rows[$key($s['platform'], $s['campaign'])] = ['platform' => $s['platform'], 'campaign' => $s['campaign'],
+            'cost' => (float) $s['cost'], 'currency' => $s['currency'] ?: null, 'clicks' => (int) $s['clicks']] + $blank;
+    }
+    $ld = $db->prepare('SELECT channel, utm_campaign, status, value, currency FROM leads WHERE created_at BETWEEN ? AND ?');
+    $ld->execute(report_range($from, $to));
+    foreach ($ld->fetchAll() as $l) {
+        $p = REPORT_AD_CHANNELS[$l['channel']] ?? null;
+        if (!$p) continue;
+        $k = $key($p, $l['utm_campaign']);
+        $rows[$k] ??= ['platform' => $p, 'campaign' => trim((string) $l['utm_campaign']) ?: '(no campaign)'] + $blank;
+        $rows[$k]['leads']++;
+        if (in_array($l['status'], ['qualified', 'won'], true)) $rows[$k]['qualified']++;
+        if ($l['status'] === 'won') {
+            $rows[$k]['won']++;
+            $rows[$k]['currency'] ??= $l['currency'];
+            // shortcut: a deal in another currency than the ad account's is not in revenue/ROAS; convert if that happens often
+            if ($l['currency'] === $rows[$k]['currency']) $rows[$k]['revenue'] += (float) $l['value'];
+        }
+    }
+    $rows = array_map(fn($r) => $r + [
+        'cpl' => $r['cost'] > 0 && $r['leads'] ? round($r['cost'] / $r['leads'], 2) : null,
+        'cost_per_won' => $r['cost'] > 0 && $r['won'] ? round($r['cost'] / $r['won'], 2) : null,
+        'roas' => $r['cost'] > 0 && $r['revenue'] > 0 ? round($r['revenue'] / $r['cost'], 2) : null,
+    ], array_values($rows));
+    usort($rows, fn($a, $b) => $b['cost'] <=> $a['cost'] ?: $b['leads'] <=> $a['leads']);
+    return $rows;
+}
+
+/** Google search terms that got clicks, most expensive first (top 100). */
+function report_terms(PDO $db, string $from, string $to): array
+{
+    $st = $db->prepare('SELECT term, campaign, SUM(clicks) clicks, SUM(cost) cost, SUM(conversions) conversions
+        FROM search_terms WHERE day BETWEEN ? AND ? GROUP BY term, campaign ORDER BY cost DESC, clicks DESC LIMIT 100');
+    $st->execute([$from, $to]);
+    return array_map(fn($r) => ['term' => $r['term'], 'campaign' => $r['campaign'], 'clicks' => (int) $r['clicks'],
+        'cost' => (float) $r['cost'], 'conversions' => (float) $r['conversions']], $st->fetchAll());
+}
+
 const REPORT_PAGE_SIZE = 50;
 
 function report_visitors(PDO $db, string $from, string $to, int $page): array

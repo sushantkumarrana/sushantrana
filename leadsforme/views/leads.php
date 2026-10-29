@@ -54,6 +54,14 @@ $total = (int) $count->fetchColumn();
 $st = $db->prepare("SELECT * FROM leads $sqlWhere ORDER BY created_at DESC LIMIT " . PAGE_SIZE . ' OFFSET ' . (($page - 1) * PAGE_SIZE));
 $st->execute($args);
 $rows = $st->fetchAll();
+// what each lead's status told the ad platforms (api/signals.php)
+$sigs = [];
+if ($rows) {
+    $sq = $db->prepare('SELECT * FROM signals WHERE lead_id IN (' . implode(',', array_fill(0, count($rows), '?')) . ') ORDER BY id');
+    $sq->execute(array_column($rows, 'id'));
+    foreach ($sq->fetchAll() as $sg) $sigs[$sg['lead_id']][] = $sg;
+}
+$platformName = ['google' => 'Google Ads', 'meta' => 'Meta Ads', 'linkedin' => 'LinkedIn Ads', 'chatgpt' => 'ChatGPT Ads'];
 
 $byChannel = $db->query('SELECT channel, COUNT(*) n FROM leads GROUP BY channel ORDER BY n DESC')->fetchAll();
 $channels = array_column($byChannel, 'channel');
@@ -120,13 +128,21 @@ ob_start(); ?>
             'First page of visit' => $r['landing_page'], 'Pages this visit' => $r['journey'] ?? null, 'Referrer' => $r['referrer'], 'utm_source' => $r['utm_source'],
             'utm_medium' => $r['utm_medium'], 'utm_campaign' => $r['utm_campaign'], 'utm_term' => $r['utm_term'],
             'utm_content' => $r['utm_content'], 'Ad group' => $r['ad_group'], 'Keyword' => $r['keyword'], 'Google click ID (gclid)' => $r['gclid'],
-            'Facebook click ID (fbclid)' => $r['fbclid'], 'LinkedIn click ID' => $r['li_fat_id'],
+            'Facebook click ID (fbclid)' => $r['fbclid'], 'LinkedIn click ID' => $r['li_fat_id'], 'ChatGPT click ID (oppref)' => $r['oppref'] ?? null,
             'Device' => $r['user_agent'],
         ] as $k => $v): if ($v === null || $v === '') continue; ?>
           <dt><?= $h($k) ?></dt><dd><?= $h($v) ?></dd>
         <?php endforeach; ?>
       </dl>
       <?php if ($r['message']): ?><div class="msg"><?= nl2br($h($r['message'])) ?></div><?php endif; ?>
+      <?php if ($sigs[$r['id']] ?? null): ?>
+      <div class="scroll"><table class="rep"><tr><th>Told</th><th>Event</th><th>State</th><th>Sent</th></tr>
+        <?php foreach ($sigs[$r['id']] as $sg): ?>
+        <tr><td><?= $h($platformName[$sg['platform']] ?? $sg['platform']) ?></td><td><?= $h($sg['event']) ?><?= $sg['value'] !== null ? ' · ' . $h($sg['currency'] . ' ' . number_format((float) $sg['value'])) : '' ?></td>
+            <td><?= $h($sg['state']) ?><?= $sg['detail'] ? '<br><span class="muted">' . $h($sg['detail']) . '</span>' : '' ?></td><td><?= $sg['sent_at'] ? $h($ist($sg['sent_at'])) : '—' ?></td></tr>
+        <?php endforeach; ?>
+      </table></div>
+      <?php endif; ?>
       <div class="actions">
         <a class="btn" href="mailto:<?= $h($r['email']) ?>">Email</a>
         <a class="btn" href="tel:<?= $h($r['phone']) ?>">Call</a>

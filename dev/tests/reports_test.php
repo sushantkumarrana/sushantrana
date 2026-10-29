@@ -75,7 +75,26 @@ $types = array_column($story['sessions'][0]['events'], 'type');
 check($types[0] === 'page_view' && end($types) === 'form_submit', 'story events not in time order');
 check(($story['leads'][0]['id'] ?? 0) === $lead, 'story lead missing');
 
+// campaigns: Google "Search IN" ₹10,000 spend, 2 leads (1 won ₹50,000); a Meta campaign with spend and no leads
+$sp = $db->prepare('INSERT OR REPLACE INTO ad_spend VALUES (?,?,?,?,?,?,?,?)');
+$sp->execute([$day, 'google', 'Search IN', 'Google Ads', 6000, 120, 4000, 'INR']);
+$sp->execute([$day, 'google', 'Search IN', 'SEO', 4000, 80, 3000, 'INR']);
+$sp->execute([$day, 'meta', 'Leads IN', 'Chandigarh 25-45', 1500, 60, 9000, 'INR']);
+$db->exec("UPDATE leads SET gclid = 'G1', utm_campaign = 'Search IN' WHERE id = $lead");
+$db->exec("INSERT INTO leads (created_at, form, name, email, phone, channel, gclid, utm_campaign, status)
+    VALUES ('" . $t(6) . "', 'google_ads', 'Second', 's@x.com', '+912', 'Google Ads', 'G2', 'search in', 'new')");
+$camp = array_column(report_campaigns($db, $day, $day), null, 'campaign');
+$si = $camp['Search IN'] ?? [];
+check(($si['platform'] ?? '') === 'google' && $si['cost'] == 10000 && $si['leads'] === 2 && $si['won'] === 1 && $si['revenue'] == 50000, 'Search IN row: ' . json_encode($si));
+check($si['cpl'] == 5000 && $si['cost_per_won'] == 10000 && $si['roas'] == 5.0 && $si['currency'] === 'INR', 'Search IN ratios: ' . json_encode($si));
+$li = $camp['Leads IN'] ?? [];
+check(($li['platform'] ?? '') === 'meta' && $li['leads'] === 0 && $li['cpl'] === null && $li['roas'] === null, 'Meta no-lead row: ' . json_encode($li));
+check(array_key_first($camp) === 'Search IN', 'campaigns not sorted by cost');
+$db->prepare('INSERT OR REPLACE INTO search_terms VALUES (?,?,?,?,?,?,?)')->execute([$day, 'Search IN', 'Google Ads', 'google ads expert india', 7, 350, 1]);
+$terms = report_terms($db, $day, $day);
+check(($terms[0]['term'] ?? '') === 'google ads expert india' && $terms[0]['clicks'] === 7 && $terms[0]['cost'] == 350, 'terms: ' . json_encode($terms));
+
 if (!in_array('--keep', $argv, true)) {
-    foreach (['events', 'sessions', 'visitors', 'leads'] as $tb) $db->exec("DELETE FROM $tb");
+    foreach (['events', 'sessions', 'visitors', 'leads', 'ad_spend', 'search_terms'] as $tb) $db->exec("DELETE FROM $tb");
 }
 echo "reports ok\n";

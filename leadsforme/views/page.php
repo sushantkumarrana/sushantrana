@@ -23,6 +23,12 @@ ob_start(); ?>
   <?php endforeach; ?>
 </section>
 
+<h2>What people searched on Google</h2>
+<?php if (!$p['gsc']): ?><p class="empty">No Search Console data for this page in this period. It is imported nightly once Search Console is set up (Settings).</p><?php else: ?>
+<div class="scroll"><table class="rep"><tr><th>Search</th><th class="n">Clicks</th><th class="n">Impressions</th><th class="n">Avg. position</th></tr>
+  <?php foreach ($p['gsc'] as $q): ?><tr><td><?= $h($q['query']) ?></td><td class="n"><?= $num($q['clicks']) ?></td><td class="n"><?= $num($q['impressions']) ?></td><td class="n"><?= $q['position'] ?></td></tr><?php endforeach; ?>
+</table></div><p class="muted small">Search Console reports about 2 days late.</p><?php endif; ?>
+
 <h2>Where its visitors came from</h2>
 <?php if (!$p['sources']): ?><p class="empty">No identified visits to this page in this period.</p><?php else: ?>
 <div class="scroll"><table class="rep"><tr><th>Source</th><th>Visits that saw this page</th></tr>

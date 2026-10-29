@@ -210,7 +210,7 @@ HTML;
 function nav(string $active, callable $h, string $user): string
 {
     $links = '';
-    foreach (['overview' => 'Overview', 'leads' => 'Leads', 'pages' => 'Pages', 'visitors' => 'Visitors', 'settings' => 'Settings'] as $v => $label) {
+    foreach (['overview' => 'Overview', 'leads' => 'Leads', 'pages' => 'Pages', 'visitors' => 'Visitors', 'campaigns' => 'Campaigns', 'settings' => 'Settings'] as $v => $label) {
         $links .= '<a href="?v=' . $v . '"' . ($v === $active ? ' class="on" aria-current="page"' : '') . ">$label</a>";
     }
     $csrf = $h($_SESSION['csrf']);

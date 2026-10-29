@@ -37,3 +37,26 @@ function meta_request(array $signal, array $lead, int $now, array $cfg): array
     $url = META_GRAPH . '/' . rawurlencode($cfg['META_DATASET_ID']) . '/events?access_token=' . rawurlencode($cfg['META_ACCESS_TOKEN']);
     return ['POST', $url, [], meta_payload($signal, $lead, $now)];
 }
+
+/** Yesterday's (or any day's) spend per ad set into ad_spend. Returns rows stored; 0 when not configured. */
+function meta_import_spend(PDO $db, array $cfg, string $day, ?callable $http = null): int
+{
+    if (($cfg['META_ACCESS_TOKEN'] ?? '') === '' || ($cfg['META_AD_ACCOUNT_ID'] ?? '') === '') return 0;
+    $http ??= 'http_json';
+    $url = META_GRAPH . '/act_' . rawurlencode($cfg['META_AD_ACCOUNT_ID']) . '/insights?' . http_build_query([
+        'level' => 'adset', 'time_range' => json_encode(['since' => $day, 'until' => $day]), 'limit' => 500,
+        'fields' => 'campaign_name,adset_name,spend,clicks,impressions,account_currency', 'access_token' => $cfg['META_ACCESS_TOKEN']]);
+    $rows = [];
+    for ($page = 0; $url && $page < 20; $page++) {
+        $res = $http('GET', $url, [], null);
+        if ($res['code'] !== 200) throw new RuntimeException('Meta insights: ' . signal_error($res));
+        $j = json_decode($res['body'], true) ?: [];
+        foreach ($j['data'] ?? [] as $r) {
+            $rows[] = ['day' => $r['date_start'] ?? $day, 'platform' => 'meta', 'campaign' => $r['campaign_name'] ?? '', 'ad_group' => $r['adset_name'] ?? '',
+                'cost' => $r['spend'] ?? 0, 'clicks' => $r['clicks'] ?? 0, 'impressions' => $r['impressions'] ?? 0, 'currency' => $r['account_currency'] ?? ''];
+        }
+        $url = $j['paging']['next'] ?? null;
+    }
+    require_once __DIR__ . '/ads-store.php';
+    return ads_store_spend($db, $rows);
+}

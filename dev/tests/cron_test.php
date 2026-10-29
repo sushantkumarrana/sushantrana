@@ -37,4 +37,26 @@ touch("$dir/t-rate-new", time() - 60);
 cleanup_temp_files($dir, time());
 check(!is_file("$dir/t-rate-old") && !is_file("$dir/login-fail-old") && is_file("$dir/t-rate-new"), 'throttle files not cleaned');
 
+// integrations: with nothing configured every step reports so, nothing throws
+$first = cron_integrations($db, [], time(), function () { throw new LogicException('no network in tests'); });
+$saved = json_decode((string) file_get_contents(getenv('LEADS_DATA_DIR') . '/integrations.json'), true);
+foreach (['search_console', 'meta', 'linkedin', 'chatgpt', 'google_ads_script'] as $k) {
+    check(($saved['items'][$k]['state'] ?? '') === 'not configured', "$k not 'not configured': " . json_encode($saved['items'][$k] ?? null));
+}
+$noNet = fn() => throw new LogicException('no network in tests');
+check(cron_integrations($db, ['GOOGLE_ADS_SCRIPT_KEY' => 'k'], time(), $noNet)['google_ads_script']['state'] === 'never ran', 'script never ran');
+file_put_contents("$dir/google-ads-script.last", gmdate('c'));
+check(cron_integrations($db, ['GOOGLE_ADS_SCRIPT_KEY' => 'k'], time(), $noNet)['google_ads_script']['state'] === 'ok', 'script pull not ok');
+// an expired Google login is an error, not "not configured"
+$gc = ['GOOGLE_OAUTH_CLIENT_ID' => 'c', 'GOOGLE_OAUTH_CLIENT_SECRET' => 's', 'GOOGLE_OAUTH_REFRESH_TOKEN' => 'r'];
+$st = cron_integrations($db, $gc, time(), fn() => ['code' => 400, 'body' => '{"error":"invalid_grant","error_description":"reauth related error (invalid_rapt)"}']);
+check($st['search_console']['state'] === 'error' && str_contains($st['search_console']['detail'], 'invalid_rapt'), 'gsc login error: ' . json_encode($st['search_console']));
+check(isset($saved['ran_at']) && $first === $saved['items'], 'integrations.json shape');
+
+// a configured integration that fails is reported as an error, the others still run
+$st = cron_integrations($db, ['META_ACCESS_TOKEN' => 't', 'META_AD_ACCOUNT_ID' => '1', 'META_DATASET_ID' => 'd'], time(),
+    fn() => ['code' => 500, 'body' => '{"error":{"message":"Meta is down"}}']);
+check($st['meta']['state'] === 'error' && str_contains($st['meta']['detail'], 'Meta is down'), 'meta error not reported: ' . json_encode($st['meta']));
+check($st['linkedin']['state'] === 'not configured', 'linkedin skipped after meta error');
+
 echo "cron ok\n";

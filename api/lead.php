@@ -115,28 +115,13 @@ $phoneE164 = '+' . COUNTRY_DIAL[$country] . ltrim($national, '0');
 $typeLabel = ENQUIRY_TYPES[$enquiryType] ?? 'Enquiry';
 $received = (new DateTime('now', new DateTimeZone('Asia/Kolkata')))->format('j/n/Y, g:i:s a') . ' IST';
 
-function http_json(string $url, array $headers, array $payload, int $timeout = 8): int
-{
-    $ch = curl_init($url);
-    curl_setopt_array($ch, [
-        CURLOPT_POST => true,
-        CURLOPT_HTTPHEADER => array_merge(['Content-Type: application/json'], $headers),
-        CURLOPT_POSTFIELDS => json_encode($payload, JSON_UNESCAPED_UNICODE),
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_TIMEOUT => $timeout,
-    ]);
-    curl_exec($ch);
-    $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
-    return $code;
-}
-
 $stored = false;
 $leadId = null;
 $url = $cfg('SUPABASE_URL');
 $key = $cfg('SUPABASE_PUBLISHABLE_KEY');
 if ($url && $key) {
-    $code = http_json(rtrim($url, '/') . '/rest/v1/leads', ["apikey: $key", "Authorization: Bearer $key", 'Prefer: return=minimal'], [
+    // http_json() is api/signals.php's (loaded by leads-db.php)
+    ['code' => $code] = http_json('POST', rtrim($url, '/') . '/rest/v1/leads', ["apikey: $key", "Authorization: Bearer $key", 'Prefer: return=minimal'], [
         'name' => $name,
         'email' => $email,
         'phone' => $phoneE164,
@@ -147,7 +132,7 @@ if ($url && $key) {
         'source_path' => $sourcePath,
         'referrer' => mb_substr($_SERVER['HTTP_REFERER'] ?? '', 0, 300) ?: null,
         'user_agent' => mb_substr($_SERVER['HTTP_USER_AGENT'] ?? '', 0, 300) ?: null,
-    ]);
+    ], 8);
     $stored = $code >= 200 && $code < 300;
     if (!$stored) error_log("[lead] insert failed: HTTP $code");
 } else {
@@ -188,14 +173,14 @@ $emailed = false;
 $resend = $cfg('RESEND_API_KEY');
 if ($resend) {
     $subject = ($stored ? '' : '[NOT SAVED] ') . "New $typeLabel — " . ($service ?: 'general') . " — $name" . ($business ? " ($business)" : '');
-    $code = http_json('https://api.resend.com/emails', ["Authorization: Bearer $resend"], [
+    ['code' => $code] = http_json('POST', 'https://api.resend.com/emails', ["Authorization: Bearer $resend"], [
         'from' => FROM,
         'to' => $to,
         'reply_to' => $email,
         'subject' => $subject,
         'html' => lead_email_html($d),
         'text' => lead_email_text($d),
-    ]);
+    ], 8);
     $emailed = $code >= 200 && $code < 300;
     if (!$emailed) error_log("[lead] email failed: HTTP $code");
 } else {

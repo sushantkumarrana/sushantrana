@@ -37,4 +37,17 @@ $db->exec("UPDATE signals SET state = 'pending', tries = 0");
 signals_send($db, ['LINKEDIN_ACCESS_TOKEN' => 'tok'], fn() => ['code' => 201, 'body' => ''], $now);
 check($state()['state'] === 'skipped', 'linkedin without conversion rules not skipped');
 
+// spend import: analytics per campaign, names and currency looked up
+$fake = function ($m, $u) {
+    if (str_contains($u, '/adAnalytics')) return ['code' => 200, 'body' => json_encode(['elements' => [
+        ['pivotValues' => ['urn:li:sponsoredCampaign:901'], 'costInLocalCurrency' => '45.20', 'clicks' => 12, 'impressions' => 3000]]])];
+    if (str_contains($u, '/adCampaigns')) return ['code' => 200, 'body' => json_encode(['elements' => [['id' => 901, 'name' => 'B2B leads US']]])];
+    if (preg_match('#/adAccounts/777$#', $u)) return ['code' => 200, 'body' => json_encode(['currency' => 'USD'])];
+    return ['code' => 404, 'body' => '{}'];
+};
+$n = linkedin_import_spend($db, ['LINKEDIN_ACCESS_TOKEN' => 'tok', 'LINKEDIN_AD_ACCOUNT_ID' => '777'], '2026-10-28', $fake);
+$r = $db->query("SELECT day, campaign, cost, clicks, currency FROM ad_spend WHERE platform = 'linkedin'")->fetch();
+check($n === 1 && $r == ['day' => '2026-10-28', 'campaign' => 'B2B leads US', 'cost' => 45.2, 'clicks' => 12, 'currency' => 'USD'], 'linkedin spend: ' . json_encode($r));
+check(linkedin_import_spend($db, ['LINKEDIN_ACCESS_TOKEN' => 'tok'], '2026-10-28', $fake) === 0, 'unconfigured linkedin spend imported');
+
 echo "linkedin ok\n";

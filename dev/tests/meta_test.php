@@ -48,4 +48,19 @@ $db->exec("UPDATE signals SET state = 'pending', created_at = '" . gmdate('c', $
 signals_send($db, $cfg, $ok, $now);
 check($sig()['state'] === 'expired', 'meta older than 7 days not expired');
 
+// spend import: one ad set row per day, paged
+$pages = [
+  ['data' => [['campaign_name' => 'Leads IN', 'adset_name' => 'Chandigarh 25-45', 'spend' => '812.40', 'clicks' => '41', 'impressions' => '5200', 'account_currency' => 'INR', 'date_start' => '2026-10-28']],
+   'paging' => ['next' => 'https://graph.facebook.com/v21.0/next-page']],
+  ['data' => [['campaign_name' => 'Leads IN', 'adset_name' => 'Mohali', 'spend' => '100', 'clicks' => '5', 'impressions' => '700', 'account_currency' => 'INR', 'date_start' => '2026-10-28']]],
+];
+$urls = [];
+$fake = function ($m, $u) use (&$pages, &$urls) { $urls[] = $u; return ['code' => 200, 'body' => json_encode(array_shift($pages))]; };
+$n = meta_import_spend($db, ['META_ACCESS_TOKEN' => 'tok', 'META_AD_ACCOUNT_ID' => '555'], '2026-10-28', $fake);
+check($n === 2 && str_contains($urls[0], '/act_555/insights?') && str_contains($urls[0], 'level=adset'), 'meta spend import: ' . json_encode($urls));
+$r = $db->query("SELECT platform, campaign, ad_group, cost, clicks, currency FROM ad_spend WHERE platform = 'meta' ORDER BY ad_group")->fetchAll();
+check(count($r) === 2 && $r[0]['ad_group'] === 'Chandigarh 25-45' && (float) $r[0]['cost'] === 812.4 && $r[0]['currency'] === 'INR', 'meta spend rows: ' . json_encode($r));
+$called = false;
+check(meta_import_spend($db, ['META_ACCESS_TOKEN' => 'tok'], '2026-10-28', function () use (&$called) { $called = true; return ['code' => 200, 'body' => '{}']; }) === 0 && !$called, 'unconfigured meta spend called out');
+
 echo "meta ok\n";

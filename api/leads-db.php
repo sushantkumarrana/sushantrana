@@ -66,7 +66,8 @@ function leads_db(): PDO
     // databases made before these columns existed
     $have = array_column($db->query('PRAGMA table_info(leads)')->fetchAll(), 'name');
     foreach (['journey' => 'TEXT', 'visitor_id' => 'TEXT', 'value' => 'REAL', 'currency' => 'TEXT', 'li_fat_id' => 'TEXT',
-              'status_at' => 'TEXT', 'ad_group' => 'TEXT', 'keyword' => 'TEXT'] as $col => $type) {
+              'status_at' => 'TEXT', 'ad_group' => 'TEXT', 'keyword' => 'TEXT',
+              'oppref' => 'TEXT', 'gbraid' => 'TEXT', 'wbraid' => 'TEXT'] as $col => $type) {
         if (!in_array($col, $have, true)) $db->exec("ALTER TABLE leads ADD COLUMN $col $type");
     }
     $db->exec("UPDATE leads SET status = 'new' WHERE status = 'contacted'");
@@ -156,13 +157,16 @@ function lead_channel(array $a): string
     $ref = strtolower((string) parse_url($a['referrer'] ?? '', PHP_URL_HOST));
 
     if (!empty($a['gclid']) || ($paid && str_contains($src, 'google'))) return 'Google Ads';
+    if (!empty($a['oppref'])) return 'ChatGPT Ads';
+    if (!empty($a['li_fat_id']) || ($paid && str_contains($src, 'linkedin'))) return 'LinkedIn Ads';
     if (preg_match('/facebook|^fb$|instagram|^ig$|meta/', $src)) return $paid ? 'Facebook Ads' : 'Facebook / Instagram';
     if (!empty($a['fbclid'])) return 'Facebook / Instagram';
     if ($src !== '') return ($paid ? 'Paid' : 'Campaign') . " ($src)";
     if ($ref === '' || str_ends_with($ref, 'sushantrana.com')) return 'Direct';
     if (preg_match('/(^|\.)(google|bing|yahoo|duckduckgo|yandex|baidu|ecosia)\./', $ref)) return 'Organic search';
-    if (preg_match('/facebook|instagram|linkedin|twitter|x\.com|t\.co|youtube|pinterest|reddit|whatsapp/', $ref)) return 'Social';
+    // AI first: "chatgpt.com" contains "t.co"
     if (preg_match('/chatgpt|openai|perplexity|claude|gemini|copilot/', $ref)) return 'AI assistant';
+    if (preg_match('/facebook|instagram|linkedin|twitter|x\.com|t\.co|youtube|pinterest|reddit|whatsapp/', $ref)) return 'Social';
     return "Referral ($ref)";
 }
 
@@ -179,6 +183,10 @@ if (PHP_SAPI === 'cli' && realpath($argv[0] ?? '') === __FILE__) {
         [['referrer' => 'https://www.linkedin.com/feed'], 'Social'],
         [['referrer' => 'https://example.org/x'], 'Referral (example.org)'],
         [[], 'Direct'],
+        [['li_fat_id' => 'x'], 'LinkedIn Ads'],
+        [['utm_source' => 'linkedin', 'utm_medium' => 'paid'], 'LinkedIn Ads'],
+        [['oppref' => 'x'], 'ChatGPT Ads'],
+        [['referrer' => 'https://chatgpt.com/'], 'AI assistant'],
     ];
     foreach ($cases as [$in, $want]) assert(lead_channel($in) === $want, json_encode($in) . ' -> ' . lead_channel($in));
     echo "lead_channel ok\n";

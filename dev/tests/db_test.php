@@ -19,7 +19,7 @@ $tables = array_column($db->query("SELECT name FROM sqlite_master WHERE type='ta
 foreach (['leads', 'visitors', 'sessions', 'events', 'page_daily', 'channel_daily'] as $t) check(in_array($t, $tables, true), "table $t missing");
 
 $cols = array_column($db->query('PRAGMA table_info(leads)')->fetchAll(), 'name');
-foreach (['journey', 'visitor_id', 'value', 'currency', 'li_fat_id', 'status_at', 'ad_group', 'keyword'] as $c) check(in_array($c, $cols, true), "leads.$c missing");
+foreach (['journey', 'visitor_id', 'value', 'currency', 'li_fat_id', 'status_at', 'ad_group', 'keyword', 'oppref', 'gbraid', 'wbraid'] as $c) check(in_array($c, $cols, true), "leads.$c missing");
 check($db->query("SELECT status FROM leads WHERE name='Old'")->fetchColumn() === 'new', "contacted lead not migrated to new");
 
 check(LEADS_RETENTION_DAYS === 90, 'retention is not 90 days');

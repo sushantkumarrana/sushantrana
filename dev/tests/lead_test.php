@@ -19,9 +19,10 @@ $base = ['name' => 'Lead Test', 'email' => 'leadtest@gmail.com', 'phone' => '987
     'form' => 'google_ads', 'sourcePath' => '/services/google-ads/', 'journey' => ['/', '/services/google-ads/']];
 $vid = str_repeat('d', 32);
 
-$res = post_lead($base + ['visitorId' => $vid, 'attribution' => ['landing_page' => '/', 'li_fat_id' => 'abc']]);
+$res = post_lead($base + ['visitorId' => $vid, 'attribution' => ['landing_page' => '/', 'li_fat_id' => 'abc', 'oppref' => 'op1', 'gbraid' => 'gb1']]);
 check(($res['ok'] ?? false) === true && is_int($res['lead'] ?? null), 'no lead id in response: ' . json_encode($res));
-$row = leads_db()->query('SELECT visitor_id, li_fat_id FROM leads WHERE id = ' . $res['lead'])->fetch();
+$row = leads_db()->query('SELECT visitor_id, li_fat_id, oppref, gbraid FROM leads WHERE id = ' . $res['lead'])->fetch();
+check($row['oppref'] === 'op1' && $row['gbraid'] === 'gb1', 'oppref / gbraid not stored');
 check($row['visitor_id'] === $vid, 'visitor_id not stored');
 check($row['li_fat_id'] === 'abc', 'li_fat_id not stored');
 

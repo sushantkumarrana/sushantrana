@@ -19,7 +19,7 @@
    * Kept from the first page of the visit for 90 days; a new ad click or
    * campaign link replaces it, so the lead is credited to the latest one. */
   const ATTR_KEY = "sr_attr";
-  const ATTR_PARAMS = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "gclid", "gbraid", "wbraid", "fbclid", "li_fat_id"];
+  const ATTR_PARAMS = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "gclid", "gbraid", "wbraid", "fbclid", "li_fat_id", "oppref"];
   const attribution = (() => {
     let saved = null;
     try {

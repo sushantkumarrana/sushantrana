@@ -67,7 +67,7 @@ $form = preg_replace('/[^a-z_]/', '', $clean('form', 40));
 // First-touch attribution the browser kept since landing (site.js, sr_attr).
 $attrIn = is_array($body['attribution'] ?? null) ? $body['attribution'] : [];
 $attr = [];
-foreach (['landing_page', 'referrer', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'fbclid', 'li_fat_id'] as $k) {
+foreach (['landing_page', 'referrer', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'gbraid', 'wbraid', 'fbclid', 'li_fat_id', 'oppref'] as $k) {
     $attr[$k] = is_string($attrIn[$k] ?? null) ? mb_substr(trim($attrIn[$k]), 0, 300) : '';
 }
 $channel = lead_channel($attr);
@@ -160,14 +160,14 @@ try {
     leads_db()->prepare(
         'INSERT INTO leads (created_at, form, name, email, phone, business, service, enquiry_type, message, page,
             landing_page, journey, referrer, channel, utm_source, utm_medium, utm_campaign, utm_term, utm_content, gclid, fbclid, user_agent,
-            visitor_id, li_fat_id)
-         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
+            visitor_id, li_fat_id, gbraid, wbraid, oppref)
+         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
     )->execute([
         gmdate('c'), $nul($form), $name, $email, $phoneE164, $nul($business), $nul($service), $nul($enquiryType), $nul($message), $sourcePath,
         $nul($attr['landing_page']), $nul($journey), $nul($attr['referrer']), $channel, $nul($attr['utm_source']), $nul($attr['utm_medium']),
         $nul($attr['utm_campaign']), $nul($attr['utm_term']), $nul($attr['utm_content']), $nul($attr['gclid']), $nul($attr['fbclid']),
         mb_substr($_SERVER['HTTP_USER_AGENT'] ?? '', 0, 300) ?: null,
-        $visitorId, $nul($attr['li_fat_id']),
+        $visitorId, $nul($attr['li_fat_id']), $nul($attr['gbraid']), $nul($attr['wbraid']), $nul($attr['oppref']),
     ]);
     $leadId = (int) leads_db()->lastInsertId();
     $stored = true;

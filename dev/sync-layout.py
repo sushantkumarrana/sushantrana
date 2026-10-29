@@ -69,6 +69,11 @@ def stamp(html: str, path: str) -> str:
     c, e = html.find("<footer"), html.find("</footer>")
     assert 0 <= a < b < c < e, path
     html = html[:a] + highlight(header, path) + html[b + 9:c] + footer + html[e + 9:]
+    # Consent Mode defaults must run before GTM (Europe denied until the banner answer)
+    html = re.sub(r"<script data-consent-default>.*?</script>", "", html, flags=re.S)
+    gtm = html.rfind("<script", 0, html.find("(function(w,d,s,l,i)"))
+    if html.find("(function(w,d,s,l,i)") >= 0:
+        html = html[:gtm] + (ROOT / "includes/consent-default.html").read_text().strip() + html[gtm:]
     # ?v=<content hash>: browsers cache CSS/JS for a week, so a changed file needs a new URL
     return re.sub(r'"(/assets/[\w./-]+\.(?:css|js))(?:\?v=\w+)?"',
                   lambda m: f'"{m[1]}?v={hashlib.md5((ROOT / m[1][1:]).read_bytes()).hexdigest()[:8]}"', html)

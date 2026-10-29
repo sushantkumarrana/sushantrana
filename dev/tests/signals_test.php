@@ -29,9 +29,26 @@ lead_set_status($db, $id, 'qualified', null, null);
 lead_set_status($db, $id, 'won', '50000', 'INR');
 check(count($rows($id)) === 4 && !array_filter($rows($id), fn($x) => $x['state'] !== 'sent'), 'same status again created or reset signals');
 
+// a new amount after the platform has the deal is not sent again (it would count twice); the lead says so
 lead_set_status($db, $id, 'won', '60000', 'INR');
-$won = array_values(array_filter($rows($id), fn($x) => $x['event'] === 'Won deal'));
-check((float) $won[0]['value'] === 60000.0 && $won[0]['state'] === 'pending' && count($rows($id)) === 4, 'new value not re-queued: ' . json_encode($won));
+$won = $db->query("SELECT value, state, detail FROM signals WHERE lead_id = $id AND event = 'Won deal'")->fetchAll();
+check(count($won) === 2 && !array_filter($won, fn($x) => $x['state'] !== 'sent' || (float) $x['value'] !== 50000.0 || !str_contains((string) $x['detail'], 'INR 60,000')), 'sent deal re-queued on new value: ' . json_encode($won));
+// before it is sent, the new amount just replaces the old one
+$id2 = $lead(['fbclid' => 'f9']);
+lead_set_status($db, $id2, 'won', '1000', 'USD');
+lead_set_status($db, $id2, 'won', '1500', 'USD');
+$w2 = $db->query("SELECT value, state FROM signals WHERE lead_id = $id2")->fetch();
+check((float) $w2['value'] === 1500.0 && $w2['state'] === 'pending', 'pending deal value not updated: ' . json_encode($w2));
+
+// I-3: the panel sends only the lead it saved, and only pending ones
+$cfgM = ['META_DATASET_ID' => 'd', 'META_ACCESS_TOKEN' => 't'];
+$other = $lead(['fbclid' => 'f10', 'status' => 'qualified']);
+signal_enqueue($db, $other);
+$db->exec("UPDATE signals SET state = 'failed', tries = 1 WHERE lead_id = $id2");
+lead_set_status($db, $id2, 'won', '1500', 'USD'); // failed → pending again on save
+$calls = 0;
+signals_send($db, $cfgM, function () use (&$calls) { $calls++; return ['code' => 200, 'body' => '{}']; }, null, $id2);
+check($calls === 1 && $db->query("SELECT state FROM signals WHERE lead_id = $other")->fetchColumn() === 'pending', 'panel send touched another lead');
 
 $none = $lead([]);
 lead_set_status($db, $none, 'won', '1000', 'INR');

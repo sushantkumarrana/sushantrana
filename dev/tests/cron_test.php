@@ -58,5 +58,11 @@ $st = cron_integrations($db, ['META_ACCESS_TOKEN' => 't', 'META_AD_ACCOUNT_ID' =
     fn() => ['code' => 500, 'body' => '{"error":{"message":"Meta is down"}}']);
 check($st['meta']['state'] === 'error' && str_contains($st['meta']['detail'], 'Meta is down'), 'meta error not reported: ' . json_encode($st['meta']));
 check($st['linkedin']['state'] === 'not configured', 'linkedin skipped after meta error');
+$days = [];
+cron_integrations($db, ['META_ACCESS_TOKEN' => 't', 'META_AD_ACCOUNT_ID' => '1'], time(), function ($m, $u) use (&$days) {
+    if (preg_match('/time_range=([^&]+)/', $u, $x)) $days[] = json_decode(urldecode($x[1]), true)['since'];
+    return ['code' => 200, 'body' => '{"data":[]}'];
+});
+check(count(array_unique($days)) === 3, 'spend not re-imported for 3 days: ' . json_encode($days));
 
 echo "cron ok\n";

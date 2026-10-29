@@ -45,8 +45,13 @@ function signal_enqueue(PDO $db, int $leadId): int
             $db->prepare("INSERT INTO signals (lead_id, platform, event, value, currency, created_at, state) VALUES (?,?,?,?,?,?,'pending')")
                 ->execute([$leadId, $platform, $event, $value, $currency, gmdate('c')]);
             $changed++;
-        } elseif ($row['state'] === 'failed' || ($won && ((float) $row['value'] !== $value || $row['currency'] !== $currency))) {
-            // a new deal amount is news for the platform; a failed send gets another go
+        } elseif ($won && $row['state'] === 'sent' && ((float) $row['value'] !== $value || $row['currency'] !== $currency)) {
+            // the platform already counted this deal; sending it again would count it twice
+            $db->prepare('UPDATE signals SET detail = ? WHERE id = ?')->execute(
+                ["amount changed to $currency " . number_format((float) $value) . ' after it was sent: change it in the ad platform', $row['id']]);
+            $changed++;
+        } elseif ($row['state'] === 'failed' || ($won && $row['state'] === 'pending' && ((float) $row['value'] !== $value || $row['currency'] !== $currency))) {
+            // not delivered yet: a new deal amount replaces the old one; a failed send gets another go
             $db->prepare("UPDATE signals SET value = ?, currency = ?, state = 'pending', tries = 0, detail = NULL WHERE id = ?")
                 ->execute([$value, $currency, $row['id']]);
             $changed++;
@@ -96,26 +101,28 @@ function signal_event_id(array $signal): string
  * Deliver pending (and failed, fewer than 5 tries) signals for Meta, LinkedIn and
  * ChatGPT Ads. Each platform file defines {p}_configured($cfg), {p}_window_days()
  * and {p}_request($signal, $lead, $now, $cfg) → [method, url, headers, body].
- * Returns counts per platform and state. Never throws.
+ * Returns counts per platform and state. Never throws. With $leadId (panel
+ * save) only that lead's pending signals go; retries are the nightly job's.
  */
-function signals_send(PDO $db, array $cfg, ?callable $http = null, ?int $now = null): array
+function signals_send(PDO $db, array $cfg, ?callable $http = null, ?int $now = null, ?int $leadId = null): array
 {
     $http ??= 'http_json';
     $now ??= time();
     $counts = [];
     $todo = $db->query("SELECT s.*, l.created_at AS lead_created_at FROM signals s JOIN leads l ON l.id = s.lead_id
-        WHERE s.platform <> 'google' AND (s.state = 'pending' OR (s.state = 'failed' AND s.tries < 5)) ORDER BY s.id")->fetchAll();
+        WHERE s.platform <> 'google' AND " . ($leadId === null ? "(s.state = 'pending' OR (s.state = 'failed' AND s.tries < 5))" : "s.state = 'pending' AND s.lead_id = " . $leadId) . ' ORDER BY s.id')->fetchAll();
     $save = $db->prepare('UPDATE signals SET state = ?, detail = ?, tries = ?, sent_at = ? WHERE id = ?');
     $leadQ = $db->prepare('SELECT * FROM leads WHERE id = ?');
     foreach ($todo as $sig) {
         $p = $sig['platform'];
         $tries = (int) $sig['tries'];
-        if (!function_exists("{$p}_configured") || !("{$p}_configured")($cfg)) {
-            $state = 'skipped';
-            $detail = 'not configured';
-        } elseif ($now - strtotime($sig['created_at']) > ("{$p}_window_days")() * 86400) {
+        if (function_exists("{$p}_window_days") && $now - strtotime($sig['created_at']) > ("{$p}_window_days")() * 86400) {
             $state = 'expired';
             $detail = 'older than the platform accepts';
+        } elseif (!function_exists("{$p}_configured") || !("{$p}_configured")($cfg)) {
+            // stays queued: it goes out once the keys are in api/config.php (until the window above closes)
+            $state = 'pending';
+            $detail = 'not configured';
         } else {
             $leadQ->execute([$sig['lead_id']]);
             $lead = $leadQ->fetch();
@@ -132,7 +139,7 @@ function signals_send(PDO $db, array $cfg, ?callable $http = null, ?int $now = n
             }
         }
         $save->execute([$state, $detail, $tries, $state === 'sent' ? gmdate('c', $now) : null, $sig['id']]);
-        $counts[$p][$state] = ($counts[$p][$state] ?? 0) + 1;
+        $counts[$p][$detail === 'not configured' ? 'not configured' : $state] = ($counts[$p][$detail === 'not configured' ? 'not configured' : $state] ?? 0) + 1;
     }
     return $counts;
 }

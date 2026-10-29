@@ -131,6 +131,10 @@ function leads_purge(): void
     $db->prepare('DELETE FROM events WHERE ts < ?')->execute([$cut]);
     $db->prepare('DELETE FROM sessions WHERE last_at < ?')->execute([$cut]);
     $db->prepare('DELETE FROM visitors WHERE last_seen < ?')->execute([$cut]);
+    // click IDs, search terms and Search Console rows follow the same 90 days (ad_spend totals stay)
+    $cutDay = substr($cut, 0, 10);
+    foreach (['ad_clicks', 'search_terms', 'gsc_daily'] as $t) $db->prepare("DELETE FROM $t WHERE day < ?")->execute([$cutDay]);
+    $db->exec('DELETE FROM signals WHERE lead_id NOT IN (SELECT id FROM leads)');
 }
 
 const MANUAL_CHANNELS = ['WhatsApp', 'Telegram', 'Phone call', 'LinkedIn DM', 'Referral', 'Other'];

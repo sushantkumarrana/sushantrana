@@ -44,7 +44,8 @@ function cleanup_temp_files(string $dir, int $now): void
 }
 
 /**
- * Send queued signals, import yesterday's Meta and LinkedIn spend and the last
+ * Send queued signals, import the last 3 days of Meta and LinkedIn spend (late
+ * corrections, LinkedIn's UTC days, a missed night) and the last
  * 4 days of Search Console, and write each one's state to integrations.json
  * (Settings shows it). States: ok, error, not configured, never ran.
  */
@@ -72,7 +73,7 @@ function cron_integrations(PDO $db, array $cfg, int $now, ?callable $http = null
     $platform = fn(string $p, string $spendKey, callable $import) => $run(
         ("{$p}_configured")($cfg) || $set([$spendKey]),
         function () use ($p, $spendKey, $cfg, $import, $signals, $set) {
-            $rows = $set([$spendKey]) ? $import() . ' spend rows' : 'spend not set up';
+            $rows = $set([$spendKey]) ? array_sum(array_map($import, [3, 2, 1])) . ' spend rows' : 'spend not set up';
             $failed = str_contains($signals($p), 'failed');
             return [$failed ? 'error' : 'ok', trim("$rows. " . $signals($p), '. ')];
         });
@@ -84,8 +85,8 @@ function cron_integrations(PDO $db, array $cfg, int $now, ?callable $http = null
             }
             return ['ok', gsc_import($db, $cfg, $istDay(4), $istDay(1), $http) . ' rows'];
         }),
-        'meta' => $platform('meta', 'META_AD_ACCOUNT_ID', fn() => meta_import_spend($db, $cfg, $istDay(1), $http)),
-        'linkedin' => $platform('linkedin', 'LINKEDIN_AD_ACCOUNT_ID', fn() => linkedin_import_spend($db, $cfg, $istDay(1), $http)),
+        'meta' => $platform('meta', 'META_AD_ACCOUNT_ID', fn(int $back) => meta_import_spend($db, $cfg, $istDay($back), $http)),
+        'linkedin' => $platform('linkedin', 'LINKEDIN_AD_ACCOUNT_ID', fn(int $back) => linkedin_import_spend($db, $cfg, $istDay($back), $http)),
         'chatgpt' => $run(chatgpt_configured($cfg), function () use ($signals) {
             return [str_contains($signals('chatgpt'), 'failed') ? 'error' : 'ok', $signals('chatgpt')];
         }),

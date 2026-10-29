@@ -31,7 +31,7 @@ check($db->query("SELECT state FROM signals WHERE lead_id = $id")->fetchColumn()
 
 $db->exec("UPDATE signals SET state = 'pending', tries = 0");
 signals_send($db, [], fn() => ['code' => 200, 'body' => ''], $now);
-check($db->query("SELECT state FROM signals WHERE lead_id = $id")->fetchColumn() === 'skipped', 'unconfigured chatgpt not skipped');
+check($db->query("SELECT state FROM signals WHERE lead_id = $id")->fetchColumn() === 'pending', 'unconfigured chatgpt not left pending');
 check(chatgpt_window_days() === 7, 'chatgpt accepts 7 days');
 
 echo "chatgpt ok\n";

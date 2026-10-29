@@ -42,7 +42,10 @@ check($sig()['state'] === 'failed' && str_contains((string) $sig()['detail'], 't
 
 $db->exec("UPDATE signals SET state = 'pending', tries = 0");
 signals_send($db, ['META_DATASET_ID' => ''], $ok, $now);
-check($sig()['state'] === 'skipped' && $sig()['detail'] === 'not configured', 'unconfigured meta not skipped');
+check($sig()['state'] === 'pending' && $sig()['detail'] === 'not configured' && (int) $db->query('SELECT tries FROM signals')->fetchColumn() === 0, 'unconfigured meta not left pending: ' . json_encode($sig()));
+signals_send($db, $cfg, $ok, $now); // keys added later: it goes out
+check($sig()['state'] === 'sent', 'pending signal not sent once configured');
+$db->exec("UPDATE signals SET state = 'pending', tries = 0");
 
 $db->exec("UPDATE signals SET state = 'pending', created_at = '" . gmdate('c', $now - 8 * 86400) . "'");
 signals_send($db, $cfg, $ok, $now);

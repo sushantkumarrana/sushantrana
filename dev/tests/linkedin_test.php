@@ -35,7 +35,7 @@ check($state()['state'] === 'failed' && $state()['detail'] === 'Invalid access t
 
 $db->exec("UPDATE signals SET state = 'pending', tries = 0");
 signals_send($db, ['LINKEDIN_ACCESS_TOKEN' => 'tok'], fn() => ['code' => 201, 'body' => ''], $now);
-check($state()['state'] === 'skipped', 'linkedin without conversion rules not skipped');
+check($state()['state'] === 'pending' && $state()['detail'] === 'not configured', 'linkedin without conversion rules not left pending');
 
 // spend import: analytics per campaign, names and currency looked up
 $fake = function ($m, $u) {

@@ -36,7 +36,14 @@ $db->prepare("INSERT INTO events (ts, type, path) VALUES (?, 'page_view', '/')")
 $db->prepare("INSERT INTO events (ts, type, path) VALUES (?, 'page_view', '/')")->execute([$ago(1)]);
 $db->prepare("INSERT INTO visitors (id, first_seen, last_seen) VALUES ('a', ?, ?)")->execute([$ago(120), $ago(91)]);
 $db->prepare("INSERT INTO sessions (id, visitor_id, started_at, last_at) VALUES ('s', 'a', ?, ?)")->execute([$ago(91), $ago(91)]);
+$old = gmdate('Y-m-d', time() - 100 * 86400);
+$db->exec("INSERT INTO ad_clicks VALUES ('OLDCLICK', 'google', '$old', 'c', 'g', 'k')");
+$db->exec("INSERT INTO search_terms VALUES ('$old', 'c', 'g', 'old term', 1, 1, 0)");
+$db->exec("INSERT INTO gsc_daily VALUES ('$old', '/', 'old query', 1, 1, 1)");
+$db->exec("INSERT INTO signals (lead_id, platform, event, created_at, state) VALUES (999999, 'meta', 'Won deal', '" . gmdate('c') . "', 'sent')");
 leads_purge();
+foreach (['ad_clicks', 'search_terms', 'gsc_daily'] as $tb) check((int) $db->query("SELECT COUNT(*) FROM $tb")->fetchColumn() === 0, "$tb older than 90 days kept");
+check((int) $db->query('SELECT COUNT(*) FROM signals WHERE lead_id = 999999')->fetchColumn() === 0, 'signals of a deleted lead kept');
 $names = array_column($db->query('SELECT name FROM leads')->fetchAll(), 'name');
 check(!in_array('Old new', $names, true), '91-day-old lead kept');
 check(in_array('Recent', $names, true), '89-day-old lead deleted');

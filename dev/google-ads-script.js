@@ -4,9 +4,9 @@
  * Runs daily. It
  *  1. uploads the leads Sushant marked "Qualified lead" / "Won deal" in the panel
  *     as offline click conversions (by gclid), then tells the panel what it sent;
- *  2. sends the panel yesterday's spend per campaign and ad group, which click
- *     (gclid) came from which campaign / ad group / keyword, and the last 7 days'
- *     search terms.
+ *  2. sends the panel the last 7 days' spend per campaign and ad group
+ *     (Performance Max per campaign), which click (gclid) came from which
+ *     campaign / ad group / keyword, and the last 7 days' search terms.
  *
  * Before the first run:
  *  - In Google Ads create two conversion actions, source "Import → CRMs, files or
@@ -71,15 +71,22 @@ function uploadConversions() {
 
 function pushReports() {
   var yesterday = day(1);
+  // last 7 days, not just yesterday: late corrections and a missed run fill in (the panel replaces rows)
+  var spendRow = function (r) {
+    return { day: r.segments.date, platform: 'google', campaign: r.campaign.name, ad_group: r.adGroup ? r.adGroup.name : '',
+      cost: Number(r.metrics.costMicros) / 1e6, clicks: Number(r.metrics.clicks), impressions: Number(r.metrics.impressions),
+      currency: r.customer.currencyCode };
+  };
   var spend = rows(
     "SELECT segments.date, campaign.name, ad_group.name, metrics.cost_micros, metrics.clicks, metrics.impressions, customer.currency_code " +
-      "FROM ad_group WHERE segments.date DURING YESTERDAY AND metrics.impressions > 0",
-    function (r) {
-      return { day: r.segments.date, platform: 'google', campaign: r.campaign.name, ad_group: r.adGroup.name,
-        cost: Number(r.metrics.costMicros) / 1e6, clicks: Number(r.metrics.clicks), impressions: Number(r.metrics.impressions),
-        currency: r.customer.currencyCode };
-    }
-  );
+      "FROM ad_group WHERE segments.date DURING LAST_7_DAYS AND metrics.impressions > 0",
+    spendRow
+  ).concat(rows(
+    // Performance Max has no ad groups, so its spend is only on the campaign
+    "SELECT segments.date, campaign.name, metrics.cost_micros, metrics.clicks, metrics.impressions, customer.currency_code " +
+      "FROM campaign WHERE campaign.advertising_channel_type = 'PERFORMANCE_MAX' AND segments.date DURING LAST_7_DAYS AND metrics.impressions > 0",
+    spendRow
+  ));
   var clicks = rows(
     "SELECT click_view.gclid, click_view.keyword_info.text, campaign.name, ad_group.name, segments.date " +
       "FROM click_view WHERE segments.date = '" + yesterday + "'",

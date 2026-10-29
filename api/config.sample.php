@@ -17,4 +17,11 @@ return [
     'META_DATASET_ID' => '',
     'META_ACCESS_TOKEN' => '',
     'META_AD_ACCOUNT_ID' => '',          // digits only, without "act_"
+
+    // LinkedIn Conversions API + ad analytics (developer app with Conversions API access)
+    'LINKEDIN_ACCESS_TOKEN' => '',
+    'LINKEDIN_AD_ACCOUNT_ID' => '',          // digits only
+    'LINKEDIN_CONVERSION_QUALIFIED' => '',   // conversion rule id for "Qualified lead"
+    'LINKEDIN_CONVERSION_WON' => '',         // conversion rule id for "Won deal"
+    'LINKEDIN_VERSION' => '202603',          // LinkedIn-Version header (YYYYMM)
 ];

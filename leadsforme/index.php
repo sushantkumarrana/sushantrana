@@ -111,6 +111,8 @@ unset($_SESSION['flash']);
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $csrfOk() && isset($_POST['status'])) {
     $err = lead_set_status($db, (int) ($_POST['id'] ?? 0), (string) $_POST['status'], (string) ($_POST['value'] ?? ''), (string) ($_POST['currency'] ?? ''));
     if ($err) $_SESSION['flash'] = $err;
+    // tell Meta / LinkedIn / ChatGPT now (5 s each); failures stay on the signal for the nightly retry
+    if (!$err) signals_send($db, $config, fn($m, $u, $hd, $b) => http_json($m, $u, $hd, $b, 5));
     header('Location: ./?' . (string) ($_POST['back'] ?? ''));
     exit;
 }

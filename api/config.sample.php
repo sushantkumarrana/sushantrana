@@ -12,4 +12,9 @@ return [
     // One-time code for leadsforme.sushantrana.com: the first visit asks for
     // it before you choose your panel username and password.
     'PANEL_SETUP_CODE' => '',
+
+    // Meta Conversions API (Events Manager → dataset) and Marketing API spend (system-user token with ads_read)
+    'META_DATASET_ID' => '',
+    'META_ACCESS_TOKEN' => '',
+    'META_AD_ACCOUNT_ID' => '',          // digits only, without "act_"
 ];

@@ -24,4 +24,8 @@ return [
     'LINKEDIN_CONVERSION_QUALIFIED' => '',   // conversion rule id for "Qualified lead"
     'LINKEDIN_CONVERSION_WON' => '',         // conversion rule id for "Won deal"
     'LINKEDIN_VERSION' => '202603',          // LinkedIn-Version header (YYYYMM)
+
+    // ChatGPT Ads (OpenAI Ads Manager → Conversions): pixel id and a Conversions API key
+    'OPENAI_ADS_PIXEL_ID' => '',
+    'OPENAI_ADS_CONVERSIONS_KEY' => '',
 ];

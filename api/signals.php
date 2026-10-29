@@ -79,7 +79,8 @@ function sha_email(?string $email): ?string
 
 function sha_phone(?string $phone): ?string
 {
-    $d = preg_replace('/\D/', '', (string) $phone);
+    // digits with the country code, no "+" and no leading zeros ("0091…" → "91…")
+    $d = ltrim(preg_replace('/\D/', '', (string) $phone), '0');
     return $d === '' ? null : hash('sha256', $d);
 }
 
